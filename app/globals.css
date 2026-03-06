@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #000;
+}
+
+::selection {
+    color: white;
+    background: #f7b43d;
+}
+::-moz-selection {
+    color: white;
+    background: #f7b43d;
+}
