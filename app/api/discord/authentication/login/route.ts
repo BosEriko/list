@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server';
+
 const settings = [
   { name: 'connections', isEnabled: false },
   { name: 'email', isEnabled: false },
@@ -17,5 +19,5 @@ export async function GET() {
   });
   const authUrl = `https://discord.com/oauth2/authorize?${params.toString()}`;
 
-  res.redirect(authUrl);
-});
+  return NextResponse.redirect(authUrl);
+};
