@@ -1,13 +1,15 @@
 # list.boseriko.com
 Anime and Manga Listing with Discord Integration.
 
-## Run Project
+## Run Project Locally
 ```sh
 yarn install
 yarn develop
-# or with Docker
-docker-compose build
-docker-compose up dev
+```
+
+## Run Project in Docker
+```sh
+docker-compose up
 ```
 
 ## Deploy to Production
