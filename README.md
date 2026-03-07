@@ -9,7 +9,7 @@ yarn develop
 
 ## Run Project in Docker
 ```sh
-docker-compose up
+docker.sh
 ```
 
 ## Deploy to Production
