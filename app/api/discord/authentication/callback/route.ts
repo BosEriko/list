@@ -21,6 +21,7 @@ type User = {
   mfa_enabled: boolean;
   locale: string;
   premium_type: number;
+  email: string;
 };
 
 // TODO: Move to its own file
@@ -60,10 +61,32 @@ const fetch_user = async (token: string): Promise<User> => {
 
 // TODO: Move to its own file
 // const generate_custom_token = async (user) => {
-//   return firebase_admin.auth().createCustomToken(user.id, {
-//     displayName: user.username,
-//     profileImage: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`,
+//   return FirebaseAdmin.auth().createCustomToken(user?.id, {
+//     displayName: user?.username,
+//     profileImage: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
 //   });
+// };
+
+// TODO: Move to its own file
+// const sync_firebase_user = async (user) => {
+//   try {
+//     await FirebaseAdmin.auth().updateUser(user?.id, {
+//       email: user?.email,
+//       displayName: user?.username,
+//       photoURL: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
+//     });
+//   } catch (err) {
+//     if (err.code === 'auth/user-not-found') {
+//       await firebase_admin.auth().createUser({
+//         uid: user?.id,
+//         email: user?.email,
+//         displayName: user?.username,
+//         photoURL: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
+//       });
+//     } else {
+//       await Utility.error_logger(`Failed to sync Firebase user: ${error.message}`);
+//     }
+//   }
 // };
 
 export async function GET(req: Request) {
@@ -76,6 +99,7 @@ export async function GET(req: Request) {
 
   const token = await exchange_code(code);
   const user = await fetch_user(token);
+  // await sync_firebase_user(user);
   // const custom_token = await generate_custom_token(user)
 
   console.log(user);

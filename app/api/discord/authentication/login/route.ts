@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 const settings = [
   { name: 'connections', isEnabled: false },
-  { name: 'email', isEnabled: false },
+  { name: 'email', isEnabled: true },
   { name: 'guilds.join', isEnabled: false },
   { name: 'guilds', isEnabled: false },
   { name: 'identify', isEnabled: true },
