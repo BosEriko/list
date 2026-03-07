@@ -7,7 +7,7 @@ const syncFirebaseUser = async (user: any) => {
       displayName: user?.username,
       photoURL: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
     });
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 'auth/user-not-found') {
       await FirebaseAdmin.auth().createUser({
         uid: user?.id,
