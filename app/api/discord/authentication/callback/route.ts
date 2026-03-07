@@ -18,7 +18,6 @@ export async function GET(req: Request) {
   await syncFirebaseUser(user);
   const firebase_token = await generateFirebaseToken(user)
 
-  // TODO: Create Authenticate Component (https://github.com/BosEriko/plus/blob/master/src/app/authenticate/page.jsx)
   const response = NextResponse.redirect(new URL(`/authenticate?token=${firebase_token}`, req.url));
   return response;
 }
