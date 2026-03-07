@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-// import FirebaseAdmin from "./FirebaseAdmin";
+import FirebaseAdmin from "@lib/FirebaseAdmin";
 
 // TODO: Move to its own file
 type User = {

@@ -22,7 +22,8 @@
     "react-markdown": "^10.1.0",
     "react-syntax-highlighter": "^16.1.0",
     "rehype-raw": "^7.0.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "firebase-admin": "latest"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

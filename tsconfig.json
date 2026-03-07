@@ -24,7 +24,7 @@
       "@molecule": ["./components/molecules"],
       "@organism": ["./components/organisms"],
       "@template": ["./components/templates"],
-      "@data/*": ["./data/*"],
+      "@lib/*": ["./lib/*"],
     },
   },
   "include": [
