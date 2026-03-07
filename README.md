@@ -14,3 +14,8 @@ yarn develop
 
 ## Deploy to Production
 To deploy to production, push your latest changes, then promote the most recent commit [here](https://vercel.com/boseriko/list-boseriko-com/deployments).
+
+## ENV
+```sh
+cp example.env .env.local
+```
