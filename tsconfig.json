@@ -25,6 +25,7 @@
       "@organism": ["./components/organisms"],
       "@template": ["./components/templates"],
       "@lib/*": ["./lib/*"],
+      "@store/*": ["./store/*"],
     },
   },
   "include": [
