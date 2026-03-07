@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "boseriko.com — Bos Eriko's Portfolio",
-  description: "My random creations.",
+  title: "Anime and Manga Listing",
+  description: "Save your anime and manga!",
 };
 
 export default function RootLayout({
