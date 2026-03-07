@@ -25,7 +25,7 @@ type User = {
 };
 
 // TODO: Move to its own file
-const exchange_code = async (code: string) => {
+const generate_token = async (code: string) => {
   const request = await fetch("https://discord.com/api/oauth2/token", {
     method: "POST",
     headers: {
@@ -60,34 +60,34 @@ const fetch_user = async (token: string): Promise<User> => {
 };
 
 // TODO: Move to its own file
-// const generate_custom_token = async (user) => {
-//   return FirebaseAdmin.auth().createCustomToken(user?.id, {
-//     displayName: user?.username,
-//     profileImage: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
-//   });
-// };
+const sync_firebase_user = async (user) => {
+  try {
+    await FirebaseAdmin.auth().updateUser(user?.id, {
+      email: user?.email,
+      displayName: user?.username,
+      photoURL: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
+    });
+  } catch (error) {
+    if (error.code === 'auth/user-not-found') {
+      await FirebaseAdmin.auth().createUser({
+        uid: user?.id,
+        email: user?.email,
+        displayName: user?.username,
+        photoURL: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
+      });
+    } else {
+      throw new Error(`Failed to sync Firebase user: ${error.message}`);
+    }
+  }
+};
 
 // TODO: Move to its own file
-// const sync_firebase_user = async (user) => {
-//   try {
-//     await FirebaseAdmin.auth().updateUser(user?.id, {
-//       email: user?.email,
-//       displayName: user?.username,
-//       photoURL: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
-//     });
-//   } catch (err) {
-//     if (err.code === 'auth/user-not-found') {
-//       await firebase_admin.auth().createUser({
-//         uid: user?.id,
-//         email: user?.email,
-//         displayName: user?.username,
-//         photoURL: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
-//       });
-//     } else {
-//       await Utility.error_logger(`Failed to sync Firebase user: ${error.message}`);
-//     }
-//   }
-// };
+const generate_firebase_token = async (user) => {
+  return FirebaseAdmin.auth().createCustomToken(user?.id, {
+    displayName: user?.username,
+    profileImage: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`,
+  });
+};
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -97,12 +97,12 @@ export async function GET(req: Request) {
     return new Response("Missing code", { status: 400 });
   }
 
-  const token = await exchange_code(code);
+  const token = await generate_token(code);
   const user = await fetch_user(token);
-  // await sync_firebase_user(user);
-  // const custom_token = await generate_custom_token(user)
+  await sync_firebase_user(user);
+  const firebase_token = await generate_firebase_token(user)
 
-  console.log(user);
+  console.log(firebase_token);
 
   // TODO: Point to /authenticate?=TOKEN then create a component to manage the token (https://github.com/BosEriko/plus/blob/master/src/app/authenticate/page.jsx)
   const response = NextResponse.redirect(new URL("/", req.url));
