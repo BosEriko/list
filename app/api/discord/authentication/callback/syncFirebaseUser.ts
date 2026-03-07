@@ -1,6 +1,6 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 
-const syncFirebaseUser = async (user) => {
+const syncFirebaseUser = async (user: any) => {
   try {
     await FirebaseAdmin.auth().updateUser(user?.id, {
       email: user?.email,
