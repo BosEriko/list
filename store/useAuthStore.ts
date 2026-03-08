@@ -1,9 +1,17 @@
 'use client';
 import { create } from 'zustand';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { auth } from '@lib/Firebase';
 
-const useAuthStore = create((set) => ({
+type AuthState = {
+  user: User | null;
+  token: string | null;
+  loading: boolean;
+  initAuth: () => () => void;
+  logout: () => Promise<void>;
+};
+
+const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
   loading: true,
