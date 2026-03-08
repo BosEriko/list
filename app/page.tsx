@@ -13,7 +13,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <Template.Default orientation="center">
       <Atom.Visibility state={user === null}>
         <Link href="/api/discord/authentication/login">
           <button>Login with Discord</button>
@@ -22,6 +22,6 @@ export default function Home() {
       <Atom.Visibility state={user !== null}>
         <button onClick={() => logout()}>Log Out button here</button>
       </Atom.Visibility>
-    </div>
+    </Template.Default>
   );
 }
