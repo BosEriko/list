@@ -24,7 +24,7 @@ async function getListing(id: string, type: string) {
 }
 
 export default async function ListingPage({ params }: PageProps) {
-  const { id, type } = params;
+  const { id, type } = await params;
   const listing = await getListing(id, type);
 
   return (
