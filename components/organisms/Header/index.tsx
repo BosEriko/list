@@ -1,7 +1,10 @@
 "use client";
+import useAuthStore from '@store/useAuthStore';
 import { useRouter } from "next/navigation";
+import Atom from '@atom';
 import { Pixelify_Sans } from "next/font/google";
 import { useState } from "react";
+import Link from "next/link";
 
 const pixelify = Pixelify_Sans({
   subsets: ["latin"],
@@ -9,6 +12,7 @@ const pixelify = Pixelify_Sans({
 });
 
 const Header = () => {
+  const { user, logout } = useAuthStore();
   const router = useRouter();
   const [query, setQuery] = useState("");
 
@@ -41,6 +45,17 @@ const Header = () => {
             className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm w-56 md:w-72 focus:outline-none focus:ring-2 focus:ring-[#f7b43d]"
           />
         </form>
+
+        <div>
+          <Atom.Visibility state={user === null}>
+            <Link href="/api/discord/authentication/login">
+              <button>Login with Discord</button>
+            </Link>
+          </Atom.Visibility>
+          <Atom.Visibility state={user !== null}>
+            <button onClick={() => logout()}>Log Out button here</button>
+          </Atom.Visibility>
+        </div>
       </div>
     </header>
   );
