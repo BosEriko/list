@@ -1,7 +1,5 @@
 import Template from "@template";
 
-export const revalidate = 60 * 60 * 24 * 7;
-
 type PageProps = {
   params: {
     id: string,
@@ -10,6 +8,10 @@ type PageProps = {
 }
 
 async function getListing(id: string, type: string) {
+  if (!["anime", "manga"].includes(type)) {
+    throw new Error("Invalid type")
+  };
+
   const res = await fetch(`https://api.jikan.moe/v4/${type}/${id}`, {
     next: { revalidate: 60 * 60 * 24 * 7 }
   });
@@ -22,8 +24,8 @@ async function getListing(id: string, type: string) {
 }
 
 export default async function ListingPage({ params }: PageProps) {
-  const { id, type } = await params
-  const listing = await getListing(id, type)
+  const { id, type } = params;
+  const listing = await getListing(id, type);
 
   return (
     <Template.Default orientation="center">
