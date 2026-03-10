@@ -1,9 +1,11 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 import { getListingFromAPI } from "./getListingFromAPI";
 
+type ListingType = "anime" | "manga";
+
 type Listing = {
   itemId: string;
-  type: "anime" | "manga";
+  type: ListingType;
   images: {
     jpg: {
       image_url: string;
@@ -21,7 +23,7 @@ type Listing = {
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getListingFromFirebase(id: string, type: string): Promise<Listing> {
+export async function getListingFromFirebase(id: string, type: ListingType): Promise<Listing> {
   if (!["anime", "manga"].includes(type)) {
     throw new Error("Invalid type");
   }
