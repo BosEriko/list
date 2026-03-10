@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import useAuthStore from '@store/useAuthStore';
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
+import Atom from "@atom";
 
 interface IListingEditorProps {
   itemId: string;
@@ -98,7 +99,7 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
   };
 
   return (
-    <>
+    <Atom.Visibility state={user !== null}>
       <button
         onClick={() => setIsOpen(true)}
         className="bg-green-500 text-white px-4 py-2 rounded"
@@ -192,7 +193,7 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
           </div>
         </div>
       )}
-    </>
+    </Atom.Visibility>
   );
 };
 
