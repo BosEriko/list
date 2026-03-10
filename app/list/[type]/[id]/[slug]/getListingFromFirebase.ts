@@ -1,6 +1,24 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 import { getListingFromAPI } from "./getListingFromAPI";
 
+type Listing = {
+  itemId: string;
+  type: "anime" | "manga";
+  images: {
+    jpg: {
+      image_url: string;
+      small_image_url: string;
+    };
+  };
+  title: string;
+  totalCount: number;
+  status: string;
+  synopsis: string;
+  score: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
 export async function getListingFromFirebase(id: string, type: string): Promise<Listing> {
