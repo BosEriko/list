@@ -3,7 +3,7 @@ import { getListingFromAPI } from "./getListingFromAPI";
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getListingFromFirebase(id: string, type: string) {
+export async function getListingFromFirebase(id: string, type: string): Promise<Listing> {
   if (!["anime", "manga"].includes(type)) {
     throw new Error("Invalid type");
   }
