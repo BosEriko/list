@@ -1,4 +1,5 @@
 import Template from "@template";
+import Molecule from "@molecule";
 
 type PageProps = {
   params: {
@@ -40,6 +41,8 @@ export default async function ListingPage({ params }: PageProps) {
       <p><strong>Episodes:</strong> {listing.episodes}</p>
       <p><strong>Score:</strong> {listing.score}</p>
       <p>{listing.synopsis}</p>
+
+      <Molecule.ListingEditor id={id} />
     </Template.Default>
   )
 }
