@@ -52,7 +52,7 @@ export default async function Search({ params }: PageProps) {
           <h2 className="text-2xl font-semibold mb-4">Anime</h2>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {anime.map((item) => (
-              <a key={item.mal_id} href={`/list/anime/${item.mal_id}`}>
+              <a key={item.mal_id} href={`/list/${item.url.replace("https://myanimelist.net/", "")}`}>
                 <img
                   src={item.images.jpg.image_url}
                   alt={item.title}
@@ -68,7 +68,7 @@ export default async function Search({ params }: PageProps) {
           <h2 className="text-2xl font-semibold mb-4">Manga</h2>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {manga.map((item) => (
-              <a key={item.mal_id} href={`/list/manga/${item.mal_id}`}>
+              <a key={item.mal_id} href={`/list/${item.url.replace("https://myanimelist.net/", "")}`}>
                 <img
                   src={item.images.jpg.image_url}
                   alt={item.title}
