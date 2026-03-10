@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /listings/{listingId} {
+			allow read:   if true;
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && listingId.matches('^' + request.auth.uid + '-[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$');
+      allow update: if request.auth != null
+                    && resource.data.userId == request.auth.uid
+                    && listingId.matches('^' + request.auth.uid + '-[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$');
+      allow delete: if request.auth != null
+                    && resource.data.userId == request.auth.uid
+                    && listingId.matches('^' + request.auth.uid + '-[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$');
+    }
+  }
+}

@@ -48,8 +48,7 @@ export default async function ListingPage({ params }: PageProps) {
         title={listing.title}
         count={0}
         totalCount={listing.episodes}
-        status={1}
-        image_url={listing.images.jpg.small_image_url}
+        imageUrl={listing.images.jpg.small_image_url}
       />
     </Template.Default>
   )
