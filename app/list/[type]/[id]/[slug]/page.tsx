@@ -4,7 +4,7 @@ import { getListingFromFirebase } from "./getListingFromFirebase";
 
 type PageProps = {
   params: {
-    type: string;
+    type: "anime" | "manga";
     id: string;
   };
 };
