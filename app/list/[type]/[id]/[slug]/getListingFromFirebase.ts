@@ -38,7 +38,7 @@ export async function getListingFromFirebase(id: string, type: string): Promise<
     const updatedAt = data?.updatedAt?.toMillis?.() ?? 0;
 
     if (Date.now() - updatedAt < ONE_MONTH) {
-      return data;
+      return data as Listing;
     }
   }
 
