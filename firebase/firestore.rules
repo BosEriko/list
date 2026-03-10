@@ -10,8 +10,7 @@ service cloud.firestore {
           ("createdAt" in resource.data && request.resource.data.createdAt == resource.data.createdAt) || !("createdAt" in resource.data) && request.resource.data.createdAt == request.resource.data.updatedAt
         );
       }
-      allow read:   if request.auth != null
-                    && resource.data.userId == request.auth.uid;
+      allow read:   if true;
       allow create: if request.auth != null
                     && request.resource.data.userId == request.auth.uid
                     && validListingId(listingId)
