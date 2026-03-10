@@ -42,7 +42,15 @@ export default async function ListingPage({ params }: PageProps) {
       <p><strong>Score:</strong> {listing.score}</p>
       <p>{listing.synopsis}</p>
 
-      <Molecule.ListingEditor id={id} />
+      <Molecule.ListingEditor
+        itemId={id}
+        type={type}
+        title={listing.title}
+        count={0}
+        totalCount={listing.episodes}
+        status={1}
+        image_url={listing.images.jpg.small_image_url}
+      />
     </Template.Default>
   )
 }
