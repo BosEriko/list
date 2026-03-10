@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAuthStore from '@store/useAuthStore';
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
 interface IListingEditorProps {
@@ -33,30 +33,65 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
   const { user } = useAuthStore();
   const userId = user?.uid;
   const [status, setStatus] = useState<number>(1);
+  const [currentTitle, setCurrentTitle] = useState(title);
+  const [currentCount, setCurrentCount] = useState(count);
+  const [currentTotalCount, setCurrentTotalCount] = useState(totalCount);
+  const [currentImageUrl, setCurrentImageUrl] = useState(imageUrl);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [existingCreatedAt, setExistingCreatedAt] = useState<any>(null);
+
+  const docId = `${userId}-${type}-${itemId}`;
+  const listingRef = doc(db, "listings", docId);
+
+  useEffect(() => {
+    if (!isOpen || !userId) return;
+
+    const fetchListing = async () => {
+      const docSnap = await getDoc(listingRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setStatus(data.status ?? 1);
+        setCurrentTitle(data.title ?? title);
+        setCurrentCount(data.count ?? count);
+        setCurrentTotalCount(data.totalCount ?? totalCount);
+        setCurrentImageUrl(data.imageUrl ?? imageUrl);
+        setExistingCreatedAt(data.createdAt ?? null);
+      } else {
+        setStatus(1);
+        setCurrentTitle(title);
+        setCurrentCount(count);
+        setCurrentTotalCount(totalCount);
+        setCurrentImageUrl(imageUrl);
+        setExistingCreatedAt(null);
+      }
+    };
+
+    fetchListing();
+  }, [isOpen, userId]);
 
   const handleSave = async () => {
-    const docId = `${userId}-${type}-${itemId}`;
+    if (!userId) return;
+
     setLoading(true);
     try {
-      await setDoc(doc(db, "listings", docId), {
+      await setDoc(listingRef, {
         userId,
         itemId,
         type,
-        title,
-        count,
-        totalCount,
-        imageUrl,
+        title: currentTitle,
+        count: currentCount,
+        totalCount: currentTotalCount,
+        imageUrl: currentImageUrl,
         status,
-        createdAt: serverTimestamp(),
+        createdAt: existingCreatedAt ?? serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
       setSuccess(true);
       setTimeout(() => setIsOpen(false), 1000);
     } catch (err) {
-      console.error("Error adding listing:", err);
+      console.error("Error adding/updating listing:", err);
     } finally {
       setLoading(false);
     }
@@ -81,21 +116,57 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
               ✕
             </button>
             <h2 className="font-bold text-lg mb-4">Add to Listing</h2>
+
             <div className="mb-2">
-              <strong>Title:</strong> {title}
+              <strong>Title:</strong>{" "}
+              <input
+                type="text"
+                value={currentTitle}
+                onChange={(e) => setCurrentTitle(e.target.value)}
+                className="border rounded px-2 py-1 w-full"
+              />
             </div>
+
             <div className="mb-2">
               <strong>Type:</strong> {type}
             </div>
+
             <div className="mb-2">
-              <strong>Count:</strong> {count}
+              <strong>Count:</strong>{" "}
+              <input
+                type="number"
+                value={currentCount}
+                onChange={(e) => setCurrentCount(Number(e.target.value))}
+                className="border rounded px-2 py-1 w-full"
+              />
             </div>
+
+            <div className="mb-2">
+              <strong>Total Count:</strong>{" "}
+              <input
+                type="number"
+                value={currentTotalCount}
+                onChange={(e) => setCurrentTotalCount(Number(e.target.value))}
+                className="border rounded px-2 py-1 w-full"
+              />
+            </div>
+
+            <div className="mb-2">
+              <strong>Image URL:</strong>{" "}
+              <input
+                type="text"
+                value={currentImageUrl}
+                onChange={(e) => setCurrentImageUrl(e.target.value)}
+                className="border rounded px-2 py-1 w-full"
+              />
+            </div>
+
             <div className="mb-4">
               <strong>Status:</strong>{" "}
               <select
                 value={status}
                 onChange={(e) => setStatus(Number(e.target.value))}
-                className="border rounded px-2 py-1"
+                className="border rounded px-2 py-1 w-full"
               >
                 {statusOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -104,6 +175,7 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
                 ))}
               </select>
             </div>
+
             <button
               onClick={handleSave}
               disabled={loading}
@@ -111,6 +183,7 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
             >
               {loading ? "Saving..." : "Save Listing"}
             </button>
+
             {success && (
               <div className="text-green-600 mt-2 text-center">
                 Saved successfully!

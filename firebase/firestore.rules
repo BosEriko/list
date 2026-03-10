@@ -2,16 +2,29 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /listings/{listingId} {
-			allow read:   if true;
+      function validListingId(id) {
+        return id.matches('^' + request.auth.uid + '-[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$');
+      }
+      function validCreatedAt() {
+        return (
+          ("createdAt" in resource.data && request.resource.data.createdAt == resource.data.createdAt) || !("createdAt" in resource.data) && request.resource.data.createdAt == request.resource.data.updatedAt
+        );
+      }
+      allow read:   if request.auth != null
+                    && resource.data.userId == request.auth.uid;
       allow create: if request.auth != null
                     && request.resource.data.userId == request.auth.uid
-                    && listingId.matches('^' + request.auth.uid + '-[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$');
+                    && validListingId(listingId)
+                    && request.resource.data.createdAt is timestamp
+                    && request.resource.data.updatedAt is timestamp;
       allow update: if request.auth != null
                     && resource.data.userId == request.auth.uid
-                    && listingId.matches('^' + request.auth.uid + '-[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$');
+                    && validListingId(listingId)
+                    && validCreatedAt()
+                    && request.resource.data.updatedAt is timestamp;
       allow delete: if request.auth != null
                     && resource.data.userId == request.auth.uid
-                    && listingId.matches('^' + request.auth.uid + '-[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$');
+                    && validListingId(listingId);
     }
   }
 }
