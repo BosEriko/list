@@ -30,15 +30,17 @@ export default async function User({ params }: PageProps) {
       <h1>User Profile</h1>
 
       {listings.map((listing, key) => (
-        <Molecule.ListingEditor
-          itemId={listing.id}
-          type={listing.type}
-          title={listing.title}
-          count={listing.count}
-          totalCount={listing.totalCount}
-          imageUrl={listing.imageUrl}
-          isModal={false}
-        />
+        <div key={key}>
+          <Molecule.ListingEditor
+            itemId={listing.id}
+            type={listing.type}
+            title={listing.title}
+            count={listing.count}
+            totalCount={listing.totalCount}
+            imageUrl={listing.imageUrl}
+            isModal={false}
+          />
+        </div>
       ))}
     </Template.Default>
   );
