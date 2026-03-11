@@ -53,7 +53,10 @@ const Header = () => {
             </Link>
           </Atom.Visibility>
           <Atom.Visibility state={user !== null}>
-            <button onClick={() => logout()}>Log Out button here</button>
+            <div className="flex items-center gap-3">
+              <a href={`/user/${user?.uid}`}>Profile</a>
+              <button onClick={() => logout()}>Log Out button here</button>
+            </div>
           </Atom.Visibility>
         </div>
       </div>
