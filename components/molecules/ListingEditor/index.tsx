@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import useAuthStore from '@store/useAuthStore';
+import useAuthStore from "@store/useAuthStore";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 import Atom from "@atom";
@@ -33,11 +33,12 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
 }) => {
   const { user } = useAuthStore();
   const userId = user?.uid;
-  const [status, setStatus] = useState<number>(1);
-  const [currentTitle, setCurrentTitle] = useState(title);
-  const [currentCount, setCurrentCount] = useState(count);
-  const [currentTotalCount, setCurrentTotalCount] = useState(totalCount);
-  const [currentImageUrl, setCurrentImageUrl] = useState(imageUrl);
+
+  const [form, setForm] = useState({
+    status: 1,
+    count,
+  });
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -46,6 +47,10 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
   const docId = `${userId}-${type}-${itemId}`;
   const listingRef = doc(db, "listings", docId);
 
+  const handleChange = (key: string, value: any) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  };
+
   useEffect(() => {
     if (!isOpen || !userId) return;
 
@@ -53,18 +58,19 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
       const docSnap = await getDoc(listingRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setStatus(data.status ?? 1);
-        setCurrentTitle(data.title ?? title);
-        setCurrentCount(data.count ?? count);
-        setCurrentTotalCount(data.totalCount ?? totalCount);
-        setCurrentImageUrl(data.imageUrl ?? imageUrl);
+
+        setForm({
+          status: data.status ?? 1,
+          count: data.count ?? count,
+        });
+
         setExistingCreatedAt(data.createdAt ?? null);
       } else {
-        setStatus(1);
-        setCurrentTitle(title);
-        setCurrentCount(count);
-        setCurrentTotalCount(totalCount);
-        setCurrentImageUrl(imageUrl);
+        setForm({
+          status: 1,
+          count,
+        });
+
         setExistingCreatedAt(null);
       }
     };
@@ -76,19 +82,20 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
     if (!userId) return;
 
     setLoading(true);
+
     try {
       await setDoc(listingRef, {
         userId,
         itemId,
         type,
-        title: currentTitle,
-        count: currentCount,
-        totalCount: currentTotalCount,
-        imageUrl: currentImageUrl,
-        status,
+        title,
+        imageUrl,
+        totalCount,
         createdAt: existingCreatedAt ?? serverTimestamp(),
         updatedAt: serverTimestamp(),
+        ...form,
       });
+
       setSuccess(true);
       setTimeout(() => setIsOpen(false), 1000);
     } catch (err) {
@@ -116,57 +123,36 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
             >
               ✕
             </button>
+
             <h2 className="font-bold text-lg mb-4">Add to Listing</h2>
 
-            <div className="mb-2">
-              <strong>Title:</strong>{" "}
-              <input
-                type="text"
-                value={currentTitle}
-                onChange={(e) => setCurrentTitle(e.target.value)}
-                className="border rounded px-2 py-1 w-full"
-              />
+
+            <div className="mb-2 flex gap-3 items-center">
+              <img src={imageUrl} />
+              <div>{title}</div>
             </div>
 
             <div className="mb-2">
-              <strong>Type:</strong> {type}
-            </div>
-
-            <div className="mb-2">
-              <strong>Count:</strong>{" "}
-              <input
-                type="number"
-                value={currentCount}
-                onChange={(e) => setCurrentCount(Number(e.target.value))}
-                className="border rounded px-2 py-1 w-full"
-              />
-            </div>
-
-            <div className="mb-2">
-              <strong>Total Count:</strong>{" "}
-              <input
-                type="number"
-                value={currentTotalCount}
-                onChange={(e) => setCurrentTotalCount(Number(e.target.value))}
-                className="border rounded px-2 py-1 w-full"
-              />
-            </div>
-
-            <div className="mb-2">
-              <strong>Image URL:</strong>{" "}
-              <input
-                type="text"
-                value={currentImageUrl}
-                onChange={(e) => setCurrentImageUrl(e.target.value)}
-                className="border rounded px-2 py-1 w-full"
-              />
+              <strong>Count:</strong>
+              <div className="flex items-center gap-3">
+                <input
+                  type="number"
+                  value={form.count}
+                  onChange={(e) => handleChange("count", Number(e.target.value))}
+                  className="border rounded px-2 py-1 w-full flex-1"
+                />
+                <div>of</div>
+                <div>{totalCount}</div>
+              </div>
             </div>
 
             <div className="mb-4">
-              <strong>Status:</strong>{" "}
+              <strong>Status:</strong>
               <select
-                value={status}
-                onChange={(e) => setStatus(Number(e.target.value))}
+                value={form.status}
+                onChange={(e) =>
+                  handleChange("status", Number(e.target.value))
+                }
                 className="border rounded px-2 py-1 w-full"
               >
                 {statusOptions.map((opt) => (
