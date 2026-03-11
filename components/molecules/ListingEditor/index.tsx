@@ -12,6 +12,7 @@ interface IListingEditorProps {
   count: number;
   totalCount: number | null;
   imageUrl: string;
+  isModal: boolean;
 }
 
 const statusOptions = [
@@ -30,6 +31,7 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
   count,
   totalCount,
   imageUrl,
+  isModal = true,
 }) => {
   const { user } = useAuthStore();
   const userId = user?.uid;
@@ -116,82 +118,90 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
     }
   };
 
+  if (isModal) {
+    return (
+      <Atom.Visibility state={user !== null}>
+        <button
+          onClick={() => setIsOpen(true)}
+          className="bg-green-500 text-white px-4 py-2 rounded"
+        >
+          + Add to List
+        </button>
+
+        <Atom.Visibility state={isOpen}>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg p-6 w-96 relative">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+              >
+                ✕
+              </button>
+
+              <h2 className="font-bold text-lg mb-4">Add to Listing</h2>
+
+
+              <div className="mb-2 flex gap-3 items-center">
+                <img src={imageUrl} />
+                <div>{title}</div>
+              </div>
+
+              <div className="mb-2">
+                <strong>Count:</strong>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="number"
+                    value={form.count}
+                    onChange={(e) => handleChange("count", Number(e.target.value))}
+                    className="border rounded px-2 py-1 w-full flex-1"
+                  />
+                  <Atom.Visibility state={!!totalCount}>
+                    <div>of</div>
+                    <div>{totalCount}</div>
+                  </Atom.Visibility>
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <strong>Status:</strong>
+                <select
+                  value={form.status}
+                  onChange={(e) =>
+                    handleChange("status", Number(e.target.value))
+                  }
+                  className="border rounded px-2 py-1 w-full"
+                >
+                  {statusOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                onClick={handleSave}
+                disabled={loading}
+                className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+              >
+                {loading ? "Saving..." : "Save Listing"}
+              </button>
+
+              <Atom.Visibility state={success}>
+                <div className="text-green-600 mt-2 text-center">
+                  Saved successfully!
+                </div>
+              </Atom.Visibility>
+            </div>
+          </div>
+        </Atom.Visibility>
+      </Atom.Visibility>
+    );
+  }
+
   return (
     <Atom.Visibility state={user !== null}>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="bg-green-500 text-white px-4 py-2 rounded"
-      >
-        + Add to List
-      </button>
-
-      <Atom.Visibility state={isOpen}>
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 relative">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-            >
-              ✕
-            </button>
-
-            <h2 className="font-bold text-lg mb-4">Add to Listing</h2>
-
-
-            <div className="mb-2 flex gap-3 items-center">
-              <img src={imageUrl} />
-              <div>{title}</div>
-            </div>
-
-            <div className="mb-2">
-              <strong>Count:</strong>
-              <div className="flex items-center gap-3">
-                <input
-                  type="number"
-                  value={form.count}
-                  onChange={(e) => handleChange("count", Number(e.target.value))}
-                  className="border rounded px-2 py-1 w-full flex-1"
-                />
-                <Atom.Visibility state={!!totalCount}>
-                  <div>of</div>
-                  <div>{totalCount}</div>
-                </Atom.Visibility>
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <strong>Status:</strong>
-              <select
-                value={form.status}
-                onChange={(e) =>
-                  handleChange("status", Number(e.target.value))
-                }
-                className="border rounded px-2 py-1 w-full"
-              >
-                {statusOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <button
-              onClick={handleSave}
-              disabled={loading}
-              className="bg-blue-500 text-white px-4 py-2 rounded w-full"
-            >
-              {loading ? "Saving..." : "Save Listing"}
-            </button>
-
-            <Atom.Visibility state={success}>
-              <div className="text-green-600 mt-2 text-center">
-                Saved successfully!
-              </div>
-            </Atom.Visibility>
-          </div>
-        </div>
-      </Atom.Visibility>
+      Inline Listing Editor
     </Atom.Visibility>
   );
 };
