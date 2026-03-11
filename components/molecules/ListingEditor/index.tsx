@@ -212,12 +212,12 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
 
         <td>{title}</td>
 
-        <td>
+        <td className="text-center">
           {count}
           {totalCount ? ` / ${totalCount}` : ""}
         </td>
 
-        <td>{statusOptions.find(option => option.value === status)?.label}</td>
+        <td className="text-center">{statusOptions.find(option => option.value === status)?.label}</td>
       </tr>
     </Atom.Visibility>
   );
