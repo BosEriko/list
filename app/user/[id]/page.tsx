@@ -10,6 +10,16 @@ type PageProps = {
   }>;
 };
 
+interface Listing {
+  id: string;
+  type: string;
+  title: string;
+  count: number;
+  totalCount: number | null;
+  imageUrl: string;
+  userId: string;
+}
+
 export default async function User({ params }: PageProps) {
   const { id } = await params;
 
@@ -20,9 +30,9 @@ export default async function User({ params }: PageProps) {
 
   const snapshot = await getDocs(listingsQuery);
 
-  const listings = snapshot.docs.map((doc) => ({
+  const listings: Listing[] = snapshot.docs.map((doc) => ({
     id: doc.id,
-    ...doc.data(),
+    ...(doc.data() as Omit<Listing, "id">),
   }));
 
   return (
