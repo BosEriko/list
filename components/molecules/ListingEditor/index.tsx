@@ -12,7 +12,7 @@ interface IListingEditorProps {
   count: number;
   totalCount: number | null;
   imageUrl: string;
-  isModal: boolean;
+  isModal?: boolean;
 }
 
 const statusOptions = [
