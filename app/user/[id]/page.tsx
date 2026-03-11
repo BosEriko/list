@@ -38,7 +38,7 @@ export default async function User({ params }: PageProps) {
   return (
     <Template.Default>
       <h1>User Profile</h1>
-      <table className="table-auto w-full">
+      <table className="table-auto w-full border-separate border-spacing-y-2">
         <thead>
           <tr>
             <th></th>

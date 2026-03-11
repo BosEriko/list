@@ -206,8 +206,8 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
   return (
     <Atom.Visibility state={user !== null}>
       <tr key={key}>
-        <td>
-          <img src={imageUrl} alt={title} className="w-12 h-16 object-cover" />
+        <td className="w-15">
+          <img src={imageUrl} alt={title} className="w-12 aspect-square object-cover rounded-lg" />
         </td>
 
         <td>{title}</td>
