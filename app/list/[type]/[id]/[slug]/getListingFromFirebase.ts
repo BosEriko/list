@@ -13,7 +13,7 @@ type Listing = {
     };
   };
   title: string;
-  totalCount: number;
+  totalCount: number | null;
   status: string;
   synopsis: string;
   score: number;
@@ -53,7 +53,7 @@ export async function getListingFromFirebase(id: string, type: ListingType): Pro
     type,
     images: jikan.images,
     title: jikan.title,
-    totalCount: jikan.episodes ?? jikan.chapters,
+    totalCount: jikan.episodes ?? jikan.chapters ?? null,
     status: jikan.status,
     synopsis: jikan.synopsis,
     score: jikan.score,

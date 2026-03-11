@@ -10,7 +10,7 @@ interface IListingEditorProps {
   type: string;
   title: string;
   count: number;
-  totalCount: number;
+  totalCount: number | null;
   imageUrl: string;
 }
 
