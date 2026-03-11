@@ -138,8 +138,10 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
                   onChange={(e) => handleChange("count", Number(e.target.value))}
                   className="border rounded px-2 py-1 w-full flex-1"
                 />
-                <div>of</div>
-                <div>{totalCount}</div>
+                <Atom.Visibility state={!!totalCount}>
+                  <div>of</div>
+                  <div>{totalCount}</div>
+                </Atom.Visibility>
               </div>
             </div>
 
