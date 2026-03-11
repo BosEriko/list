@@ -58,19 +58,16 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
       const docSnap = await getDoc(listingRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
-
         setForm({
           status: data.status ?? 1,
           count: data.count ?? count,
         });
-
         setExistingCreatedAt(data.createdAt ?? null);
       } else {
         setForm({
           status: 1,
           count,
         });
-
         setExistingCreatedAt(null);
       }
     };
@@ -114,7 +111,7 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
         + Add to List
       </button>
 
-      {isOpen && (
+      <Atom.Visibility state={isOpen}>
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-6 w-96 relative">
             <button
@@ -171,14 +168,14 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
               {loading ? "Saving..." : "Save Listing"}
             </button>
 
-            {success && (
+            <Atom.Visibility state={success}>
               <div className="text-green-600 mt-2 text-center">
                 Saved successfully!
               </div>
-            )}
+            </Atom.Visibility>
           </div>
         </div>
-      )}
+      </Atom.Visibility>
     </Atom.Visibility>
   );
 };
