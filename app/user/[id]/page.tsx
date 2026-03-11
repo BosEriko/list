@@ -17,6 +17,7 @@ interface Listing {
   count: number;
   totalCount: number | null;
   imageUrl: string;
+  status: number;
   userId: string;
 }
 
