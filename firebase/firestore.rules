@@ -16,7 +16,7 @@ service cloud.firestore {
       function validCount() {
         let item = getItem();
         let total = item.data.totalCount;
-        return item.data != null && request.resource.data.count is int && request.resource.data.count > 0 && (item.data.totalCount == null || request.resource.data.count <= item.data.totalCount);
+        return item.data != null && request.resource.data.count is int && request.resource.data.count >= 0 && (item.data.totalCount == null || request.resource.data.count <= item.data.totalCount);
       }
       function validStatus() {
         let item = getItem();
