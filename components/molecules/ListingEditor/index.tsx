@@ -75,11 +75,26 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
     fetchListing();
   }, [isOpen, userId]);
 
+  useEffect(() => {
+    if (totalCount && form.count >= totalCount) {
+      setForm((prev) => ({
+        ...prev,
+        count: totalCount,
+        status: 3,
+      }));
+    }
+    if (form.count < 0) {
+      setForm((prev) => ({
+        ...prev,
+        count: 0,
+        status: 1,
+      }));
+    }
+  }, [form.count, totalCount]);
+
   const handleSave = async () => {
     if (!userId) return;
-
     setLoading(true);
-
     try {
       await setDoc(listingRef, {
         userId,
@@ -92,7 +107,6 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
         updatedAt: serverTimestamp(),
         ...form,
       });
-
       setSuccess(true);
       setTimeout(() => setIsOpen(false), 1000);
     } catch (err) {
