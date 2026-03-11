@@ -38,20 +38,31 @@ export default async function User({ params }: PageProps) {
   return (
     <Template.Default>
       <h1>User Profile</h1>
-
-      {listings.map((listing, key) => (
-        <div key={key}>
-          <Molecule.ListingEditor
-            itemId={listing.id}
-            type={listing.type}
-            title={listing.title}
-            count={listing.count}
-            totalCount={listing.totalCount}
-            imageUrl={listing.imageUrl}
-            isModal={false}
-          />
-        </div>
-      ))}
+      <table className="table-auto">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Progress</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {listings.map((listing, key) => (
+            <Molecule.ListingEditor
+              itemId={listing.id}
+              type={listing.type}
+              title={listing.title}
+              count={listing.count}
+              totalCount={listing.totalCount}
+              imageUrl={listing.imageUrl}
+              status={listing.status}
+              isModal={false}
+              key={key}
+            />
+          ))}
+        </tbody>
+      </table>
     </Template.Default>
   );
 }

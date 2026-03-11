@@ -12,7 +12,9 @@ interface IListingEditorProps {
   count: number;
   totalCount: number | null;
   imageUrl: string;
+  status: number;
   isModal?: boolean;
+  key?: number | null
 }
 
 const statusOptions = [
@@ -31,13 +33,15 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
   count,
   totalCount,
   imageUrl,
+  status = 1,
   isModal = true,
+  key = null,
 }) => {
   const { user } = useAuthStore();
   const userId = user?.uid;
 
   const [form, setForm] = useState({
-    status: 1,
+    status,
     count,
   });
 
@@ -67,7 +71,7 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
         setExistingCreatedAt(data.createdAt ?? null);
       } else {
         setForm({
-          status: 1,
+          status,
           count,
         });
         setExistingCreatedAt(null);
@@ -201,7 +205,20 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
 
   return (
     <Atom.Visibility state={user !== null}>
-      Inline Listing Editor
+      <tr key={key}>
+        <td>
+          <img src={imageUrl} alt={title} className="w-12 h-16 object-cover" />
+        </td>
+
+        <td>{title}</td>
+
+        <td>
+          {count}
+          {totalCount ? ` / ${totalCount}` : ""}
+        </td>
+
+        <td>{statusOptions.find(option => option.value === status)?.label}</td>
+      </tr>
     </Atom.Visibility>
   );
 };
