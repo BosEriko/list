@@ -1,4 +1,5 @@
 import Template from "@template";
+import Molecule from "@molecule";
 
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@lib/Firebase";
@@ -28,7 +29,17 @@ export default async function User({ params }: PageProps) {
     <Template.Default>
       <h1>User Profile</h1>
 
-      <pre>{JSON.stringify(listings, null, 2)}</pre>
+      {listings.map((listing, key) => (
+        <Molecule.ListingEditor
+          itemId={listing.id}
+          type={listing.type}
+          title={listing.title}
+          count={listing.count}
+          totalCount={listing.totalCount}
+          imageUrl={listing.imageUrl}
+          isModal={false}
+        />
+      ))}
     </Template.Default>
   );
 }
