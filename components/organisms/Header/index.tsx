@@ -1,11 +1,17 @@
 "use client";
-import useAuthStore from '@store/useAuthStore';
+import useAuthStore from "@store/useAuthStore";
 import { useRouter } from "next/navigation";
-import Atom from '@atom';
+import Atom from "@atom";
 import { Pixelify_Sans } from "next/font/google";
 import { useState } from "react";
 import Link from "next/link";
-import { Button } from 'antd';
+
+import { Button, Avatar, Dropdown } from "antd";
+import {
+  UserOutlined,
+  LogoutOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 
 const pixelify = Pixelify_Sans({
   subsets: ["latin"],
@@ -26,41 +32,92 @@ const Header = () => {
     setQuery("");
   };
 
-  return (
-    <header className="text-black border-b border-gray-200 bg-white">
-      <div className="container mx-auto flex justify-between items-center px-4 py-3">
-        <button onClick={() => router.push("/")}>
-          <h2
-            className={`${pixelify.className} text-3xl md:text-4xl font-bold text-[#f7b43d] cursor-pointer`}
-          >
-            BE
-          </h2>
-        </button>
+  const menuItems = [
+    {
+      key: "profile",
+      icon: <UserOutlined />,
+      label: <Link href={`/user/${user?.uid}`}>Profile</Link>,
+    },
+    {
+      key: "logout",
+      icon: <LogoutOutlined />,
+      label: <span onClick={() => logout()}>Log Out</span>,
+    },
+  ];
 
-        <form onSubmit={handleSearch}>
-          <input
-            type="text"
-            placeholder="Search anime or manga..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm w-56 md:w-72 focus:outline-none focus:ring-2 focus:ring-[#f7b43d]"
+  const Logo = () => (
+    <button onClick={() => router.push("/")}>
+      <h2 className={`${pixelify.className} text-3xl md:text-4xl font-bold text-[#f7b43d] cursor-pointer`}>BE</h2>
+    </button>
+  );
+
+  const User = () => (
+    <div className="flex items-center gap-3">
+      <Atom.Visibility state={user === null}>
+        <Link href="/api/discord/authentication/login">
+          <Button type="primary">Log In</Button>
+        </Link>
+      </Atom.Visibility>
+      <Atom.Visibility state={user !== null}>
+        <Dropdown menu={{ items: menuItems }} placement="bottomRight">
+          <Avatar
+            size={36}
+            src={user?.photoURL ?? undefined}
+            icon={<UserOutlined />}
+            className="cursor-pointer"
           />
-        </form>
+        </Dropdown>
+      </Atom.Visibility>
+    </div>
+  );
 
-        <div>
-          <Atom.Visibility state={user === null}>
-            <Link href="/api/discord/authentication/login">
-              <Button type="primary">Log In</Button>
-            </Link>
-          </Atom.Visibility>
-          <Atom.Visibility state={user !== null}>
-            <div className="flex items-center gap-3">
-              <a href={`/user/${user?.uid}`}>Profile</a>
-              <Button type="primary" onClick={() => logout()}>Log Out</Button>
-            </div>
-          </Atom.Visibility>
-        </div>
+  const Search = (type: "desktop" | "mobile") => {
+    if (type === "desktop") {
+      return (
+        <form
+          onSubmit={handleSearch}
+          className="flex-1 max-w-md hidden sm:block"
+        >
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search anime or manga..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 pr-9 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#f7b43d]"
+            />
+            <SearchOutlined className="absolute right-3 top-2.5 text-gray-400" />
+          </div>
+        </form>
+      );
+    }
+
+    return (
+      <div className="px-4 pb-3 sm:hidden">
+        <form onSubmit={handleSearch}>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search anime or manga..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 pr-9 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#f7b43d]"
+            />
+            <SearchOutlined className="absolute right-3 top-2.5 text-gray-400" />
+          </div>
+        </form>
       </div>
+    );
+  }
+
+  return (
+    <header className="border-b border-gray-200 bg-white">
+      <div className="container mx-auto flex items-center justify-between gap-3 px-4 py-3">
+        <Logo />
+        <Search type="desktop" />
+        <User />
+      </div>
+      <Search type="mobile" />
     </header>
   );
 };
