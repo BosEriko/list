@@ -28,6 +28,37 @@ interface User {
   updatedAt: Date;
 }
 
+export async function generateMetadata({ params }: PageProps) {
+  const { id } = await params;
+
+  let user: Partial<User> = { username: "Unknown", avatarUrl: "" };
+  try {
+    const userDoc = await FirebaseAdmin.firestore().collection("users").doc(id).get();
+    if (userDoc.exists) {
+      user = userDoc.data() as User;
+    }
+  } catch (err) {
+    console.error("User not found:", err);
+  }
+
+  return {
+    title: `${user.username}’s Profile | Bos Eriko List`,
+    description: `View all listings and progress of ${user.username} on Bos Eriko List.`,
+    openGraph: {
+      title: `${user.username}’s Profile | Bos Eriko List`,
+      description: `View all listings and progress of ${user.username} on Bos Eriko List.`,
+      images: [user.avatarUrl || ""],
+      type: "profile",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${user.username}’s Profile | Bos Eriko List`,
+      description: `View all listings and progress of ${user.username} on Bos Eriko List.`,
+      images: [user.avatarUrl || ""],
+    },
+  };
+}
+
 export default async function UserPage({ params }: PageProps) {
   const { id } = await params;
 
