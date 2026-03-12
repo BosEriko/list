@@ -52,7 +52,7 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
   };
 
   useEffect(() => {
-    if (!userId) return;
+    if (!isOpen || !userId) return;
 
     const fetchListing = async () => {
       const docSnap = await getDoc(listingRef);
@@ -65,7 +65,7 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
         setExistingCreatedAt(data.createdAt ?? null);
       } else {
         setForm({
-          status,
+          status: 1,
           count,
         });
         setExistingCreatedAt(null);
@@ -73,7 +73,7 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
     };
 
     fetchListing();
-  }, [userId, listingRef]);
+  }, [isOpen, userId]);
 
   useEffect(() => {
     if (totalCount && form.count >= totalCount) {
