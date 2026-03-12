@@ -138,58 +138,60 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
 
   return (
     <Fragment>
-      <td className="w-15">
-        <img
-          src={imageUrl}
-          alt={title}
-          className="w-12 aspect-square object-cover rounded-lg"
-        />
-      </td>
+      <tr>
+        <td className="w-15">
+          <img
+            src={imageUrl}
+            alt={title}
+            className="w-12 aspect-square object-cover rounded-lg"
+          />
+        </td>
 
-      <td><a href={listingUrl}>{title}</a></td>
+        <td><a href={listingUrl}>{title}</a></td>
 
-      <td className="whitespace-nowrap">
-        <div className="mr-5">
-          <button
-            onClick={handleDecreaseCount}
-            className="px-2 py-1 bg-gray-200 rounded"
+        <td className="whitespace-nowrap">
+          <div className="mr-5">
+            <button
+              onClick={handleDecreaseCount}
+              className="px-2 py-1 bg-gray-200 rounded"
+            >
+              -
+            </button>
+
+            <span className="mx-2">
+              <input
+                className="mx-2 w-16 text-center border border-gray-400 rounded px-1 py-0.5"
+                value={form.count}
+                min={0}
+                max={totalCount ?? undefined}
+                onChange={handleManualCount}
+              />
+              {totalCount != null ? ` / ${totalCount}` : ""}
+            </span>
+
+            <button
+              onClick={handleIncreaseCount}
+              className="px-2 py-1 bg-gray-200 rounded"
+            >
+              +
+            </button>
+          </div>
+        </td>
+
+        <td className="whitespace-nowrap">
+          <select
+            value={form.status}
+            onChange={handleStatusChange}
+            className="border border-gray-400 rounded px-2 py-1"
           >
-            -
-          </button>
-
-          <span className="mx-2">
-            <input
-              className="mx-2 w-16 text-center border border-gray-400 rounded px-1 py-0.5"
-              value={form.count}
-              min={0}
-              max={totalCount ?? undefined}
-              onChange={handleManualCount}
-            />
-            {totalCount != null ? ` / ${totalCount}` : ""}
-          </span>
-
-          <button
-            onClick={handleIncreaseCount}
-            className="px-2 py-1 bg-gray-200 rounded"
-          >
-            +
-          </button>
-        </div>
-      </td>
-
-      <td className="whitespace-nowrap">
-        <select
-          value={form.status}
-          onChange={handleStatusChange}
-          className="border border-gray-400 rounded px-2 py-1"
-        >
-          {statusOptions.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </td>
+            {statusOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </td>
+      </tr>
     </Fragment>
   );
 };

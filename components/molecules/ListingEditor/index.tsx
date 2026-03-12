@@ -1,6 +1,4 @@
 "use client";
-import Atom from "@atom";
-import useAuthStore from "@store/useAuthStore";
 import InlineEditor from "./InlineEditor";
 import ModalEditor from "./ModalEditor";
 
@@ -29,8 +27,6 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
   isModal = true,
   key = null,
 }) => {
-  const { user } = useAuthStore();
-
   if (isModal) {
     return (
       <ModalEditor
@@ -45,21 +41,17 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
   }
 
   return (
-    <Atom.Visibility state={user !== null}>
-      <tr key={key}>
-        <InlineEditor
-          itemId={itemId}
-          type={type}
-          title={title}
-          count={count}
-          totalCount={totalCount}
-          imageUrl={imageUrl}
-          listingUrl={listingUrl}
-          status={status}
-          key={key}
-        />
-      </tr>
-    </Atom.Visibility>
+    <InlineEditor
+      itemId={itemId}
+      type={type}
+      title={title}
+      count={count}
+      totalCount={totalCount}
+      imageUrl={imageUrl}
+      listingUrl={listingUrl}
+      status={status}
+      key={key}
+    />
   );
 };
 
