@@ -5,6 +5,7 @@ import Atom from '@atom';
 import { Pixelify_Sans } from "next/font/google";
 import { useState } from "react";
 import Link from "next/link";
+import { Button } from 'antd';
 
 const pixelify = Pixelify_Sans({
   subsets: ["latin"],
@@ -49,13 +50,13 @@ const Header = () => {
         <div>
           <Atom.Visibility state={user === null}>
             <Link href="/api/discord/authentication/login">
-              <button>Login with Discord</button>
+              <Button type="primary">Log In</Button>
             </Link>
           </Atom.Visibility>
           <Atom.Visibility state={user !== null}>
             <div className="flex items-center gap-3">
               <a href={`/user/${user?.uid}`}>Profile</a>
-              <button onClick={() => logout()}>Log Out button here</button>
+              <Button type="primary" onClick={() => logout()}>Log Out</Button>
             </div>
           </Atom.Visibility>
         </div>

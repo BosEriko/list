@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import useAuthStore from '@store/useAuthStore';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 import "./globals.css";
 
 export default function RootLayout({
@@ -17,7 +18,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AntdRegistry>{children}</AntdRegistry>
+      </body>
     </html>
   );
 }
