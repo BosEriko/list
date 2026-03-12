@@ -9,6 +9,26 @@ type PageProps = {
   }>;
 };
 
+export async function generateMetadata({ params }: PageProps) {
+  const { query } = await params;
+  const decodedQuery = decodeURIComponent(query);
+
+  return {
+    title: `Search results for ${decodedQuery} | Bos Eriko List`,
+    description: `Search results for ${decodedQuery} | Bos Eriko List.`,
+    openGraph: {
+      title: `Search results for ${decodedQuery} | Bos Eriko List`,
+      description: `Search results for ${decodedQuery} | Bos Eriko List.`,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Search results for ${decodedQuery} | Bos Eriko List`,
+      description: `Search results for ${decodedQuery} | Bos Eriko List.`,
+    },
+  };
+}
+
 type JikanItem = {
   mal_id: number;
   title: string;

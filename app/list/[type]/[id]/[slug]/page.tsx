@@ -1,6 +1,5 @@
 import Template from "@template";
 import Molecule from "@molecule";
-import { Metadata } from "next";
 import { getListingFromFirebase } from "./getListingFromFirebase";
 
 type PageProps = {
