@@ -6,9 +6,7 @@ service cloud.firestore {
         return id.matches('^' + request.auth.uid + '-[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$');
       }
       function validCreatedAt() {
-        return (
-          ("createdAt" in resource.data && request.resource.data.createdAt == resource.data.createdAt) || !("createdAt" in resource.data) && request.resource.data.createdAt == request.resource.data.updatedAt
-        );
+        return !("createdAt" in request.resource.data) || (("createdAt" in resource.data && request.resource.data.createdAt == resource.data.createdAt) || (!("createdAt" in resource.data) && request.resource.data.createdAt == request.resource.data.updatedAt));
       }
       function getItem() {
         return get(/databases/$(database)/documents/items/$(request.resource.data.type + "-" + request.resource.data.itemId));
@@ -26,7 +24,6 @@ service cloud.firestore {
       allow create: if request.auth != null
                     && request.resource.data.userId == request.auth.uid
                     && validListingId(listingId)
-                    && request.resource.data.createdAt is timestamp
                     && request.resource.data.updatedAt is timestamp
                     && validCount()
                     && validStatus();
