@@ -69,6 +69,7 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
       type,
       title,
       imageUrl,
+      listingUrl,
       totalCount,
       updatedAt: serverTimestamp(),
       ...newForm,
