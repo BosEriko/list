@@ -71,53 +71,29 @@ const Header = () => {
     </div>
   );
 
-  const Search = ({ type }: { type: "desktop" | "mobile" }) => {
-    if (type === "desktop") {
-      return (
-        <form
-          onSubmit={handleSearch}
-          className="flex-1 max-w-md hidden sm:block"
-        >
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search anime or manga..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 pr-9 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#f7b43d]"
-            />
-            <SearchOutlined className="absolute right-3 top-2.5 text-gray-400" />
-          </div>
-        </form>
-      );
-    }
-
-    return (
-      <div className="px-4 pb-3 sm:hidden">
-        <form onSubmit={handleSearch}>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search anime or manga..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 pr-9 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#f7b43d]"
-            />
-            <SearchOutlined className="absolute right-3 top-2.5 text-gray-400" />
-          </div>
-        </form>
+  const Search = () => (
+    <form onSubmit={handleSearch} className="w-full">
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Search anime or manga..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="border border-gray-300 rounded-lg px-3 py-2 pr-9 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#f7b43d]"
+        />
+        <SearchOutlined className="absolute right-3 top-2.5 text-gray-400" />
       </div>
-    );
-  }
+    </form>
+  );
 
   return (
     <header className="border-b border-gray-200 bg-white">
       <div className="container mx-auto flex items-center justify-between gap-3 px-4 py-3">
         <Logo />
-        <Search type="desktop" />
+        <div className="flex-1 max-w-md hidden sm:block"><Search /></div>
         <User />
       </div>
-      <Search type="mobile" />
+      <div className="px-4 pb-3 sm:hidden"><Search /></div>
     </header>
   );
 };
