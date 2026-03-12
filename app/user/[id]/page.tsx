@@ -33,18 +33,8 @@ export default async function UserPage({ params }: PageProps) {
 
   let user: User | null = null;
   try {
-    const firebaseUser = await FirebaseAdmin.auth().getUser(id);
-    
     const userDoc = await FirebaseAdmin.firestore().collection("users").doc(id).get();
-    const userData = userDoc.exists ? userDoc.data() : {};
-
-    user = {
-      uid: firebaseUser.uid,
-      username: userData?.username || firebaseUser.displayName || "Unknown",
-      avatarUrl: userData?.avatarUrl || firebaseUser.photoURL || "",
-      createdAt: firebaseUser.metadata.creationTime ? new Date(firebaseUser.metadata.creationTime) : new Date(),
-      updatedAt: firebaseUser.metadata.lastSignInTime ? new Date(firebaseUser.metadata.lastSignInTime) : new Date(),
-    };
+    user = userDoc.exists ? userDoc.data() : {};
   } catch (err) {
     console.error("User not found:", err);
     return (
@@ -71,7 +61,7 @@ export default async function UserPage({ params }: PageProps) {
               alt={user.username}
               className="w-24 h-24 rounded-full object-cover"
             />
-            <h2 className="text-lg font-semibold">{user.username}</h2>
+            <h2 className="text-lg font-semibold">@{user.username}</h2>
           </div>
         </div>
         <div className="flex flex-col gap-4 flex-1">
