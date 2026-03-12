@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { signInWithCustomToken } from 'firebase/auth'
 import { auth } from "@lib/Firebase";
 
-const Authenticate = () => {
+const AuthenticateSuspense = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
@@ -20,10 +20,10 @@ const Authenticate = () => {
   return <p>Signing you in...</p>
 }
 
-export default function AuthenticateSuspense() {
+export default function Authenticate() {
   return (
     <Suspense fallback={<p>Loading...</p>}>
-      <Authenticate />
+      <AuthenticateSuspense />
     </Suspense>
   )
 }
