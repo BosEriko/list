@@ -7,7 +7,7 @@ export default function MediaSection({ title, items }: { title: string; items: a
       <h2 className="text-2xl font-semibold mb-4">{title}</h2>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {items.map((item) => (
-          <a href={`/list/${item.url.replace("https://myanimelist.net/", "")}`} key={item.mal_id}>
+          <a href={`/list/${item.url.replace("https://myanimelist.net/", "")}`} key={`${title}-${item.mal_id}`}>
             <Card
               hoverable
               cover={
