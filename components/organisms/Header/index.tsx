@@ -71,7 +71,7 @@ const Header = () => {
     </div>
   );
 
-  const Search = (type: "desktop" | "mobile") => {
+  const Search = ({ type }: { type: "desktop" | "mobile" }) => {
     if (type === "desktop") {
       return (
         <form
