@@ -122,28 +122,22 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
     <Atom.Visibility state={user !== null}>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-green-500 text-white px-4 py-2 rounded-md w-full"
+        className="bg-green-500 text-white px-4 py-2 rounded-md w-full cursor-pointer"
       >
         + Add to List
       </button>
 
       <Atom.Visibility state={isOpen}>
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 relative">
+        <div className="fixed inset-0 flex justify-center items-center z-50" style={{ backgroundColor: "rgba(0,0,0,.80)" }}>
+          <div className="bg-white rounded-lg p-5 w-96 relative">
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+              className="absolute top-5 right-5 text-gray-500 hover:text-gray-800 cursor-pointer"
             >
               ✕
             </button>
 
             <h2 className="font-bold text-lg mb-4">Add to Listing</h2>
-
-
-            <div className="mb-2 flex gap-3 items-center">
-              <img src={imageUrl} />
-              <div>{title}</div>
-            </div>
 
             <div className="mb-2">
               <strong>Count:</strong>
@@ -152,7 +146,7 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
                   type="number"
                   value={form.count}
                   onChange={(e) => handleChange("count", Number(e.target.value))}
-                  className="border rounded px-2 py-1 w-full flex-1"
+                  className="border border-gray-400 rounded px-2 py-1 w-full flex-1"
                 />
                 <Atom.Visibility state={!!totalCount}>
                   <div>of</div>
@@ -168,7 +162,7 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
                 onChange={(e) =>
                   handleChange("status", Number(e.target.value))
                 }
-                className="border rounded px-2 py-1 w-full"
+                className="border border-gray-400 rounded px-2 py-1 w-full"
               >
                 {statusOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
