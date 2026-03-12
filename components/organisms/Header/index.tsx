@@ -21,16 +21,6 @@ const pixelify = Pixelify_Sans({
 const Header = () => {
   const { user, logout } = useAuthStore();
   const router = useRouter();
-  const [query, setQuery] = useState("");
-
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!query.trim()) return;
-
-    router.push(`/search/${encodeURIComponent(query.trim())}`);
-    setQuery("");
-  };
 
   const menuItems = [
     {
@@ -71,29 +61,42 @@ const Header = () => {
     </div>
   );
 
-  const Search = () => (
-    <form onSubmit={handleSearch} className="w-full">
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="Search anime or manga..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="border border-gray-300 rounded-lg px-3 py-2 pr-9 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#f7b43d]"
-        />
-        <SearchOutlined className="absolute right-3 top-2.5 text-gray-400" />
+  const Search = ({ className }: { className: string }) => {
+    const [query, setQuery] = useState("");
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (!query.trim()) return;
+      router.push(`/search/${encodeURIComponent(query.trim())}`);
+      setQuery("");
+    };
+
+    return (
+      <div className={className}>
+        <form onSubmit={handleSearch} className="w-full">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search anime or manga..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 pr-9 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#f7b43d]"
+            />
+            <SearchOutlined className="absolute right-3 top-2.5 text-gray-400" />
+          </div>
+        </form>
       </div>
-    </form>
-  );
+    );
+  };
 
   return (
     <header className="border-b border-gray-200 bg-white">
       <div className="container mx-auto flex items-center justify-between gap-3 px-4 py-3">
         <Logo />
-        <div className="flex-1 max-w-md hidden sm:block"><Search /></div>
+        <Search className="flex-1 max-w-md hidden sm:block" />
         <User />
       </div>
-      <div className="px-4 pb-3 sm:hidden"><Search /></div>
+      <Search className="px-4 pb-3 sm:hidden" />
     </header>
   );
 };
