@@ -21,12 +21,12 @@ type Episode = {
   entry: {
     mal_id: number;
     title: string;
+    url: string;
     images: {
       jpg: { image_url: string };
     };
   };
   episode: string;
-  url: string;
 };
 
 export default async function Home() {
