@@ -11,7 +11,7 @@ type PageProps = {
 };
 
 interface Listing {
-  id: string;
+  itemId: string;
   type: string;
   title: string;
   count: number;
@@ -51,7 +51,7 @@ export default async function User({ params }: PageProps) {
         <tbody>
           {listings.map((listing, key) => (
             <Molecule.ListingEditor
-              itemId={listing.id}
+              itemId={listing.itemId}
               type={listing.type}
               title={listing.title}
               count={listing.count}
