@@ -37,7 +37,9 @@ const Footer = () => {
   useEffect(() => {
     const fetchLinks = async () => {
       try {
-        const res = await fetch("https://raw.githubusercontent.com/BosEriko/boseriko.com/master/data/links.json");
+        const res = await fetch(
+          "https://raw.githubusercontent.com/BosEriko/boseriko.com/master/data/links.json"
+        );
         const data: SocialLink[] = await res.json();
 
         const mapped = data.map((link) => ({
@@ -55,11 +57,12 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="py-4 border-t border-gray-200 bg-white">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        <div>Bos Eriko List &copy; {new Date().getFullYear()}</div>
-
-        <div className="flex justify-center space-x-3">
+    <footer className="py-6 border-t border-gray-200 bg-white">
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-4">
+        <div className="text-sm text-gray-600 text-center md:text-left">
+          Bos Eriko List &copy; {new Date().getFullYear()}
+        </div>
+        <div className="flex flex-wrap justify-center gap-3">
           {socialLinks.map((social) => (
             <a
               key={social.name}
