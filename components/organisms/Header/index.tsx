@@ -31,7 +31,8 @@ const Header = () => {
     {
       key: "logout",
       icon: <LogoutOutlined />,
-      label: <span onClick={() => logout()}>Log Out</span>,
+      label: "Log Out",
+      onClick: () => logout(),
     },
   ];
 
@@ -44,8 +45,10 @@ const Header = () => {
   const User = () => (
     <div className="flex items-center gap-3">
       <Atom.Visibility state={user === null}>
-        <Link href="/api/discord/authentication/login">
-          <Button type="primary">Log In with Discord</Button>
+        <Link href="/api/discord/authentication/login" passHref>
+          <Button type="primary" as="a">
+            Log In with Discord
+          </Button>
         </Link>
       </Atom.Visibility>
       <Atom.Visibility state={user !== null}>
