@@ -84,6 +84,7 @@ export default async function UserPage({ params }: PageProps) {
                     count={listing.count}
                     totalCount={listing.totalCount}
                     imageUrl={listing.imageUrl}
+                    userId={listing.userId}
                     listingUrl={listing.listingUrl}
                     status={listing.status}
                     isModal={false}

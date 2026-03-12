@@ -1,4 +1,5 @@
 "use client";
+import Atom from "@atom";
 import { useState, Fragment, useRef, useEffect } from "react";
 import useAuthStore from "@store/useAuthStore";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -11,6 +12,7 @@ interface IInlineEditorProps {
   count: number;
   totalCount: number | null;
   imageUrl: string;
+  userId: string;
   listingUrl: string;
   status: number;
 }
@@ -30,17 +32,17 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   title,
   count,
   totalCount,
+  userId,
   listingUrl,
   imageUrl,
   status,
 }) => {
   const { user } = useAuthStore();
-  const userId = user?.uid;
 
   const [form, setForm] = useState({ status, count });
   const saveTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const docId = `${userId}-${type}-${itemId}`;
+  const docId = `${user?.uid}-${type}-${itemId}`;
   const listingRef = doc(db, "listings", docId);
 
   const computeNext = (newCount: number, newStatus?: number) => {
@@ -61,10 +63,10 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   };
 
   const saveListing = async (newForm: typeof form) => {
-    if (!userId) return;
+    if (user?.uid !== userId) return;
 
     const payload = {
-      userId,
+      userId: user?.uid,
       itemId,
       type,
       title,
@@ -151,45 +153,59 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
 
         <td className="whitespace-nowrap">
           <div className="mr-5">
-            <button
-              onClick={handleDecreaseCount}
-              className="px-2 py-1 bg-gray-200 rounded"
-            >
-              -
-            </button>
+            <Atom.Visibility state={user?.uid === userId}>
+              <button
+                onClick={handleDecreaseCount}
+                className="px-2 py-1 bg-gray-200 rounded cursor-pointer hover:bg-gray-100 transition-all"
+              >
+                -
+              </button>
+            </Atom.Visibility>
 
             <span className="mx-2">
-              <input
-                className="mx-2 w-16 text-center border border-gray-400 rounded px-1 py-0.5"
-                value={form.count}
-                min={0}
-                max={totalCount ?? undefined}
-                onChange={handleManualCount}
-              />
+              <Atom.Visibility state={user?.uid !== userId}>
+                {form.count}
+              </Atom.Visibility>
+              <Atom.Visibility state={user?.uid === userId}>
+                <input
+                  className="mx-2 w-16 text-center border border-gray-400 rounded px-1 py-0.5"
+                  value={form.count}
+                  min={0}
+                  max={totalCount ?? undefined}
+                  onChange={handleManualCount}
+                />
+              </Atom.Visibility>
               {totalCount != null ? ` / ${totalCount}` : ""}
             </span>
 
-            <button
-              onClick={handleIncreaseCount}
-              className="px-2 py-1 bg-gray-200 rounded"
-            >
-              +
-            </button>
+            <Atom.Visibility state={user?.uid === userId}>
+              <button
+                onClick={handleIncreaseCount}
+                className="px-2 py-1 bg-gray-200 rounded cursor-pointer hover:bg-gray-100 transition-all"
+              >
+                +
+              </button>
+            </Atom.Visibility>
           </div>
         </td>
 
         <td className="whitespace-nowrap">
-          <select
-            value={form.status}
-            onChange={handleStatusChange}
-            className="border border-gray-400 rounded px-2 py-1"
-          >
-            {statusOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+          <Atom.Visibility state={user?.uid !== userId}>
+            {statusOptions.find(option => option.value === form.status)?.label}
+          </Atom.Visibility>
+          <Atom.Visibility state={user?.uid === userId}>
+            <select
+              value={form.status}
+              onChange={handleStatusChange}
+              className="border border-gray-400 rounded px-2 py-1"
+            >
+              {statusOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </Atom.Visibility>
         </td>
       </tr>
     </Fragment>

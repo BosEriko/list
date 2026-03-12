@@ -9,6 +9,7 @@ interface IListingEditorProps {
   count: number;
   totalCount: number | null;
   imageUrl: string;
+  userId?: string;
   listingUrl?: string;
   status?: number;
   isModal?: boolean;
@@ -22,6 +23,7 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
   count,
   totalCount,
   imageUrl,
+  userId = "",
   listingUrl = "",
   status = 1,
   isModal = true,
@@ -48,6 +50,7 @@ const ListingEditor: React.FC<IListingEditorProps> = ({
       count={count}
       totalCount={totalCount}
       imageUrl={imageUrl}
+      userId={userId}
       listingUrl={listingUrl}
       status={status}
       key={key}
