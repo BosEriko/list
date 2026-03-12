@@ -11,7 +11,8 @@ interface IInlineEditorProps {
   count: number;
   totalCount: number | null;
   imageUrl: string;
-  status?: number;
+  listingUrl: string;
+  status: number;
 }
 
 const statusOptions = [
@@ -29,8 +30,9 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   title,
   count,
   totalCount,
+  listingUrl,
   imageUrl,
-  status = 1,
+  status,
 }) => {
   const { user } = useAuthStore();
   const userId = user?.uid;
@@ -143,7 +145,7 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
         />
       </td>
 
-      <td>{title}</td>
+      <td><a href={listingUrl}>{title}</a></td>
 
       <td className="text-center">
         <button

@@ -17,6 +17,7 @@ interface Listing {
   count: number;
   totalCount: number | null;
   imageUrl: string;
+  listingUrl: string;
   status: number;
   userId: string;
 }
@@ -57,6 +58,7 @@ export default async function User({ params }: PageProps) {
               count={listing.count}
               totalCount={listing.totalCount}
               imageUrl={listing.imageUrl}
+              listingUrl={listing.listingUrl}
               status={listing.status}
               isModal={false}
               key={key}
