@@ -45,10 +45,10 @@ const Header = () => {
   const User = () => (
     <div className="flex items-center gap-3">
       <Atom.Visibility state={user === null}>
-        <Link href="/api/discord/authentication/login" passHref>
-          <Button type="primary" as="a">
-            Log In with Discord
-          </Button>
+        <Link href="/api/discord/authentication/login">
+          <a>
+            <Button type="primary">Log In with Discord</Button>
+          </a>
         </Link>
       </Atom.Visibility>
       <Atom.Visibility state={user !== null}>
