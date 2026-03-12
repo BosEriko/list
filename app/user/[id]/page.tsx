@@ -31,7 +31,7 @@ interface User {
 export default async function UserPage({ params }: PageProps) {
   const { id } = await params;
 
-  let user: User | null = null;
+  let user: any = null;
   try {
     const userDoc = await FirebaseAdmin.firestore().collection("users").doc(id).get();
     user = userDoc.exists ? userDoc.data() : {};
