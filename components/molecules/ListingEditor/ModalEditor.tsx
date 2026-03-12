@@ -96,12 +96,14 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
     if (!userId) return;
     setLoading(true);
     try {
+      const listingUrl = typeof window !== "undefined" ? window.location.pathname : "";
       await setDoc(listingRef, {
         userId,
         itemId,
         type,
         title,
         imageUrl,
+        listingUrl,
         totalCount,
         createdAt: existingCreatedAt ?? serverTimestamp(),
         updatedAt: serverTimestamp(),
