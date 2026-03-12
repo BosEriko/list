@@ -87,10 +87,22 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   };
 
   const handleManualCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputVal = Number(e.target.value);
-    const newForm = computeNext(inputVal);
-    setForm(newForm);
-    scheduleSave(newForm);
+    const rawVal = e.target.value;
+    if (rawVal === "") {
+      setForm({ ...form, count: 0 });
+      return;
+    }
+    if (/^\d+$/.test(rawVal)) {
+      const num = Number(rawVal);
+      const finalNum = totalCount && num > totalCount ? totalCount : num;
+      const newForm = computeNext(finalNum);
+      setForm(newForm);
+      scheduleSave(newForm);
+    } else {
+      const newForm = computeNext(form.count);
+      setForm(newForm);
+      scheduleSave(newForm);
+    }
   };
 
   const handleDecreaseCount = () => {
@@ -143,7 +155,6 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
 
         <span className="mx-2">
           <input
-            type="number"
             className="mx-2 w-16 text-center border rounded px-1 py-0.5"
             value={form.count}
             min={0}
