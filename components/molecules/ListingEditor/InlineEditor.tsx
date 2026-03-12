@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect, Fragment } from "react";
+import { useState, Fragment } from "react";
 import useAuthStore from "@store/useAuthStore";
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
 interface IInlineEditorProps {
@@ -35,121 +35,110 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   const { user } = useAuthStore();
   const userId = user?.uid;
 
-  const [form, setForm] = useState({
-    status,
-    count,
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [existingCreatedAt, setExistingCreatedAt] = useState<any>(null);
+  const [form, setForm] = useState({ status, count });
 
   const docId = `${userId}-${type}-${itemId}`;
   const listingRef = doc(db, "listings", docId);
 
-  const handleChange = (key: string, value: any) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
+  const computeNext = (newCount: number, newStatus?: number) => {
+    let finalCount = newCount;
+    let finalStatus = newStatus ?? form.status;
+
+    if (finalCount < 0) {
+      finalCount = 0;
+      finalStatus = 1;
+    }
+
+    if (totalCount != null && finalCount >= totalCount) {
+      finalCount = totalCount;
+      finalStatus = 3;
+    }
+
+    return { count: finalCount, status: finalStatus };
   };
 
-  useEffect(() => {
+  const saveListing = async (newForm: typeof form) => {
     if (!userId) return;
 
-    const fetchListing = async () => {
-      const docSnap = await getDoc(listingRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setForm({
-          status: data.status ?? status,
-          count: data.count ?? count,
-        });
-        setExistingCreatedAt(data.createdAt ?? null);
-      } else {
-        setForm({
-          status,
-          count,
-        });
-        setExistingCreatedAt(null);
-      }
+    const payload = {
+      userId,
+      itemId,
+      type,
+      title,
+      imageUrl,
+      totalCount,
+      updatedAt: serverTimestamp(),
+      ...newForm,
     };
 
-    fetchListing();
-  }, [userId, listingRef]);
+    console.log("Saving payload to Firestore:", payload);
 
-  useEffect(() => {
-    if (totalCount && form.count >= totalCount) {
-      setForm((prev) => ({
-        ...prev,
-        count: totalCount,
-        status: 3,
-      }));
+    try {
+      await setDoc(listingRef, payload);
+    } catch (err) {
+      console.error("Error updating listing:", err);
     }
-    if (form.count < 0) {
-      setForm((prev) => ({
-        ...prev,
-        count: 0,
-        status: 1,
-      }));
-    }
-  }, [form.count, totalCount]);
+  };
 
   const handleDecreaseCount = async () => {
-    if (form.count >= 0) {
-      setForm((prev) => ({
-        ...prev,
-        count: form.count - 1,
-      }));
-      handleSave();
-    }
-  }
+    const newForm = computeNext(form.count - 1);
+    setForm(newForm);
+    await saveListing(newForm);
+  };
 
   const handleIncreaseCount = async () => {
-    if (totalCount && form.count <= totalCount) {
-      setForm((prev) => ({
-        ...prev,
-        count: form.count + 1,
-      }));
-      handleSave();
-    }
-  }
+    const newForm = computeNext(form.count + 1);
+    setForm(newForm);
+    await saveListing(newForm);
+  };
 
-  const handleSave = async () => {
-    if (!userId) return;
-    setLoading(true);
-    try {
-      await setDoc(listingRef, {
-        userId,
-        itemId,
-        type,
-        title,
-        imageUrl,
-        totalCount,
-        createdAt: existingCreatedAt ?? serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        ...form,
-      });
-      setSuccess(true);
-      setTimeout(() => setIsOpen(false), 1000);
-    } catch (err) {
-      console.error("Error adding/updating listing:", err);
-    } finally {
-      setLoading(false);
-    }
+  const handleStatusChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedStatus = Number(e.target.value);
+    const newForm = computeNext(form.count, selectedStatus);
+    setForm(newForm);
+    await saveListing(newForm);
   };
 
   return (
     <Fragment>
       <td className="w-15">
-        <img src={imageUrl} alt={title} className="w-12 aspect-square object-cover rounded-lg" />
+        <img
+          src={imageUrl}
+          alt={title}
+          className="w-12 aspect-square object-cover rounded-lg"
+        />
       </td>
 
       <td>{title}</td>
 
       <td className="text-center">
-        <button onClick={handleDecreaseCount}>-</button>{form.count}{totalCount ? ` / ${totalCount}` : ""}<button onClick={handleIncreaseCount}>+</button>
+        <button onClick={handleDecreaseCount} className="px-2 py-1 bg-gray-200 rounded">
+          -
+        </button>
+
+        <span className="mx-2">
+          {form.count}
+          {totalCount != null ? ` / ${totalCount}` : ""}
+        </span>
+
+        <button onClick={handleIncreaseCount} className="px-2 py-1 bg-gray-200 rounded">
+          +
+        </button>
       </td>
 
-      <td className="text-center">{statusOptions.find(option => option.value === form.status)?.label}</td>
+      <td className="text-center">
+        <select
+          value={form.status}
+          onChange={handleStatusChange}
+          className="border rounded px-2 py-1"
+        >
+          {statusOptions.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </td>
     </Fragment>
   );
 };
