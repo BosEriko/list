@@ -1,5 +1,6 @@
 import Template from "@template";
 import Molecule from "@molecule";
+import { Metadata } from "next";
 import { getListingFromFirebase } from "./getListingFromFirebase";
 
 type PageProps = {
@@ -8,6 +9,28 @@ type PageProps = {
     id: string;
   };
 };
+
+export async function generateMetadata({ params }: PageProps) {
+  const { type, id } = await params;
+  const listing = await getListingFromFirebase(id, type);
+
+  return {
+    title: `${listing.title} | Bos Eriko List`,
+    description: `${listing.synopsis} | Bos Eriko List.`,
+    openGraph: {
+      title: `${listing.title} | Bos Eriko List`,
+      description: `${listing.synopsis} | Bos Eriko List.`,
+      images: [listing.images.jpg.image_url || ""],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${listing.title} | Bos Eriko List`,
+      description: `${listing.synopsis} | Bos Eriko List.`,
+      images: [listing.images.jpg.image_url || ""],
+    },
+  };
+}
 
 export default async function ListingPage({ params }: PageProps) {
   const { type, id } = await params;
