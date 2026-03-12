@@ -1,9 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import useAuthStore from "@store/useAuthStore";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
-import Atom from "@atom";
 
 interface IInlineEditorProps {
   itemId: string;
@@ -13,7 +12,6 @@ interface IInlineEditorProps {
   totalCount: number | null;
   imageUrl: string;
   status?: number;
-  key?: number | null
 }
 
 const statusOptions = [
@@ -33,7 +31,6 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   totalCount,
   imageUrl,
   status = 1,
-  key = null,
 }) => {
   const { user } = useAuthStore();
   const userId = user?.uid;
@@ -141,21 +138,19 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   };
 
   return (
-    <Atom.Visibility state={user !== null}>
-      <tr key={key}>
-        <td className="w-15">
-          <img src={imageUrl} alt={title} className="w-12 aspect-square object-cover rounded-lg" />
-        </td>
+    <Fragment>
+      <td className="w-15">
+        <img src={imageUrl} alt={title} className="w-12 aspect-square object-cover rounded-lg" />
+      </td>
 
-        <td>{title}</td>
+      <td>{title}</td>
 
-        <td className="text-center">
-          <button onClick={handleDecreaseCount}>-</button>{form.count}{totalCount ? ` / ${totalCount}` : ""}<button onClick={handleIncreaseCount}>+</button>
-        </td>
+      <td className="text-center">
+        <button onClick={handleDecreaseCount}>-</button>{form.count}{totalCount ? ` / ${totalCount}` : ""}<button onClick={handleIncreaseCount}>+</button>
+      </td>
 
-        <td className="text-center">{statusOptions.find(option => option.value === form.status)?.label}</td>
-      </tr>
-    </Atom.Visibility>
+      <td className="text-center">{statusOptions.find(option => option.value === form.status)?.label}</td>
+    </Fragment>
   );
 };
 
