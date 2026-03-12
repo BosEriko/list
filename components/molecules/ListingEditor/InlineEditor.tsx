@@ -1,5 +1,5 @@
 "use client";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useRef, useEffect } from "react";
 import useAuthStore from "@store/useAuthStore";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
@@ -36,6 +36,7 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   const userId = user?.uid;
 
   const [form, setForm] = useState({ status, count });
+  const saveTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const docId = `${userId}-${type}-${itemId}`;
   const listingRef = doc(db, "listings", docId);
@@ -71,8 +72,6 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
       ...newForm,
     };
 
-    console.log("Saving payload to Firestore:", payload);
-
     try {
       await setDoc(listingRef, payload);
     } catch (err) {
@@ -80,24 +79,40 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
     }
   };
 
-  const handleDecreaseCount = async () => {
+  const scheduleSave = (newForm: typeof form) => {
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+    saveTimeout.current = setTimeout(() => {
+      saveListing(newForm);
+    }, 3000);
+  };
+
+  const handleDecreaseCount = () => {
     const newForm = computeNext(form.count - 1);
     setForm(newForm);
-    await saveListing(newForm);
+    scheduleSave(newForm);
   };
 
-  const handleIncreaseCount = async () => {
+  const handleIncreaseCount = () => {
     const newForm = computeNext(form.count + 1);
     setForm(newForm);
-    await saveListing(newForm);
+    scheduleSave(newForm);
   };
 
-  const handleStatusChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedStatus = Number(e.target.value);
     const newForm = computeNext(form.count, selectedStatus);
     setForm(newForm);
-    await saveListing(newForm);
+    scheduleSave(newForm);
   };
+
+  useEffect(() => {
+    return () => {
+      if (saveTimeout.current) {
+        clearTimeout(saveTimeout.current);
+        saveListing(form);
+      }
+    };
+  }, [form]);
 
   return (
     <Fragment>
@@ -112,7 +127,10 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
       <td>{title}</td>
 
       <td className="text-center">
-        <button onClick={handleDecreaseCount} className="px-2 py-1 bg-gray-200 rounded">
+        <button
+          onClick={handleDecreaseCount}
+          className="px-2 py-1 bg-gray-200 rounded"
+        >
           -
         </button>
 
@@ -121,7 +139,10 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
           {totalCount != null ? ` / ${totalCount}` : ""}
         </span>
 
-        <button onClick={handleIncreaseCount} className="px-2 py-1 bg-gray-200 rounded">
+        <button
+          onClick={handleIncreaseCount}
+          className="px-2 py-1 bg-gray-200 rounded"
+        >
           +
         </button>
       </td>
