@@ -1,4 +1,5 @@
 import Template from "@template";
+import MediaSection from "./MediaSection";
 
 export const revalidate = 86400;
 
@@ -44,41 +45,11 @@ export default async function Search({ params }: PageProps) {
   ]);
 
   return (
-    <Template.Default orientation="center">
+    <Template.Default>
       <div className="p-6 space-y-10">
-        <h1 className="text-3xl font-bold">Search: {decodedQuery}</h1>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Anime</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {anime.map((item) => (
-              <a key={item.mal_id} href={`/list/${item.url.replace("https://myanimelist.net/", "")}`}>
-                <img
-                  src={item.images.jpg.image_url}
-                  alt={item.title}
-                  className="rounded"
-                />
-                <p className="text-sm mt-2">{item.title}</p>
-              </a>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Manga</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {manga.map((item) => (
-              <a key={item.mal_id} href={`/list/${item.url.replace("https://myanimelist.net/", "")}`}>
-                <img
-                  src={item.images.jpg.image_url}
-                  alt={item.title}
-                  className="rounded"
-                />
-                <p className="text-sm mt-2">{item.title}</p>
-              </a>
-            ))}
-          </div>
-        </section>
+        <h1 className="text-3xl font-semibold">Search results for <span className="text-blue-600 font-bold">"{decodedQuery}"</span></h1>
+        <MediaSection title="Anime" items={anime} />
+        <MediaSection title="Manga" items={manga} />
       </div>
     </Template.Default>
   );
