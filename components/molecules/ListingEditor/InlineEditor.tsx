@@ -83,7 +83,7 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
     if (saveTimeout.current) clearTimeout(saveTimeout.current);
     saveTimeout.current = setTimeout(() => {
       saveListing(newForm);
-    }, 3000);
+    }, 1000);
   };
 
   const handleManualCount = (e: React.ChangeEvent<HTMLInputElement>) => {
