@@ -1,4 +1,5 @@
 import Template from "@template";
+import Atom from "@atom";
 
 export async function generateMetadata() {
   return {
@@ -18,19 +19,17 @@ export async function generateMetadata() {
 }
 
 type Episode = {
-  entry: {
-    mal_id: number;
-    title: string;
-    url: string;
-    images: {
-      jpg: { image_url: string };
-    };
-  };
+  title: string;
+  mal_id: number;
   episode: string;
+  url: string;
+  images: {
+    jpg: { image_url: string };
+  };
 };
 
 export default async function Home() {
-  const res = await fetch("https://api.jikan.moe/v4/watch/episodes", {
+  const res = await fetch("https://api.jikan.moe/v4/schedules?filter=friday&page=1&limit=10&sfw=true", {
     next: { revalidate: 3600 },
   });
   const data = await res.json();
@@ -42,22 +41,12 @@ export default async function Home() {
         <h1 className="text-2xl font-bold mb-6">Latest Anime Episodes</h1>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {episodes.map((item, index) => (
-            <a
-              key={item.entry.mal_id}
-              href={`/list/${item.entry.url.replace("https://myanimelist.net/", "")}`}
-              className="block hover:opacity-80 cursor-pointer"
-            >
-              <div className="aspect-[2/3] overflow-hidden rounded-lg">
-                <img
-                  src={item.entry.images.jpg.image_url}
-                  alt={item.entry.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <p className="text-sm mt-2 line-clamp-2">{item.entry.title}</p>
-            </a>
+          {episodes.map((item, key) => (
+            <Atom.Card
+              type="Anime"
+              item={item}
+              key={key}
+            />
           ))}
         </div>
       </div>
