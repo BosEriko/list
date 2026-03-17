@@ -26,6 +26,7 @@
       "@template": ["./components/templates"],
       "@lib/*": ["./lib/*"],
       "@store/*": ["./store/*"],
+      "@model/*": ["./model/*"],
     },
   },
   "include": [
