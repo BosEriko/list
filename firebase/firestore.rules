@@ -2,7 +2,7 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // ========================================================================================== //
-    // ITEMS                                                                                      //
+    // LISTINGS                                                                                   //
     // ========================================================================================== //
     match /listings/{listingId} {
       function validListingId(id) {
