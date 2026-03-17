@@ -16,9 +16,9 @@ interface IPayload {
 
 const update = async (payload: IPayload) => {
   const docId = `${payload.userId}-${payload.type}-${payload.itemId}`;
-  const ref = doc(db, COLLECTION, docId);
+  const docRef = doc(db, COLLECTION, docId);
   try {
-    await setDoc(ref, {
+    await setDoc(docRef, {
       userId: payload.userId,
       itemId: payload.itemId,
       type: payload.type,
