@@ -1,6 +1,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // ========================================================================================== //
+    // ITEMS                                                                                      //
+    // ========================================================================================== //
     match /listings/{listingId} {
       function validListingId(id) {
         return id.matches('^' + request.auth.uid + '-[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$');
@@ -37,6 +40,13 @@ service cloud.firestore {
       allow delete: if request.auth != null
                     && resource.data.userId == request.auth.uid
                     && validListingId(listingId);
+    }
+
+    // ========================================================================================== //
+    // GLOBAL                                                                                     //
+    // ========================================================================================== //
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
