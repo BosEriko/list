@@ -2,7 +2,7 @@ import COLLECTION from "../collection";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
-const readAll = async () => {
+const all = async () => {
   const querySnap = await getDocs(collection(db, COLLECTION));
 
   const listings = querySnap.docs.map((doc) => ({
@@ -13,4 +13,4 @@ const readAll = async () => {
   return listings;
 };
 
-export default readAll;
+export default all;
