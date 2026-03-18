@@ -36,7 +36,7 @@ const create = async (id: string, payload: IPayload) => {
   try {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      throw new Error(`Document with ID ${docId} already exists!`);
+      throw new Error(`Document with ID ${id} already exists!`);
     }
     await setDoc(docRef, {
       count: payload.count,
