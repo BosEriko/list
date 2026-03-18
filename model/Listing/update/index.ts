@@ -35,16 +35,16 @@ const update = async (id: string, payload: IPayload) => {
   const docRef = doc(db, COLLECTION, id);
   try {
     await setDoc(docRef, {
-      userId: payload.userId,
-      itemId: payload.itemId,
-      type: payload.type,
-      title: payload.title,
+      count: payload.count,
       imageUrl: payload.imageUrl,
+      itemId: payload.itemId,
       listingUrl: typeof window !== "undefined" ? window.location.pathname : "",
       status: payload.status,
-      count: payload.count,
+      title: payload.title,
       totalCount: payload.totalCount,
+      type: payload.type,
       updatedAt: serverTimestamp(),
+      userId: payload.userId,
     }, { merge: true });
   } catch (err) {
     console.error(`Error updating ${COLLECTION}:`, err);
