@@ -1,9 +1,8 @@
 "use client";
-import Atom from "@atom";
 import { useState, Fragment, useRef, useEffect } from "react";
 import useAuthStore from "@store/useAuthStore";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "@lib/Firebase";
+import Listing from "@model/Listing";
+import Atom from "@atom";
 
 interface IInlineEditorProps {
   itemId: string;
@@ -42,9 +41,6 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   const [form, setForm] = useState({ status, count });
   const saveTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const docId = `${user?.uid}-${type}-${itemId}`;
-  const listingRef = doc(db, "listings", docId);
-
   const computeNext = (newCount: number, newStatus?: number) => {
     let finalCount = newCount;
     let finalStatus = newStatus ?? form.status;
@@ -66,19 +62,17 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
     if (user?.uid !== userId) return;
 
     const payload = {
-      userId: user?.uid,
-      itemId,
-      type,
-      title,
       imageUrl,
-      listingUrl,
+      itemId,
+      title,
       totalCount,
-      updatedAt: serverTimestamp(),
+      type,
+      userId: user?.uid,
       ...newForm,
     };
 
     try {
-      await setDoc(listingRef, payload);
+      await Listing.update(`${user?.uid}-${type}-${itemId}`, payload);
     } catch (err) {
       console.error("Error updating listing:", err);
     }
