@@ -15,7 +15,6 @@
 //
 //   try {
 //     await deleteDoc(docRef);
-//     console.log(`Document ${docId} deleted successfully!`);
 //   } catch (err) {
 //     console.error(`Error deleting ${COLLECTION}:`, err);
 //   }

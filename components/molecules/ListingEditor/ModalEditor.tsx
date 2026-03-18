@@ -57,7 +57,6 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
 
     const fetchListing = async () => {
       const listing = await Listing.find(docId);
-      console.log(listing);
       if (listing) {
         setForm({
           status: listing.status ?? 1,
