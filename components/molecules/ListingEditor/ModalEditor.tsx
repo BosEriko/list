@@ -4,13 +4,15 @@ import useAuthStore from "@store/useAuthStore";
 import Listing from "@model/Listing";
 import Atom from "@atom";
 
+type ListingType = "anime" | "manga" | "game" | "movie";
+
 interface IModalEditorProps {
-  itemId: string;
-  type: string;
-  title: string;
   count: number;
-  totalCount: number | null;
   imageUrl: string;
+  itemId: string;
+  title: string;
+  totalCount: number | null;
+  type: ListingType;
 }
 
 const statusOptions = [
