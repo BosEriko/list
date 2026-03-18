@@ -104,6 +104,7 @@ export default async function UserPage({ params }: PageProps) {
                   <th className="text-left">Title</th>
                   <th className="text-left w-px">Progress</th>
                   <th className="text-left w-px">Status</th>
+                  <th className="w-px"></th>
                 </tr>
               </thead>
               <tbody>

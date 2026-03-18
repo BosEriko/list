@@ -1,6 +1,8 @@
 "use client";
 import { useState, Fragment, useRef, useEffect } from "react";
 import useAuthStore from "@store/useAuthStore";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Listing from "@model/Listing";
 import Atom from "@atom";
 
@@ -37,9 +39,9 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
   status,
 }) => {
   const { user } = useAuthStore();
-
   const [form, setForm] = useState({ status, count });
   const saveTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const computeNext = (newCount: number, newStatus?: number) => {
     let finalCount = newCount;
@@ -132,6 +134,19 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
     };
   }, []);
 
+
+  const deleteListing = async () => {
+    if (user?.uid !== userId) return;
+    try {
+      await Listing.destroy(`${user?.uid}-${type}-${itemId}`);
+      setIsDeleted(true);
+    } catch (err) {
+      console.error("Error deleting listing:", err);
+    }
+  }
+
+  if (isDeleted) return null;
+
   return (
     <Fragment>
       <tr>
@@ -199,6 +214,13 @@ const InlineEditor: React.FC<IInlineEditorProps> = ({
                 </option>
               ))}
             </select>
+          </Atom.Visibility>
+        </td>
+        <td>
+          <Atom.Visibility state={user?.uid === userId}>
+            <button onClick={deleteListing} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition ml-3 cursor-pointer">
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
           </Atom.Visibility>
         </td>
       </tr>
