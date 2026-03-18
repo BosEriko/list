@@ -11,7 +11,7 @@ service cloud.firestore {
       return isAuthenticated() && userId == request.auth.uid;
     }
     function validCreatedAt() {
-      return resource.data == null ? request.resource.data.createdAt == request.time : request.resource.data.createdAt == resource.data.createdAt;
+      return resource.data == null ? request.resource.data.createdAt is timestamp : request.resource.data.createdAt == resource.data.createdAt;
     }
     // ========================================================================================== //
     // Listings Collection                                                                        //
