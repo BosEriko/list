@@ -8,15 +8,17 @@ type PageProps = {
   }>;
 };
 
+type ListingType = "anime" | "manga" | "game" | "movie";
+
 interface Listing {
-  itemId: string;
-  type: string;
-  title: string;
   count: number;
-  totalCount: number | null;
   imageUrl: string;
+  itemId: string;
   listingUrl: string;
   status: number;
+  title: string;
+  totalCount: number | null;
+  type: ListingType;
   userId: string;
 }
 
