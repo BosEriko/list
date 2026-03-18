@@ -1,4 +1,4 @@
-import where from "./where";
+import where from "../where";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
