@@ -25,7 +25,7 @@ interface IListing {
   updatedAt: any;
 }
 
-const read = async (payload: IPayload): Promise<IListing | null> => {
+const find = async (payload: IPayload): Promise<IListing | null> => {
   const docId = `${payload.userId}-${payload.type}-${payload.itemId}`;
   const docRef = doc(db, COLLECTION, docId);
   try {
@@ -37,4 +37,4 @@ const read = async (payload: IPayload): Promise<IListing | null> => {
   }
 }
 
-export default read;
+export default find;

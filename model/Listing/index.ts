@@ -1,15 +1,15 @@
 import create from "./create";
-import read from "./read";
+import find from "./find";
 import update from "./update";
-import delete from "./delete";
+import destroy from "./destroy";
 
 // TODO: Follow rails pattern
 // - create
 // - find
-// - find_by
-// - where
-// - all
+// - find_by <- not existing
+// - where <- not existing
+// - all <- not existing
 // - update
 // - destroy (instead of selecting the model first, just pass id on destroy)
 
-export default { create, read, update, delete };
+export default { create, find, update, destroy };

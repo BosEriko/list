@@ -9,7 +9,7 @@ interface IPayload {
   type: string;
 }
 
-const delete = async (payload: IPayload) => {
+const destroy = async (payload: IPayload) => {
   const docId = `${payload.userId}-${payload.type}-${payload.itemId}`;
   const docRef = doc(db, COLLECTION, docId);
 
@@ -21,4 +21,4 @@ const delete = async (payload: IPayload) => {
   }
 }
 
-export default delete;
+export default destroy;
