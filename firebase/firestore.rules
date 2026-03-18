@@ -10,6 +10,9 @@ service cloud.firestore {
     function isOwner(userId) {
       return isAuthenticated() && userId == request.auth.uid;
     }
+    function isValidType(type) {
+      return type in ["anime", "manga", "game", "movie"];
+    }
     // ========================================================================================== //
     // Listings Collection                                                                        //
     // ========================================================================================== //
@@ -35,13 +38,15 @@ service cloud.firestore {
                     && request.resource.data.updatedAt is timestamp
                     && validListingId(listingId)
                     && validCount()
-                    && validStatus();
+                    && validStatus()
+                    && isValidType(request.resource.data.type);
       allow update: if isOwner(resource.data.userId)
                     && request.resource.data.createdAt == resource.data.createdAt
                     && request.resource.data.updatedAt is timestamp
                     && validListingId(listingId)
                     && validCount()
-                    && validStatus();
+                    && validStatus()
+                    && isValidType(request.resource.data.type);
       allow delete: if isOwner(resource.data.userId);
     }
     // ========================================================================================== //
