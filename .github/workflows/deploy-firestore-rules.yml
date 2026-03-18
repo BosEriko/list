@@ -1,6 +1,7 @@
 name: Deploy Firestore Rules
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - "firebase/firestore.rules"
