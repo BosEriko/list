@@ -18,12 +18,17 @@ interface IPayload {
 
 const update = async (id: string, payload: IPayload) => {
   if (!id || typeof id !== "string") {
-    console.warn(`Invalid ID: ${id}`);
+    console.error(`Invalid ID: ${id}`);
     return null;
   }
 
   if (!ID_PATTERN.test(id)) {
-    console.warn(`Malformed ID: ${id}`);
+    console.error(`Malformed ID: ${id}`);
+    return null;
+  }
+
+  if (payload.totalCount && payload.count >= payload.totalCount && payload.status !== 3) {
+    console.error("Status must be set to 3 when count is greater than or equal to totalCount.");
     return null;
   }
 
