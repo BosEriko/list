@@ -10,8 +10,8 @@ service cloud.firestore {
     function isOwner(userId) {
       return isAuthenticated() && userId == request.auth.uid;
     }
-    function validCreatedAt() {
-      return !("createdAt" in request.resource.data) || (("createdAt" in resource.data && request.resource.data.createdAt == resource.data.createdAt) || (!("createdAt" in resource.data) && request.resource.data.createdAt == request.time));
+    function validCreatedAt(createdAt) {
+      return ("createdAt" in resource.data) ? createdAt == resource.data.createdAt : createdAt == request.time;
     }
     // ========================================================================================== //
     // Listings Collection                                                                        //
@@ -36,17 +36,16 @@ service cloud.firestore {
       allow create: if isOwner(request.resource.data.userId)
                     && validListingId(listingId)
                     && request.resource.data.updatedAt is timestamp
-                    && validCreatedAt()
+                    && validCreatedAt(request.resource.data.createdAt)
                     && validCount()
                     && validStatus();
       allow update: if isOwner(resource.data.userId)
                     && validListingId(listingId)
-                    && validCreatedAt()
+                    && validCreatedAt(request.resource.data.createdAt)
                     && request.resource.data.updatedAt is timestamp
                     && validCount()
                     && validStatus();
-      allow delete: if isOwner(resource.data.userId)
-                    && validListingId(listingId);
+      allow delete: if isOwner(resource.data.userId);
     }
     // ========================================================================================== //
     // Global Collection                                                                          //
