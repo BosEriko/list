@@ -1,4 +1,4 @@
-import COLLECTION from "../collection.ts";
+import COLLECTION from "../collection";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
