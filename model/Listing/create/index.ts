@@ -1,46 +1,59 @@
-// import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-// import { db } from "@lib/Firebase";
-//
-// const COLLECTION = "listings";
-//
-// interface IPayload {
-//   userId: string;
-//   itemId: string;
-//   type: string;
-//   title: string;
-//   count: number;
-//   status: number;
-//   totalCount: number | null;
-//   imageUrl: string;
-// }
-//
-// const create = async (payload: IPayload) => {
-//   const docId = `${payload.userId}-${payload.type}-${payload.itemId}`;
-//   const docRef = doc(db, COLLECTION, docId);
-//
-//   try {
-//     const docSnap = await getDoc(docRef);
-//
-//     if (docSnap.exists()) {
-//       throw new Error(`Document with ID ${docId} already exists!`);
-//     }
-//
-//     await setDoc(docRef, {
-//       userId: payload.userId,
-//       itemId: payload.itemId,
-//       type: payload.type,
-//       title: payload.title,
-//       imageUrl: payload.imageUrl,
-//       listingUrl: typeof window !== "undefined" ? window.location.pathname : "",
-//       status: payload.status,
-//       count: payload.count,
-//       totalCount: payload.totalCount,
-//       createdAt: serverTimestamp(),
-//       updatedAt: serverTimestamp(),
-//     });
-//   } catch (err) {
-//     console.error(`Error creating ${COLLECTION}:`, err);
-//   }
-// }
-//
-// export default create;
+import COLLECTION from "../collection";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "@lib/Firebase";
+
+type ListingType = "anime" | "manga" | "game" | "movie";
+const ID_PATTERN = /^[0-9]+-(anime|manga|game|movie)-[0-9]+$/;
+
+interface IPayload {
+  count: number;
+  imageUrl: string;
+  itemId: string;
+  status: number;
+  title: string;
+  totalCount: number | null;
+  type: string;
+  userId: string;
+}
+
+const create = async (id: string, payload: IPayload) => {
+  if (!id || typeof id !== "string") {
+    console.error(`Invalid ID: ${id}`);
+    return null;
+  }
+
+  if (!ID_PATTERN.test(id)) {
+    console.error(`Malformed ID: ${id}`);
+    return null;
+  }
+
+  if (payload.totalCount && payload.count >= payload.totalCount && payload.status !== 3) {
+    console.error("Status must be set to 3 when count is greater than or equal to totalCount.");
+    return null;
+  }
+
+  const docRef = doc(db, COLLECTION, id);
+  try {
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      throw new Error(`Document with ID ${docId} already exists!`);
+    }
+    await setDoc(docRef, {
+      count: payload.count,
+      createdAt: serverTimestamp(),
+      imageUrl: payload.imageUrl,
+      itemId: payload.itemId,
+      listingUrl: typeof window !== "undefined" ? window.location.pathname : "",
+      status: payload.status,
+      title: payload.title,
+      totalCount: payload.totalCount,
+      type: payload.type,
+      updatedAt: serverTimestamp(),
+      userId: payload.userId,
+    });
+  } catch (err) {
+    console.error(`Error creating ${COLLECTION}:`, err);
+  }
+}
+
+export default create;
