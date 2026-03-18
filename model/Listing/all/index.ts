@@ -3,9 +3,9 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
 const readAll = async () => {
-  const querySnapshot = await getDocs(collection(db, COLLECTION));
+  const querySnap = await getDocs(collection(db, COLLECTION));
 
-  const listings = querySnapshot.docs.map((doc) => ({
+  const listings = querySnap.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
