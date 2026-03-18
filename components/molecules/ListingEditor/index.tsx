@@ -2,18 +2,20 @@
 import InlineEditor from "./InlineEditor";
 import ModalEditor from "./ModalEditor";
 
+type ListingType = "anime" | "manga" | "game" | "movie";
+
 interface IListingEditorProps {
-  itemId: string;
-  type: string;
-  title: string;
   count: number;
-  totalCount: number | null;
   imageUrl: string;
-  userId?: string;
+  isModal?: boolean;
+  itemId: string;
+  key?: number | null
   listingUrl?: string;
   status?: number;
-  isModal?: boolean;
-  key?: number | null
+  title: string;
+  totalCount: number | null;
+  type: ListingType;
+  userId?: string;
 }
 
 const ListingEditor: React.FC<IListingEditorProps> = ({
