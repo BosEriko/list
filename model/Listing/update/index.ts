@@ -38,7 +38,6 @@ const update = async (id: string, payload: IPayload) => {
       count: payload.count,
       imageUrl: payload.imageUrl,
       itemId: payload.itemId,
-      listingUrl: typeof window !== "undefined" ? window.location.pathname : "",
       status: payload.status,
       title: payload.title,
       totalCount: payload.totalCount,
