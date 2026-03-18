@@ -2,7 +2,8 @@ import COLLECTION from "../collection";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
-export type ListingType = "anime" | "manga" | "game" | "movie";
+type ListingType = "anime" | "manga" | "game" | "movie";
+const ID_PATTERN = /^[0-9]+-(anime|manga|game|movie)-[0-9]+$/;
 
 interface IListing {
   count: number;
@@ -17,8 +18,6 @@ interface IListing {
   updatedAt: any;
   userId: string;
 }
-
-const ID_PATTERN = /^[0-9]+-(anime|manga|game|movie)-[0-9]+$/;
 
 const find = async (id: string): Promise<IListing | null> => {
   if (!id || typeof id !== "string") {

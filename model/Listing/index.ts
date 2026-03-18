@@ -3,7 +3,7 @@ import all from "./all";
 // import destroy from "./destroy";
 import find from "./find";
 // import find_by from "./find_by";
-// import update from "./update";
+import update from "./update";
 // import where from "./where";
 
 export default {
@@ -12,6 +12,6 @@ export default {
   // destroy,
   find,
   // find_by,
-  // update,
+  update,
   // where
 };
