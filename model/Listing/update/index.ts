@@ -12,7 +12,7 @@ interface IPayload {
   status: number;
   title: string;
   totalCount: number | null;
-  type: string;
+  type: ListingType;
   userId: string;
 }
 
