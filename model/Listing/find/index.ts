@@ -4,17 +4,17 @@ import { db } from "@lib/Firebase";
 const COLLECTION = "listings";
 
 interface IListing {
-  userId: string;
-  itemId: string;
-  type: string;
-  title: string;
   count: number;
-  status: number;
-  totalCount: number | null;
-  imageUrl: string;
-  listingUrl: string;
   createdAt: any;
+  imageUrl: string;
+  itemId: string;
+  listingUrl: string;
+  status: number;
+  title: string;
+  totalCount: number | null;
+  type: string;
   updatedAt: any;
+  userId: string;
 }
 
 const find = async (id: String): Promise<IListing | null> => {
