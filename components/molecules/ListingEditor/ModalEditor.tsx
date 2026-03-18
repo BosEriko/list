@@ -36,6 +36,7 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
 
   const handleChange = (key: string, value: any) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -49,6 +50,7 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
         status: listing?.status ?? 1,
         count: listing?.count ?? count,
       });
+      setIsUpdate(!!listing);
     };
     fetchListing();
   }, [isOpen, userId]);
@@ -83,7 +85,11 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
       ...form,
     };
     try {
-      await Listing.create(`${userId}-${type}-${itemId}`, payload);
+      if (isUpdate) {
+        await Listing.update(`${userId}-${type}-${itemId}`, payload);
+      } else {
+        await Listing.create(`${userId}-${type}-${itemId}`, payload);
+      }
       setSuccess(true);
       setTimeout(() => setIsOpen(false), 1000);
     } catch (err) {
