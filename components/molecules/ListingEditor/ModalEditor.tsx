@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import useAuthStore from "@store/useAuthStore";
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
+import Listing from "@model/Listing";
 import Atom from "@atom";
 
 interface IModalEditorProps {
@@ -55,14 +56,14 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
     if (!isOpen || !userId) return;
 
     const fetchListing = async () => {
-      const docSnap = await getDoc(listingRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
+      const listing = await Listing.find(docId);
+      console.log(listing);
+      if (listing) {
         setForm({
-          status: data.status ?? 1,
-          count: data.count ?? count,
+          status: listing.status ?? 1,
+          count: listing.count ?? count,
         });
-        setExistingCreatedAt(data.createdAt ?? null);
+        setExistingCreatedAt(listing.createdAt ?? null);
       } else {
         setForm({
           status: 1,
