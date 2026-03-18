@@ -1,8 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import useAuthStore from "@store/useAuthStore";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "@lib/Firebase";
 import Listing from "@model/Listing";
 import Atom from "@atom";
 
@@ -34,19 +32,10 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
 }) => {
   const { user } = useAuthStore();
   const userId = user?.uid;
-
-  const [form, setForm] = useState({
-    status: 1,
-    count,
-  });
-
+  const [form, setForm] = useState({ status: 1, count });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [existingCreatedAt, setExistingCreatedAt] = useState<any>(null);
-
-  const docId = `${userId}-${type}-${itemId}`;
-  const listingRef = doc(db, "listings", docId);
 
   const handleChange = (key: string, value: any) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -54,24 +43,13 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
 
   useEffect(() => {
     if (!isOpen || !userId) return;
-
     const fetchListing = async () => {
-      const listing = await Listing.find(docId);
-      if (listing) {
-        setForm({
-          status: listing.status ?? 1,
-          count: listing.count ?? count,
-        });
-        setExistingCreatedAt(listing.createdAt ?? null);
-      } else {
-        setForm({
-          status: 1,
-          count,
-        });
-        setExistingCreatedAt(null);
-      }
+      const listing = await Listing.find(`${userId}-${type}-${itemId}`);
+      setForm({
+        status: listing?.status ?? 1,
+        count: listing?.count ?? count,
+      });
     };
-
     fetchListing();
   }, [isOpen, userId]);
 
@@ -95,20 +73,17 @@ const ModalEditor: React.FC<IModalEditorProps> = ({
   const handleSave = async () => {
     if (!userId) return;
     setLoading(true);
+    const payload = {
+      imageUrl,
+      itemId,
+      title,
+      totalCount,
+      type,
+      userId,
+      ...form,
+    };
     try {
-      const listingUrl = typeof window !== "undefined" ? window.location.pathname : "";
-      await setDoc(listingRef, {
-        userId,
-        itemId,
-        type,
-        title,
-        imageUrl,
-        listingUrl,
-        totalCount,
-        createdAt: existingCreatedAt ?? serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        ...form,
-      });
+      await Listing.create(`${userId}-${type}-${itemId}`, payload);
       setSuccess(true);
       setTimeout(() => setIsOpen(false), 1000);
     } catch (err) {
