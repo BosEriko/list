@@ -10,9 +10,6 @@ service cloud.firestore {
     function isOwner(userId) {
       return isAuthenticated() && userId == request.auth.uid;
     }
-    function validCreatedAt() {
-      return resource.data == null ? request.resource.data.createdAt is timestamp : request.resource.data.createdAt == resource.data.createdAt;
-    }
     // ========================================================================================== //
     // Listings Collection                                                                        //
     // ========================================================================================== //
@@ -34,15 +31,15 @@ service cloud.firestore {
       }
       allow read:   if true;
       allow create: if isOwner(request.resource.data.userId)
-                    && validListingId(listingId)
+                    && request.resource.data.createdAt is timestamp
                     && request.resource.data.updatedAt is timestamp
-                    && validCreatedAt()
+                    && validListingId(listingId)
                     && validCount()
                     && validStatus();
       allow update: if isOwner(resource.data.userId)
-                    && validListingId(listingId)
-                    && validCreatedAt()
+                    && request.resource.data.createdAt == resource.data.createdAt
                     && request.resource.data.updatedAt is timestamp
+                    && validListingId(listingId)
                     && validCount()
                     && validStatus();
       allow delete: if isOwner(resource.data.userId);
