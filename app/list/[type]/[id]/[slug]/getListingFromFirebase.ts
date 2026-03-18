@@ -1,7 +1,7 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 import { getListingFromAPI } from "./getListingFromAPI";
 
-type ListingType = "anime" | "manga";
+type ListingType = "anime" | "manga" | "game" | "movie";
 
 type Listing = {
   itemId: string;
