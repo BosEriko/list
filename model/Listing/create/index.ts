@@ -39,17 +39,10 @@ const create = async (id: string, payload: IPayload) => {
       throw new Error(`Document with ID ${id} already exists!`);
     }
     await setDoc(docRef, {
-      count: payload.count,
+      ...payload,
       createdAt: serverTimestamp(),
-      imageUrl: payload.imageUrl,
-      itemId: payload.itemId,
       listingUrl: typeof window !== "undefined" ? window.location.pathname : "",
-      status: payload.status,
-      title: payload.title,
-      totalCount: payload.totalCount,
-      type: payload.type,
       updatedAt: serverTimestamp(),
-      userId: payload.userId,
     });
   } catch (err) {
     console.error(`Error creating ${COLLECTION}:`, err);
