@@ -13,8 +13,6 @@ interface IPayload {
   status: string;
   synopsis: string;
   score: number;
-  createdAt: any;
-  updatedAt: any;
 }
 
 const create = async (id: string, payload: IPayload) => {

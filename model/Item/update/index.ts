@@ -13,7 +13,6 @@ interface IPayload {
   status: string;
   synopsis: string;
   score: number;
-  updatedAt: any;
 }
 
 const update = async (id: string, payload: IPayload) => {
