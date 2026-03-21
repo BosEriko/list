@@ -12,7 +12,6 @@ type IItem = {
   status: string;
   synopsis: string;
   score: number;
-  createdAt: any;
   updatedAt: any;
 };
 
