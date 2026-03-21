@@ -23,7 +23,7 @@ type IItem = {
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getItemFromFirebase(id: string, type: ItemType): Promise<Listing> {
+export async function getItemFromFirebase(id: string, type: ItemType): Promise<IItem> {
   if (!["anime", "manga", "game", "movie"].includes(type)) {
     throw new Error("Invalid type");
   }
