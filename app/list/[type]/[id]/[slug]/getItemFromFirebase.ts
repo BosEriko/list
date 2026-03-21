@@ -1,4 +1,4 @@
-import { getListingFromAPI } from "./getListingFromAPI";
+import { getItemFromAPI } from "./getItemFromAPI";
 import Item from "@model/Item";
 
 type ItemType = "anime" | "manga" | "game" | "movie";
@@ -23,13 +23,13 @@ type IItem = {
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getListingFromFirebase(id: string, type: ItemType): Promise<Listing> {
+export async function getItemFromFirebase(id: string, type: ItemType): Promise<Listing> {
   if (!["anime", "manga", "game", "movie"].includes(type)) {
     throw new Error("Invalid type");
   }
 
   const itemId = `${type}-${id}`
-  const jikan = await getListingFromAPI(type, id);
+  const jikan = await getItemFromAPI(type, id);
   const item = await Item.find(itemId);
 
   if (!!item) {

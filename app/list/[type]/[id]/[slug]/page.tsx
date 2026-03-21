@@ -1,6 +1,6 @@
 import Template from "@template";
 import Molecule from "@molecule";
-import { getListingFromFirebase } from "./getListingFromFirebase";
+import { getItemFromFirebase } from "./getItemFromFirebase";
 
 type PageProps = {
   params: {
@@ -11,7 +11,7 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps) {
   const { type, id } = await params;
-  const listing = await getListingFromFirebase(id, type);
+  const listing = await getItemFromFirebase(id, type);
 
   return {
     title: `${listing.title} | Bos Eriko List`,
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ListingPage({ params }: PageProps) {
   const { type, id } = await params;
-  const listing = await getListingFromFirebase(id, type);
+  const listing = await getItemFromFirebase(id, type);
 
   const sidebarContent = [
     {

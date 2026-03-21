@@ -1,6 +1,6 @@
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getListingFromAPI(type: string, id: string) {
+export async function getItemFromAPI(type: string, id: string) {
   if (!["anime", "manga", "game", "movie"].includes(type)) {
     throw new Error("Invalid type");
   }
