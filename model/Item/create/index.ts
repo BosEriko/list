@@ -15,7 +15,7 @@ interface IPayload {
   userId: string;
 }
 
-const update = async (id: string, payload: IPayload) => {
+const create = async (id: string, payload: IPayload) => {
   if (!id || typeof id !== "string") {
     console.error(`Invalid ID: ${id}`);
     return null;
@@ -28,14 +28,19 @@ const update = async (id: string, payload: IPayload) => {
 
   const database = FirebaseAdmin.firestore();
   const reference = database.collection(COLLECTION).doc(id);
+  const snapshot = await reference.get();
   try {
+    if (snapshot.exists) {
+      throw new Error(`Document with ID ${id} already exists`);
+    }
     await reference.set({
       ...payload,
+      createdAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
       updatedAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
-    }, { merge: true });
+    });
   } catch (err) {
     console.error(`Error updating ${COLLECTION}:`, err);
   }
 };
 
-export default update;
+export default create;
