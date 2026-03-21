@@ -4,25 +4,28 @@ import FirebaseAdmin from "@lib/FirebaseAdmin";
 type ItemType = "anime" | "manga" | "game" | "movie";
 const ID_PATTERN = /^(anime|manga|game|movie)-[0-9]+$/;
 
-interface IPayload {
+interface IItem {
   count: number;
+  createdAt: any;
   imageUrl: string;
   itemId: string;
+  listingUrl: string;
   status: number;
   title: string;
   totalCount: number | null;
   type: ItemType;
+  updatedAt: any;
   userId: string;
 }
 
-const create = async (id: string, payload: IPayload) => {
+const find = async (id: string): Promise<IItem | null> => {
   if (!id || typeof id !== "string") {
-    console.error(`Invalid ID: ${id}`);
+    console.warn(`Invalid ID: ${id}`);
     return null;
   }
 
   if (!ID_PATTERN.test(id)) {
-    console.error(`Malformed ID: ${id}`);
+    console.warn(`Malformed ID: ${id}`);
     return null;
   }
 
@@ -30,17 +33,11 @@ const create = async (id: string, payload: IPayload) => {
   const reference = database.collection(COLLECTION).doc(id);
   try {
     const snapshot = await reference.get();
-    if (snapshot.exists) {
-      throw new Error(`Document with ID ${id} already exists`);
-    }
-    await reference.set({
-      ...payload,
-      createdAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
-      updatedAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
-    });
+    return snapshot.exists ? (snapshot.data() as IItem) : null;
   } catch (err) {
-    console.error(`Error updating ${COLLECTION}:`, err);
+    console.error(`Error reading ${COLLECTION}:`, err);
+    return null;
   }
-};
+}
 
-export default create;
+export default find;
