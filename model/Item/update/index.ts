@@ -1,0 +1,42 @@
+import COLLECTION from "../collection";
+import FirebaseAdmin from "@lib/FirebaseAdmin";
+
+type ItemType = "anime" | "manga" | "game" | "movie";
+const ID_PATTERN = /^(anime|manga|game|movie)-[0-9]+$/;
+
+interface IPayload {
+  count: number;
+  imageUrl: string;
+  itemId: string;
+  status: number;
+  title: string;
+  totalCount: number | null;
+  type: ListingType;
+  userId: string;
+}
+
+const update = async (id: string, payload: IPayload) => {
+  if (!id || typeof id !== "string") {
+    console.error(`Invalid ID: ${id}`);
+    return null;
+  }
+
+  if (!ID_PATTERN.test(id)) {
+    console.error(`Malformed ID: ${id}`);
+    return null;
+  }
+
+  const database = FirebaseAdmin.firestore();
+  const reference = database.collection(COLLECTION).doc(id);
+  const snapshot = await reference.get();
+  try {
+    await ref.set({
+      ...payload,
+      updatedAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    }, { merge: true });
+  } catch (err) {
+    console.error(`Error updating ${COLLECTION}:`, err);
+  }
+};
+
+export default update;
