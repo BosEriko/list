@@ -18,8 +18,8 @@ interface IItem {
   status: string;
   synopsis: string;
   score: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: any;
+  updatedAt: any;
 }
 
 const find = async (id: string): Promise<IItem | null> => {
