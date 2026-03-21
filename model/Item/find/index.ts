@@ -4,6 +4,7 @@ import FirebaseAdmin from "@lib/FirebaseAdmin";
 type ItemType = "anime" | "manga" | "game" | "movie";
 const ID_PATTERN = /^(anime|manga|game|movie)-[0-9]+$/;
 
+// TODO: Check if types are correct
 interface IItem {
   count: number;
   createdAt: any;
