@@ -23,7 +23,7 @@ const syncFirebaseUser = async (user: any) => {
     }
   }
 
-  const user = await User.find(user?.id);
+  const firestoreUser = await User.find(user?.id);
   const data = {
     uid: user?.id,
     email: user?.email,
@@ -31,7 +31,7 @@ const syncFirebaseUser = async (user: any) => {
     avatarUrl,
   }
 
-  if (!!user) {
+  if (!!firestoreUser) {
     await User.update(user?.id, data);
   } else {
     await User.create(user?.id, data);
