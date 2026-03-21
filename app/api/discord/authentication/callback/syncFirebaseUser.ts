@@ -1,4 +1,5 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
+import User from "@model/User";
 
 const syncFirebaseUser = async (user: any) => {
   const avatarUrl = `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`;
@@ -22,22 +23,19 @@ const syncFirebaseUser = async (user: any) => {
     }
   }
 
-  const db = FirebaseAdmin.firestore();
-  const userRef = db.collection("users").doc(user?.id);
+  const user = await User.find(user?.id);
+  const data = {
+    uid: user?.id,
+    email: user?.email,
+    username: user?.username,
+    avatarUrl,
+  }
 
-  const doc = await userRef.get();
-
-  await userRef.set(
-    {
-      uid: user?.id,
-      email: user?.email,
-      username: user?.username,
-      avatarUrl,
-      updatedAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
-      ...(doc.exists ? {} : { createdAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp() }),
-    },
-    { merge: true }
-  );
+  if (!!user) {
+    await User.update(user?.id, data);
+  } else {
+    await User.create(user?.id, data);
+  }
 };
 
 export default syncFirebaseUser;
