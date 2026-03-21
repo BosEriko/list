@@ -12,6 +12,8 @@ type IItem = {
   status: string;
   synopsis: string;
   score: number;
+  createdAt: any;
+  updatedAt: any;
 };
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
