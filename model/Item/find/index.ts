@@ -4,7 +4,7 @@ import FirebaseAdmin from "@lib/FirebaseAdmin";
 type ItemType = "anime" | "manga" | "game" | "movie";
 const ID_PATTERN = /^(anime|manga|game|movie)-[0-9]+$/;
 
-interface IItem {
+interface Item {
   itemId: string;
   type: ItemType;
   images: any;
@@ -17,7 +17,7 @@ interface IItem {
   updatedAt: any;
 }
 
-const find = async (id: string): Promise<IItem | null> => {
+const find = async (id: string): Promise<Item | null> => {
   if (!id || typeof id !== "string") {
     console.warn(`Invalid ID: ${id}`);
     return null;
@@ -32,7 +32,7 @@ const find = async (id: string): Promise<IItem | null> => {
   const reference = database.collection(COLLECTION).doc(id);
   try {
     const snapshot = await reference.get();
-    return snapshot.exists ? (snapshot.data() as IItem) : null;
+    return snapshot.exists ? (snapshot.data() as Item) : null;
   } catch (err) {
     console.error(`Error reading ${COLLECTION}:`, err);
     return null;

@@ -4,7 +4,7 @@ import { db } from "@lib/Firebase";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
-interface IListing {
+interface Listing {
   count: number;
   createdAt: any;
   imageUrl: string;
@@ -18,7 +18,7 @@ interface IListing {
   userId: string;
 }
 
-const where = async (filters: Partial<IListing>): Promise<IListing[]> => {
+const where = async (filters: Partial<Listing>): Promise<Listing[]> => {
   const colRef = collection(db, COLLECTION);
 
   const constraints = Object.entries(filters).map(([field, value]) =>
@@ -29,7 +29,7 @@ const where = async (filters: Partial<IListing>): Promise<IListing[]> => {
 
   try {
     const querySnap = await getDocs(q);
-    return querySnap.docs.map(doc => doc.data() as IListing);
+    return querySnap.docs.map(doc => doc.data() as Listing);
   } catch (err) {
     console.error(`Error querying ${COLLECTION}:`, err);
     return [];

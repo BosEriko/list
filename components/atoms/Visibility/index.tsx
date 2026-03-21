@@ -1,11 +1,11 @@
 import { ReactNode, Fragment } from "react";
 
-interface IVisibilityProps {
+interface VisibilityProps {
   state: boolean;
   children: ReactNode;
 }
 
-const Visibility: React.FunctionComponent<IVisibilityProps> = ({
+const Visibility: React.FunctionComponent<VisibilityProps> = ({
   state,
   children,
 }) => {

@@ -2,7 +2,7 @@ import where from "../where";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
-interface IListing {
+interface Listing {
   count: number;
   createdAt: any;
   imageUrl: string;
@@ -16,7 +16,7 @@ interface IListing {
   userId: string;
 }
 
-const find_by = async (filters: Partial<IListing>): Promise<IListing | null> => {
+const find_by = async (filters: Partial<Listing>): Promise<Listing | null> => {
   const results = await where(filters);
   return results.length > 0 ? results[0] : null;
 };

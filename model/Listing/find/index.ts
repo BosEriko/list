@@ -5,7 +5,7 @@ import { db } from "@lib/Firebase";
 type ListingType = "anime" | "manga" | "game" | "movie";
 const ID_PATTERN = /^[0-9]+-(anime|manga|game|movie)-[0-9]+$/;
 
-interface IListing {
+interface Listing {
   count: number;
   createdAt: any;
   imageUrl: string;
@@ -19,7 +19,7 @@ interface IListing {
   userId: string;
 }
 
-const find = async (id: string): Promise<IListing | null> => {
+const find = async (id: string): Promise<Listing | null> => {
   if (!id || typeof id !== "string") {
     console.warn(`Invalid ID: ${id}`);
     return null;
@@ -33,7 +33,7 @@ const find = async (id: string): Promise<IListing | null> => {
   const docRef = doc(db, COLLECTION, id);
   try {
     const docSnap = await getDoc(docRef);
-    return docSnap.exists() ? (docSnap.data() as IListing) : null;
+    return docSnap.exists() ? (docSnap.data() as Listing) : null;
   } catch (err) {
     console.error(`Error reading ${COLLECTION}:`, err);
     return null;

@@ -8,7 +8,7 @@ import Atom from "@atom";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
-interface IInlineEditorProps {
+interface InlineEditorProps {
   count: number;
   imageUrl: string;
   itemId: string;
@@ -29,7 +29,7 @@ const statusOptions = [
   { value: 5, label: "Paused" },
 ];
 
-const InlineEditor: React.FC<IInlineEditorProps> = ({
+const InlineEditor: React.FC<InlineEditorProps> = ({
   itemId,
   type,
   title,

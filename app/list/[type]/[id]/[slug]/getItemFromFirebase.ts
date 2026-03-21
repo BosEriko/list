@@ -3,7 +3,7 @@ import Item from "@model/Item";
 
 type ItemType = "anime" | "manga" | "game" | "movie";
 
-type IItem = {
+type Item = {
   itemId: string;
   type: ItemType;
   images: any;
@@ -17,7 +17,7 @@ type IItem = {
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getItemFromFirebase(id: string, type: ItemType): Promise<IItem> {
+export async function getItemFromFirebase(id: string, type: ItemType): Promise<Item> {
   if (!["anime", "manga", "game", "movie"].includes(type)) {
     throw new Error("Invalid type");
   }
@@ -30,7 +30,7 @@ export async function getItemFromFirebase(id: string, type: ItemType): Promise<I
     const updatedAt = item?.updatedAt?.toMillis?.() ?? 0;
 
     if (Date.now() - updatedAt < ONE_MONTH) {
-      return item as IItem;
+      return item as Item;
     }
   }
 

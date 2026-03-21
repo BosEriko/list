@@ -5,7 +5,7 @@ import { db } from "@lib/Firebase";
 type ListingType = "anime" | "manga" | "game" | "movie";
 const ID_PATTERN = /^[0-9]+-(anime|manga|game|movie)-[0-9]+$/;
 
-interface IPayload {
+interface Payload {
   count: number;
   imageUrl: string;
   itemId: string;
@@ -16,7 +16,7 @@ interface IPayload {
   userId: string;
 }
 
-const create = async (id: string, payload: IPayload) => {
+const create = async (id: string, payload: Payload) => {
   if (!id || typeof id !== "string") {
     console.error(`Invalid ID: ${id}`);
     return null;

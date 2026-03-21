@@ -6,7 +6,7 @@ import Atom from "@atom";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
-interface IModalEditorProps {
+interface ModalEditorProps {
   count: number;
   imageUrl: string;
   itemId: string;
@@ -24,7 +24,7 @@ const statusOptions = [
   { value: 5, label: "Paused" },
 ];
 
-const ModalEditor: React.FC<IModalEditorProps> = ({
+const ModalEditor: React.FC<ModalEditorProps> = ({
   itemId,
   type,
   title,

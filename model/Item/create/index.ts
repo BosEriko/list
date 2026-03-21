@@ -4,7 +4,7 @@ import FirebaseAdmin from "@lib/FirebaseAdmin";
 type ItemType = "anime" | "manga" | "game" | "movie";
 const ID_PATTERN = /^(anime|manga|game|movie)-[0-9]+$/;
 
-interface IPayload {
+interface Payload {
   itemId: string;
   type: ItemType;
   images: any;
@@ -15,7 +15,7 @@ interface IPayload {
   score: number;
 }
 
-const create = async (id: string, payload: IPayload) => {
+const create = async (id: string, payload: Payload) => {
   if (!id || typeof id !== "string") {
     console.error(`Invalid ID: ${id}`);
     return null;

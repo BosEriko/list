@@ -2,13 +2,13 @@
 import { ReactNode } from "react";
 import { Card as AntCard } from 'antd';
 
-interface ICardProps {
+interface CardProps {
   type: string;
   item: any;
   key: number;
 }
 
-const Card: React.FunctionComponent<ICardProps> = ({
+const Card: React.FunctionComponent<CardProps> = ({
   type,
   item,
   key,

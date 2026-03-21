@@ -4,7 +4,7 @@ import ModalEditor from "./ModalEditor";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
-interface IListingEditorProps {
+interface ListingEditorProps {
   count: number;
   imageUrl: string;
   isModal?: boolean;
@@ -18,7 +18,7 @@ interface IListingEditorProps {
   userId?: string;
 }
 
-const ListingEditor: React.FC<IListingEditorProps> = ({
+const ListingEditor: React.FC<ListingEditorProps> = ({
   itemId,
   type,
   title,
