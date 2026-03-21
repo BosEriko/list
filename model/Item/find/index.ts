@@ -4,19 +4,22 @@ import FirebaseAdmin from "@lib/FirebaseAdmin";
 type ItemType = "anime" | "manga" | "game" | "movie";
 const ID_PATTERN = /^(anime|manga|game|movie)-[0-9]+$/;
 
-// TODO: Check if types are correct
 interface IItem {
-  count: number;
-  createdAt: any;
-  imageUrl: string;
   itemId: string;
-  listingUrl: string;
-  status: number;
+  type: ItemType;
+  images: {
+    jpg: {
+      image_url: string;
+      small_image_url: string;
+    };
+  };
   title: string;
   totalCount: number | null;
-  type: ItemType;
-  updatedAt: any;
-  userId: string;
+  status: string;
+  synopsis: string;
+  score: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const find = async (id: string): Promise<IItem | null> => {

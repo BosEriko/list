@@ -1,11 +1,11 @@
 import { getListingFromAPI } from "./getListingFromAPI";
 import Item from "@model/Item";
 
-type ListingType = "anime" | "manga" | "game" | "movie";
+type ItemType = "anime" | "manga" | "game" | "movie";
 
-type Listing = {
+type IItem = {
   itemId: string;
-  type: ListingType;
+  type: ItemType;
   images: {
     jpg: {
       image_url: string;
@@ -23,7 +23,7 @@ type Listing = {
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getListingFromFirebase(id: string, type: ListingType): Promise<Listing> {
+export async function getListingFromFirebase(id: string, type: ItemType): Promise<Listing> {
   if (!["anime", "manga", "game", "movie"].includes(type)) {
     throw new Error("Invalid type");
   }
@@ -36,7 +36,7 @@ export async function getListingFromFirebase(id: string, type: ListingType): Pro
     const updatedAt = item?.updatedAt?.toMillis?.() ?? 0;
 
     if (Date.now() - updatedAt < ONE_MONTH) {
-      return item as Listing;
+      return item as IItem;
     }
   }
 
