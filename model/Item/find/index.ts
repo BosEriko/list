@@ -7,12 +7,7 @@ const ID_PATTERN = /^(anime|manga|game|movie)-[0-9]+$/;
 interface IItem {
   itemId: string;
   type: ItemType;
-  images: {
-    jpg: {
-      image_url: string;
-      small_image_url: string;
-    };
-  };
+  images: any;
   title: string;
   totalCount: number | null;
   status: string;

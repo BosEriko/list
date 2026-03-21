@@ -6,12 +6,7 @@ type ItemType = "anime" | "manga" | "game" | "movie";
 type IItem = {
   itemId: string;
   type: ItemType;
-  images: {
-    jpg: {
-      image_url: string;
-      small_image_url: string;
-    };
-  };
+  images: any;
   title: string;
   totalCount: number | null;
   status: string;

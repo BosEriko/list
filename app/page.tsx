@@ -23,9 +23,7 @@ type Episode = {
   mal_id: number;
   episode: string;
   url: string;
-  images: {
-    jpg: { image_url: string };
-  };
+  images: any;
 };
 
 export default async function Home() {
