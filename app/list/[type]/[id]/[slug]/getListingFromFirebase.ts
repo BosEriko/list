@@ -1,5 +1,5 @@
-import FirebaseAdmin from "@lib/FirebaseAdmin";
 import { getListingFromAPI } from "./getListingFromAPI";
+import Item from "@model/Item";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
@@ -28,42 +28,34 @@ export async function getListingFromFirebase(id: string, type: ListingType): Pro
     throw new Error("Invalid type");
   }
 
-  const db = FirebaseAdmin.firestore();
+  const itemId = `${type}-${id}`
+  const jikan = await getListingFromAPI(type, id);
+  const item = await Item.find(itemId);
 
-  const docId = `${type}-${id}`;
-  const ref = db.collection("items").doc(docId);
-  const snapshot = await ref.get();
-
-  if (snapshot.exists) {
-    const data = snapshot.data();
-
-    const updatedAt = data?.updatedAt?.toMillis?.() ?? 0;
+  if (!!item) {
+    const updatedAt = item?.updatedAt?.toMillis?.() ?? 0;
 
     if (Date.now() - updatedAt < ONE_MONTH) {
-      return data as Listing;
+      return item as Listing;
     }
   }
 
-  const jikan = await getListingFromAPI(type, id);
-
-  const existingData = snapshot.exists ? snapshot.data() : null;
-
   const dataToSave = {
-    itemId: id,
-    type,
     images: jikan.images,
-    title: jikan.title,
-    totalCount: jikan.episodes ?? jikan.chapters ?? null,
+    itemId: id,
+    score: jikan.score,
     status: jikan.status,
     synopsis: jikan.synopsis,
-    score: jikan.score,
-    createdAt:
-      existingData?.createdAt ??
-      FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
-    updatedAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    title: jikan.title,
+    totalCount: jikan.episodes ?? jikan.chapters ?? null,
+    type,
   };
 
-  await ref.set(dataToSave, { merge: true });
+  if (!!item) {
+    await Item.update(itemId, dataToSave);
+  } else {
+    await Item.create(itemId, dataToSave);
+  }
 
   return {
     ...dataToSave,
