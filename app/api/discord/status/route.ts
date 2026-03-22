@@ -1,4 +1,7 @@
+import FirebaseAdmin from "@lib/FirebaseAdmin";
+
 const websiteUrl = "https://list.boseriko.com";
+const COOLDOWN_MS = 5 * 60 * 1000;
 
 function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -39,6 +42,31 @@ function buildDescription(payload: {
   }
 }
 
+async function checkCooldown(username: string) {
+  if (!username) {
+    return { ok: false };
+  }
+
+  const database = FirebaseAdmin.firestore();
+  const userQuery = await database.collection("users").where("username", "==", username).limit(1).get();
+
+  if (userQuery.empty) {
+    return { ok: false };
+  }
+
+  const userDoc = userQuery.docs[0];
+  const lastUpdate = userDoc.data()?.lastStatusUpdate?.toMillis() || 0;
+  const now = Date.now();
+
+  if (now - lastUpdate < COOLDOWN_MS) {
+    const remaining = Math.ceil((COOLDOWN_MS - (now - lastUpdate)) / 1000);
+    return { ok: false };
+  }
+
+  await userDoc.ref.update({ lastStatusUpdate: FirebaseAdmin.firestore.Timestamp.now() });
+  return { ok: true };
+}
+
 export async function POST(req: Request) {
   const { payload, username, avatar_url } = await req.json();
 
@@ -47,6 +75,11 @@ export async function POST(req: Request) {
       JSON.stringify({ error: "Missing payload" }),
       { status: 400 }
     );
+  }
+
+  const cooldown = await checkCooldown(username);
+  if (!cooldown.ok) {
+    return new Response(JSON.stringify({ ok: true }), { status: 200 });
   }
 
   const { title, count, status, type, listingUrl, imageUrl } = payload;
