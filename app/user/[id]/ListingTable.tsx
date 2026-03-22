@@ -1,7 +1,8 @@
-"user client";
+"use client";
 import Molecule from "@molecule";
 import Listing from "@model/Listing";
-import { Empty } from "antd";
+import { Empty, Spin } from "antd";
+import { useEffect, useState } from "react";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
@@ -23,8 +24,38 @@ interface Listing {
   userId: string;
 }
 
-export default async function ListingTable({ type = "anime", status = 1, id }: ListingTableProps) {
-  const listings = await Listing.where({ userId: id, type, status });
+export default function ListingTable({ type = "anime", status = 1, id }: ListingTableProps) {
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+
+      try {
+        let userListings = await Listing.where({ userId: id, type, status });
+
+        if (type === "anime" && userListings.length > 0) {
+          const res = await fetch("/api/anime/ongoing");
+          const data = await res.json();
+          const ongoingSet = new Set<number>(data.ids);
+          userListings = userListings.map((listing) => ({ ...listing, isOngoing: ongoingSet.has(Number(listing.itemId)) }));
+        } else {
+          userListings = userListings.map((listing) => ({ ...listing, isOngoing: false }));
+        }
+
+        setListings(userListings);
+      } catch (err) {
+        console.error("ListingTable load error:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, [id, type, status]);
+
+  if (loading) return <Spin className="py-10 w-full" />;
 
   if (listings.length === 0) {
     return (
