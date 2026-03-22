@@ -1,4 +1,5 @@
 import COLLECTION from "../collection";
+import UpdateDiscordStatus from "@lib/UpdateDiscordStatus";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
@@ -39,6 +40,7 @@ const update = async (id: string, payload: Payload) => {
       ...payload,
       updatedAt: serverTimestamp(),
     }, { merge: true });
+    await UpdateDiscordStatus(payload);
   } catch (err) {
     console.error(`Error updating ${COLLECTION}:`, err);
   }

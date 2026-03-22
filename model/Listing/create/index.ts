@@ -1,4 +1,5 @@
 import COLLECTION from "../collection";
+import UpdateDiscordStatus from "@lib/UpdateDiscordStatus";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
@@ -44,6 +45,7 @@ const create = async (id: string, payload: Payload) => {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
+    await UpdateDiscordStatus(payload);
   } catch (err) {
     console.error(`Error creating ${COLLECTION}:`, err);
   }
