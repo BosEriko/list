@@ -108,47 +108,47 @@ export default async function UserPage({ params, searchParams }: PageProps) {
   const typeOptions: Array<"anime" | "manga" | "game" | "movie"> = ["anime", "manga", "game", "movie"];
 
   return (
-<Template.Default>
-  <div className="flex flex-col lg:flex-row gap-6">
-    <div className="flex flex-col gap-4 lg:w-[300px] w-full">
-      <div className="bg-white border border-gray-200 rounded-md p-5 flex flex-col gap-3 items-center">
-        <img
-          src={user.avatarUrl}
-          alt={user.username}
-          className="w-24 h-24 rounded-full object-cover"
-        />
-        <h2 className="text-lg font-semibold">@{user.username}</h2>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {statusOptions[typeFilter].map((s) => (
-            <a
-              key={s.value}
-              href={`?status=${s.value}&type=${typeFilter}`}
-              className={`px-3 py-1 rounded-md text-sm ${statusFilter === s.value ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"}`}
-            >
-              {s.label}
-            </a>
-          ))}
+    <Template.Default>
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col gap-4 lg:w-[300px] w-full">
+          <div className="bg-white border border-gray-200 rounded-md p-5 flex flex-col gap-3 items-center">
+            <img
+              src={user.avatarUrl}
+              alt={user.username}
+              className="w-24 h-24 rounded-full object-cover"
+            />
+            <h2 className="text-lg font-semibold">@{user.username}</h2>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {statusOptions[typeFilter].map((s) => (
+                <a
+                  key={s.value}
+                  href={`?status=${s.value}&type=${typeFilter}`}
+                  className={`px-3 py-1 rounded-md text-sm ${statusFilter === s.value ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"}`}
+                >
+                  {s.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 flex-1">
+          <div className="bg-white border border-gray-200 rounded-md p-5 flex flex-col gap-3">
+            <div className="flex gap-2 mb-2">
+              {/* TODO: Remove "game" and "movie" filter when they are available */}
+              {typeOptions.filter((t) => t !== "game" && t !== "movie").map((t) => (
+                <a
+                  key={t}
+                  href={`?type=${t}&status=${statusFilter}`}
+                  className={`px-3 py-1 rounded-md text-sm ${typeFilter === t ? "bg-green-500 text-white" : "bg-gray-200 text-gray-700"}`}
+                >
+                  {t.charAt(0).toUpperCase() + t.slice(1)}
+                </a>
+              ))}
+            </div>
+            <ListingTable type={typeFilter} status={statusFilter} id={id} />
+          </div>
         </div>
       </div>
-    </div>
-    <div className="flex flex-col gap-4 flex-1">
-      <div className="bg-white border border-gray-200 rounded-md p-5 flex flex-col gap-3">
-        <div className="flex gap-2 mb-2">
-          {/* TODO: Remove "game" and "movie" filter when they are available */}
-          {typeOptions.filter((t) => t !== "game" && t !== "movie").map((t) => (
-            <a
-              key={t}
-              href={`?type=${t}&status=${statusFilter}`}
-              className={`px-3 py-1 rounded-md text-sm ${typeFilter === t ? "bg-green-500 text-white" : "bg-gray-200 text-gray-700"}`}
-            >
-              {t.charAt(0).toUpperCase() + t.slice(1)}
-            </a>
-          ))}
-        </div>
-        <ListingTable type={typeFilter} status={statusFilter} id={id} />
-      </div>
-    </div>
-  </div>
-</Template.Default>
+    </Template.Default>
   );
 }
