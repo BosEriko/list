@@ -1,6 +1,7 @@
 import Template from "@template";
 import Molecule from "@molecule";
 import FirebaseAdmin from "@lib/FirebaseAdmin";
+import User from "@model/User";
 
 type PageProps = {
   params: Promise<{
@@ -35,9 +36,9 @@ export async function generateMetadata({ params }: PageProps) {
 
   let user: Partial<User> = { username: "Unknown", avatarUrl: "" };
   try {
-    const userDoc = await FirebaseAdmin.firestore().collection("users").doc(id).get();
-    if (userDoc.exists) {
-      user = userDoc.data() as User;
+    const userDoc = await User.find(id);
+    if (!!userDoc) {
+      user = userDoc as User;
     }
   } catch (err) {
     console.error("User not found:", err);
@@ -66,8 +67,8 @@ export default async function UserPage({ params }: PageProps) {
 
   let user: any = null;
   try {
-    const userDoc = await FirebaseAdmin.firestore().collection("users").doc(id).get();
-    user = userDoc.exists ? userDoc.data() : {};
+    const userDoc = await User.find(id);
+    user = !!userDoc ? userDoc : {};
   } catch (err) {
     console.error("User not found:", err);
     return (
