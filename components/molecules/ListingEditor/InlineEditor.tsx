@@ -94,6 +94,7 @@ const InlineEditor: React.FC<InlineEditorProps> = ({
     const payload = {
       imageUrl,
       itemId,
+      listingUrl,
       title,
       totalCount,
       type,

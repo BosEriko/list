@@ -106,6 +106,7 @@ const ModalEditor: React.FC<ModalEditorProps> = ({
     const payload = {
       imageUrl,
       itemId,
+      listingUrl: typeof window !== "undefined" ? window.location.pathname : "",
       title,
       totalCount,
       type,

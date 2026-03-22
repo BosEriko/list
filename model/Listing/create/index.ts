@@ -9,6 +9,7 @@ interface Payload {
   count: number;
   imageUrl: string;
   itemId: string;
+  listingUrl: string;
   status: number;
   title: string;
   totalCount: number | null;
@@ -41,7 +42,6 @@ const create = async (id: string, payload: Payload) => {
     await setDoc(docRef, {
       ...payload,
       createdAt: serverTimestamp(),
-      listingUrl: typeof window !== "undefined" ? window.location.pathname : "",
       updatedAt: serverTimestamp(),
     });
   } catch (err) {

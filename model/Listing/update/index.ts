@@ -9,6 +9,7 @@ interface Payload {
   count: number;
   imageUrl: string;
   itemId: string;
+  listingUrl: string;
   status: number;
   title: string;
   totalCount: number | null;
