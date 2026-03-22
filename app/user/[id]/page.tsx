@@ -134,7 +134,8 @@ export default async function UserPage({ params, searchParams }: PageProps) {
     <div className="flex flex-col gap-4 flex-1">
       <div className="bg-white border border-gray-200 rounded-md p-5 flex flex-col gap-3">
         <div className="flex gap-2 mb-2">
-          {typeOptions.map((t) => (
+          {/* TODO: Remove "game" and "movie" filter when they are available */}
+          {typeOptions.filter((t) => t !== "game" && t !== "movie").map((t) => (
             <a
               key={t}
               href={`?type=${t}&status=${statusFilter}`}
