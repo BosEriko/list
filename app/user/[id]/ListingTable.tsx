@@ -22,7 +22,7 @@ interface Listing {
   userId: string;
 }
 
-export default async function ListingTable({ type = "anime", status = 3, id }: ListingTableProps) {
+export default async function ListingTable({ type = "anime", status = 1, id }: ListingTableProps) {
   let listings = await Listing.where({ userId: id });
 
   if (type) {

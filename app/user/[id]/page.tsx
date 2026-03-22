@@ -55,7 +55,7 @@ export default async function UserPage({ params, searchParams }: PageProps) {
   const { id } = await params;
   const search = searchParams ? await searchParams : {};
   const typeFilter = search.type || "anime";
-  const statusFilter = search.status ? parseInt(search.status) : 3;
+  const statusFilter = search.status ? parseInt(search.status) : 1;
 
   let user: any = null;
   try {
