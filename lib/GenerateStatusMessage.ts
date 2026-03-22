@@ -1,6 +1,7 @@
 interface Payload {
   title: string;
   count: number;
+  status: number;
 }
 
 function GenerateStatusMessage(payload: Payload) {
