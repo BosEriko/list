@@ -22,6 +22,7 @@ interface Listing {
   totalCount: number | null;
   type: ListingType;
   userId: string;
+  isOngoing: boolean;
 }
 
 export default function ListingTable({ type = "anime", status = 1, id }: ListingTableProps) {
