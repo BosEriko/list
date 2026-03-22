@@ -23,15 +23,7 @@ interface Listing {
 }
 
 export default async function ListingTable({ type = "anime", status = 1, id }: ListingTableProps) {
-  let listings = await Listing.where({ userId: id });
-
-  if (type) {
-    listings = listings.filter((listing: Listing) => listing.type === type);
-  }
-
-  if (status !== undefined) {
-    listings = listings.filter((listing: Listing) => listing.status === status);
-  }
+  const listings = await Listing.where({ userId: id, type, status });
 
   return (
     <table className="table-auto w-full border-separate border-spacing-y-2">
