@@ -55,7 +55,7 @@ async function checkCooldown(username: string) {
   }
 
   const userDoc = userQuery.docs[0];
-  const lastUpdate = userDoc.data()?.lastStatusUpdate?.toMillis() || 0;
+  const lastUpdate = userDoc.data()?.lastListingUpdate?.toMillis() || 0;
   const now = Date.now();
 
   if (now - lastUpdate < COOLDOWN_MS) {
@@ -63,7 +63,7 @@ async function checkCooldown(username: string) {
     return { ok: false };
   }
 
-  await userDoc.ref.update({ lastStatusUpdate: FirebaseAdmin.firestore.Timestamp.now() });
+  await userDoc.ref.update({ lastListingUpdate: FirebaseAdmin.firestore.Timestamp.now() });
   return { ok: true };
 }
 
