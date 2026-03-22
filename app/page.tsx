@@ -23,7 +23,7 @@ export default async function Home() {
     next: { revalidate: 3600 },
   });
   const data = await res.json();
-  const recommendations: any[] = data.data.flatMap(item: any => item.entry).slice(0, 20);
+  const recommendations: any[] = data.data.flatMap((item: any) => item.entry).slice(0, 20);
 
   return (
     <Template.Default>
