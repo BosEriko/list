@@ -18,6 +18,7 @@ interface InlineEditorProps {
   totalCount: number | null;
   type: ListingType;
   userId: string;
+  isOngoing: boolean;
 }
 
 const statusOptions: Record<string, { value: number; label: string }[]> = {
@@ -65,6 +66,7 @@ const InlineEditor: React.FC<InlineEditorProps> = ({
   listingUrl,
   imageUrl,
   status,
+  isOngoing,
 }) => {
   const { user } = useAuthStore();
   const [form, setForm] = useState({ status, count });
@@ -180,11 +182,16 @@ const InlineEditor: React.FC<InlineEditorProps> = ({
     <Fragment>
       <tr>
         <td className="w-15">
-          <img
-            src={imageUrl}
-            alt={title}
-            className="w-12 aspect-square object-cover rounded-lg"
-          />
+          <div className="w-12 aspect-square relative">
+            <img
+              src={imageUrl}
+              alt={title}
+              className="w-full h-full object-cover rounded-md"
+            />
+            <Atom.Visibility state={isOngoing}>
+              <div className="absolute bottom-0 right-0 w-3 aspect-square rounded-full bg-green-500 -mr-1 -mb-1 border border-white border-2"></div>
+            </Atom.Visibility>
+          </div>
         </td>
 
         <td><a href={listingUrl}>{title}</a></td>

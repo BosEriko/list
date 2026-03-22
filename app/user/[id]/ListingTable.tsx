@@ -90,6 +90,7 @@ export default function ListingTable({ type = "anime", status = 1, id }: Listing
             status={listing.status}
             isModal={false}
             key={key}
+            isOngoing={listing.isOngoing}
           />
         ))}
       </tbody>

@@ -8,6 +8,7 @@ interface ListingEditorProps {
   count: number;
   imageUrl: string;
   isModal?: boolean;
+  isOngoing?: boolean;
   itemId: string;
   key?: number | null
   listingUrl?: string;
@@ -30,6 +31,7 @@ const ListingEditor: React.FC<ListingEditorProps> = ({
   status = 1,
   isModal = true,
   key = null,
+  isOngoing = false,
 }) => {
   if (isModal) {
     return (
@@ -56,6 +58,7 @@ const ListingEditor: React.FC<ListingEditorProps> = ({
       listingUrl={listingUrl}
       status={status}
       key={key}
+      isOngoing={isOngoing}
     />
   );
 };
