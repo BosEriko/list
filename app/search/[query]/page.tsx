@@ -52,15 +52,9 @@ async function searchAnime(query: string): Promise<JikanItem[]> {
   if (!res.ok) return [];
   const data = await res.json();
 
-  return (data.data ?? []).map((anime: any) => ({
-    mal_id: anime.mal_id,
-    title: anime.title,
-    images: anime.images,
-    url: anime.url,
-    synopsis: anime.synopsis,
-    genres: anime.genres,
-    themes: anime.themes,
-    nsfw: detectNSFW(anime),
+  return (data.data ?? []).map((item: any) => ({
+    ...item,
+    nsfw: detectNSFW(item),
   }));
 }
 
@@ -69,15 +63,9 @@ async function searchManga(query: string): Promise<JikanItem[]> {
   if (!res.ok) return [];
   const data = await res.json();
 
-  return (data.data ?? []).map((manga: any) => ({
-    mal_id: manga.mal_id,
-    title: manga.title,
-    images: manga.images,
-    url: manga.url,
-    synopsis: manga.synopsis,
-    genres: manga.genres,
-    themes: manga.themes,
-    nsfw: detectNSFW(manga),
+  return (data.data ?? []).map((item: any) => ({
+    ...item,
+    nsfw: detectNSFW(item),
   }));
 }
 
