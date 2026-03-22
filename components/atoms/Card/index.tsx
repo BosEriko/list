@@ -36,7 +36,7 @@ const Card: React.FunctionComponent<CardProps> = ({
           </div>
         }
       >
-        <AntCard.Meta title={item.title} description={`${item.type ?? item.title}${item.score ? " • " + item.score : ""}`} />
+        <AntCard.Meta title={item.title} description={`${item.type ?? item.mal_id}${item.score ? " • " + item.score : ""}`} />
       </AntCard>
     </a>
   );
