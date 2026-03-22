@@ -5,8 +5,8 @@ import Listing from "@model/Listing";
 type ListingType = "anime" | "manga" | "game" | "movie";
 
 interface ListingTableProps {
-  type: ListingType;
-  status: number;
+  type?: ListingType;
+  status?: number;
   id: string;
 }
 
@@ -23,7 +23,15 @@ interface Listing {
 }
 
 export default async function ListingTable({ type = "anime", status = 3, id }: ListingTableProps) {
-  const listings = await Listing.where({ userId: id });
+  let listings = await Listing.where({ userId: id });
+
+  if (type) {
+    listings = listings.filter((listing: Listing) => listing.type === type);
+  }
+
+  if (status !== undefined) {
+    listings = listings.filter((listing: Listing) => listing.status === status);
+  }
 
   return (
     <table className="table-auto w-full border-separate border-spacing-y-2">
