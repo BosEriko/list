@@ -40,7 +40,7 @@ function buildDescription(payload: {
 }
 
 export async function POST(req: Request) {
-  const { payload, method, username, avatar_url } = await req.json();
+  const { payload, username, avatar_url } = await req.json();
 
   if (!payload) {
     return new Response(
