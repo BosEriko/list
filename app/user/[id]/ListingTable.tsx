@@ -6,7 +6,7 @@ type ListingType = "anime" | "manga" | "game" | "movie";
 
 interface ListingTableProps {
   type: ListingType;
-  status: integer;
+  status: number;
   id: string;
 }
 
