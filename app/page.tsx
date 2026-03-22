@@ -18,28 +18,19 @@ export async function generateMetadata() {
   };
 }
 
-type Episode = {
-  title: string;
-  mal_id: number;
-  episode: string;
-  url: string;
-  images: any;
-};
-
 export default async function Home() {
-  const res = await fetch("https://api.jikan.moe/v4/schedules?filter=friday&page=1&limit=10&sfw=true", {
+  const res = await fetch("https://api.jikan.moe/v4/recommendations/anime", {
     next: { revalidate: 3600 },
   });
   const data = await res.json();
-  const episodes: Episode[] = data.data.slice(0, 10);
+  const recommendations: any[] = data.data.flatMap(item => item.entry).slice(0, 20);
 
   return (
     <Template.Default>
       <div className="container mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Latest Anime Episodes</h1>
-
+        <h1 className="text-2xl font-bold mb-6">Anime Recommendations</h1>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {episodes.map((item, key) => (
+          {recommendations.map((item, key) => (
             <Atom.Card
               type="Anime"
               item={item}
