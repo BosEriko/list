@@ -35,20 +35,50 @@ type JikanItem = {
   images: any;
   url: string;
   synopsis: string;
+  genres?: { name: string }[];
+  themes?: { name: string }[];
+  nsfw?: boolean;
 };
+
+function detectNSFW(item: any): boolean {
+  if (item.nsfw === "black") return true;
+  if (item.genres?.some((g: any) => g.name === "Hentai")) return true;
+  if (item.themes?.some((t: any) => t.name === "Hentai")) return true;
+  return false;
+}
 
 async function searchAnime(query: string): Promise<JikanItem[]> {
   const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=10`);
   if (!res.ok) return [];
   const data = await res.json();
-  return data.data ?? [];
+
+  return (data.data ?? []).map((anime: any) => ({
+    mal_id: anime.mal_id,
+    title: anime.title,
+    images: anime.images,
+    url: anime.url,
+    synopsis: anime.synopsis,
+    genres: anime.genres,
+    themes: anime.themes,
+    nsfw: detectNSFW(anime),
+  }));
 }
 
 async function searchManga(query: string): Promise<JikanItem[]> {
   const res = await fetch(`https://api.jikan.moe/v4/manga?q=${encodeURIComponent(query)}&limit=10`);
   if (!res.ok) return [];
   const data = await res.json();
-  return data.data ?? [];
+
+  return (data.data ?? []).map((manga: any) => ({
+    mal_id: manga.mal_id,
+    title: manga.title,
+    images: manga.images,
+    url: manga.url,
+    synopsis: manga.synopsis,
+    genres: manga.genres,
+    themes: manga.themes,
+    nsfw: detectNSFW(manga),
+  }));
 }
 
 export default async function Search({ params }: PageProps) {
