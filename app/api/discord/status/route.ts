@@ -39,10 +39,6 @@ function buildDescription(payload: {
   }
 }
 
-function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
 export async function POST(req: Request) {
   const { payload, method, username, avatar_url } = await req.json();
 
