@@ -1,6 +1,7 @@
 "user client";
 import Molecule from "@molecule";
 import Listing from "@model/Listing";
+import { Empty } from "antd";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
@@ -24,6 +25,14 @@ interface Listing {
 
 export default async function ListingTable({ type = "anime", status = 1, id }: ListingTableProps) {
   const listings = await Listing.where({ userId: id, type, status });
+
+  if (listings.length === 0) {
+    return (
+      <div className="w-full py-10">
+        <Empty description={`No ${type} listings found`} />
+      </div>
+    );
+  }
 
   return (
     <table className="table-auto w-full border-separate border-spacing-y-2">
