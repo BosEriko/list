@@ -49,7 +49,7 @@ async function checkCooldown(uid: string) {
 
   const database = FirebaseAdmin.firestore();
   const reference = database.collection("userActivities").doc(uid);
-  const userActivity = await ref.get();
+  const userActivity = await reference.get();
 
   if (!userActivity.exists) {
     await reference.set({
