@@ -26,8 +26,7 @@ async function UpdateDiscordStatus(payload: Payload) {
     },
     body: JSON.stringify({
       payload,
-      username: user.displayName,
-      avatar_url: user.photoURL,
+      user,
     }),
   });
 }

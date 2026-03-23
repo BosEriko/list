@@ -42,33 +42,36 @@ function buildDescription(payload: {
   }
 }
 
-async function checkCooldown(username: string) {
-  if (!username) {
+async function checkCooldown(uid: string) {
+  if (!uid) {
     return { ok: false };
   }
 
   const database = FirebaseAdmin.firestore();
-  const userQuery = await database.collection("users").where("username", "==", username).limit(1).get();
+  const reference = database.collection("userActivities").doc(uid);
+  const userActivity = await ref.get();
 
-  if (userQuery.empty) {
-    return { ok: false };
+  if (!userActivity.exists) {
+    await reference.set({
+      lastListingUpdate: FirebaseAdmin.firestore.Timestamp.now()
+    });
+    return { ok: true };
   }
 
-  const userDoc = userQuery.docs[0];
-  const lastUpdate = userDoc.data()?.lastListingUpdate?.toMillis() || 0;
+  const lastUpdate = userActivity.data()?.lastListingUpdate?.toMillis() || 0;
   const now = Date.now();
 
   if (now - lastUpdate < COOLDOWN_MS) {
-    const remaining = Math.ceil((COOLDOWN_MS - (now - lastUpdate)) / 1000);
     return { ok: false };
   }
 
-  await userDoc.ref.update({ lastListingUpdate: FirebaseAdmin.firestore.Timestamp.now() });
+  await reference.update({ lastListingUpdate: FirebaseAdmin.firestore.Timestamp.now() });
   return { ok: true };
 }
 
 export async function POST(req: Request) {
-  const { payload, username, avatar_url } = await req.json();
+  const { payload, user } = await req.json();
+  const { uid, username, avatar_url } = user;
 
   if (!payload) {
     return new Response(
@@ -77,7 +80,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const cooldown = await checkCooldown(username);
+  const cooldown = await checkCooldown(uid);
   if (!cooldown.ok) {
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
   }
