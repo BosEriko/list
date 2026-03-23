@@ -27,6 +27,7 @@
       "@lib/*": ["./lib/*"],
       "@store/*": ["./store/*"],
       "@model/*": ["./model/*"],
+      "@constant/*": ["./constant/*"],
     },
   },
   "include": [

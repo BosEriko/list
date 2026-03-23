@@ -1,6 +1,7 @@
 import Template from "@template";
 import User from "@model/User";
 import ListingTable from "./ListingTable";
+import ListingStatusOptions from '@constant/ListingStatusOptions';
 
 type PageProps = {
   params: Promise<{
@@ -70,41 +71,6 @@ export default async function UserPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const statusOptions: Record<string, { value: number; label: string }[]> = {
-    anime: [
-      { value: 0, label: "Dropped" },
-      { value: 1, label: "Watching" },
-      { value: 2, label: "Plan to watch" },
-      { value: 3, label: "Completed" },
-      { value: 4, label: "Rewatching" },
-      { value: 5, label: "Paused" },
-    ],
-    manga: [
-      { value: 0, label: "Dropped" },
-      { value: 1, label: "Reading" },
-      { value: 2, label: "Plan to read" },
-      { value: 3, label: "Completed" },
-      { value: 4, label: "Rereading" },
-      { value: 5, label: "Paused" },
-    ],
-    game: [
-      { value: 0, label: "Dropped" },
-      { value: 1, label: "Playing" },
-      { value: 2, label: "Wishlist" },
-      { value: 3, label: "Completed" },
-      { value: 4, label: "Replay" },
-      { value: 5, label: "Paused" },
-    ],
-    movie: [
-      { value: 0, label: "Dropped" },
-      { value: 1, label: "Watching" },
-      { value: 2, label: "Plan to watch" },
-      { value: 3, label: "Completed" },
-      { value: 4, label: "Rewatching" },
-      { value: 5, label: "Paused" },
-    ],
-  };
-
   const typeOptions: Array<"anime" | "manga" | "game" | "movie"> = ["anime", "manga", "game", "movie"];
 
   return (
@@ -119,7 +85,7 @@ export default async function UserPage({ params, searchParams }: PageProps) {
             />
             <h2 className="text-lg font-semibold">@{user.username}</h2>
             <div className="flex flex-wrap gap-2 mt-2">
-              {statusOptions[typeFilter].map((s) => (
+              {ListingStatusOptions[typeFilter].map((s) => (
                 <a
                   key={s.value}
                   href={`?status=${s.value}&type=${typeFilter}`}
