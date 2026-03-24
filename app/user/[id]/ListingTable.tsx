@@ -33,7 +33,7 @@ export default function ListingTable({ id }: ListingTableProps) {
       reset();
       setLoading(true);
       try {
-        let userListings = await Listing.where({ userId: id });
+        let userListings: Listing[] = await Listing.where({ userId: id });
         if (userListings.some((l) => l.type === "anime")) {
           const res = await fetch("/api/anime/ongoing");
           const data = await res.json();
