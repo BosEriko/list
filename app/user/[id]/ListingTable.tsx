@@ -96,7 +96,6 @@ export default function ListingTable({ id }: ListingTableProps) {
               userId={listing.userId}
               listingUrl={listing.listingUrl}
               status={listing.status}
-              isModal={false}
               isOngoing={listing.isOngoing ?? false}
             />
           </tr>
