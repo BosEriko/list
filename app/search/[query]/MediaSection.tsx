@@ -10,7 +10,6 @@ export default function MediaSection({ title, items }: { title: string; items: a
             type={title}
             item={item}
             key={key}
-            isBlurred={item.nsfw}
           />
         ))}
       </div>
