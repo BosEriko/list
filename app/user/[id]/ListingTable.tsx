@@ -11,7 +11,7 @@ interface ListingTableProps {
   id: string;
 }
 
-interface ListingInterface {
+interface Listing {
   count: number;
   imageUrl: string;
   itemId: string;
@@ -33,7 +33,7 @@ export default function ListingTable({ id }: ListingTableProps) {
       reset();
       setLoading(true);
       try {
-        let userListings: ListingInterface[] = await Listing.where({ userId: id });
+        let userListings = await Listing.where({ userId: id });
         if (userListings.some((l) => l.type === "anime")) {
           const res = await fetch("/api/anime/ongoing");
           const data = await res.json();
@@ -41,7 +41,7 @@ export default function ListingTable({ id }: ListingTableProps) {
           userListings = userListings.map((listing) => ({
             ...listing,
             isOngoing: listing.type === "anime" ? ongoingSet.has(Number(listing.itemId)) : false,
-          }));
+          })) as Listing[];
         } else {
           userListings = userListings.map((listing) => ({ ...listing, isOngoing: false }));
         }
