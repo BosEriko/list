@@ -3,12 +3,11 @@ import Molecule from "@molecule";
 import Listing from "@model/Listing";
 import { Empty, Spin } from "antd";
 import { useEffect, useState } from "react";
+import useListingFilterStore from "@store/useListingFilterStore";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
 interface ListingTableProps {
-  type?: ListingType;
-  status?: number;
   id: string;
 }
 
@@ -25,7 +24,8 @@ interface Listing {
   isOngoing?: boolean;
 }
 
-export default function ListingTable({ type = "anime", status = 1, id }: ListingTableProps) {
+export default function ListingTable({ id }: ListingTableProps) {
+  const { status, type } = useListingFilterStore();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +34,7 @@ export default function ListingTable({ type = "anime", status = 1, id }: Listing
       setLoading(true);
 
       try {
-        let userListings = await Listing.where({ userId: id, type, status });
+        let userListings = await Listing.where({ userId: id });
 
         if (type === "anime" && userListings.length > 0) {
           const res = await fetch("/api/anime/ongoing");
@@ -44,6 +44,8 @@ export default function ListingTable({ type = "anime", status = 1, id }: Listing
         } else {
           userListings = userListings.map((listing) => ({ ...listing, isOngoing: false }));
         }
+
+        userListings = userListings.filter((listing: Listing) => listing.type === type && listing.status === status);
 
         setListings(userListings);
       } catch (err) {

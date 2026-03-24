@@ -1,15 +1,12 @@
 import Template from "@template";
 import User from "@model/User";
+import ListingStatus from "./ListingStatus";
 import ListingTable from "./ListingTable";
-import ListingStatusOptions from '@constant/ListingStatusOptions';
+import ListingType from "./ListingType";
 
 type PageProps = {
   params: Promise<{
     id: string;
-  }>;
-  searchParams?: Promise<{
-    type?: "anime" | "manga" | "game" | "movie";
-    status?: string;
   }>;
 };
 
@@ -52,11 +49,8 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function UserPage({ params, searchParams }: PageProps) {
+export default async function UserPage({ params }: PageProps) {
   const { id } = await params;
-  const search = searchParams ? await searchParams : {};
-  const typeFilter = search.type || "anime";
-  const statusFilter = search.status ? parseInt(search.status) : 1;
 
   let user: any = null;
   try {
@@ -71,8 +65,6 @@ export default async function UserPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const typeOptions: Array<"anime" | "manga" | "game" | "movie"> = ["anime", "manga", "game", "movie"];
-
   return (
     <Template.Default>
       <div className="flex flex-col lg:flex-row gap-6">
@@ -84,34 +76,13 @@ export default async function UserPage({ params, searchParams }: PageProps) {
               className="w-24 h-24 rounded-full object-cover"
             />
             <h2 className="text-lg font-semibold">@{user.username}</h2>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {ListingStatusOptions[typeFilter].map((s) => (
-                <a
-                  key={s.value}
-                  href={`?status=${s.value}&type=${typeFilter}`}
-                  className={`px-3 py-1 rounded-md text-sm ${statusFilter === s.value ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"}`}
-                >
-                  {s.label}
-                </a>
-              ))}
-            </div>
+            <ListingStatus />
           </div>
         </div>
         <div className="flex flex-col gap-4 flex-1">
           <div className="bg-white border border-gray-200 rounded-md p-5 flex flex-col gap-3">
-            <div className="flex gap-2 mb-2">
-              {/* TODO: Remove "game" and "movie" filter when they are available */}
-              {typeOptions.filter((t) => t !== "game" && t !== "movie").map((t) => (
-                <a
-                  key={t}
-                  href={`?type=${t}&status=${statusFilter}`}
-                  className={`px-3 py-1 rounded-md text-sm ${typeFilter === t ? "bg-green-500 text-white" : "bg-gray-200 text-gray-700"}`}
-                >
-                  {t.charAt(0).toUpperCase() + t.slice(1)}
-                </a>
-              ))}
-            </div>
-            <ListingTable type={typeFilter} status={statusFilter} id={id} />
+            <ListingType />
+            <ListingTable id={id} />
           </div>
         </div>
       </div>
