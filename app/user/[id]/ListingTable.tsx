@@ -2,7 +2,7 @@
 import Molecule from "@molecule";
 import Listing from "@model/Listing";
 import { Empty, Spin } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import useListingFilterStore from "@store/useListingFilterStore";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
@@ -26,37 +26,39 @@ interface Listing {
 
 export default function ListingTable({ id }: ListingTableProps) {
   const { status, type } = useListingFilterStore();
-  const [listings, setListings] = useState<Listing[]>([]);
+  const [allListings, setAllListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       setLoading(true);
-
       try {
         let userListings = await Listing.where({ userId: id });
-
-        if (type === "anime" && userListings.length > 0) {
+        if (userListings.some((l) => l.type === "anime")) {
           const res = await fetch("/api/anime/ongoing");
           const data = await res.json();
           const ongoingSet = new Set<number>(data.ids);
-          userListings = userListings.map((listing) => ({ ...listing, isOngoing: ongoingSet.has(Number(listing.itemId)) }));
+          userListings = userListings.map((listing) => ({
+            ...listing,
+            isOngoing: listing.type === "anime" ? ongoingSet.has(Number(listing.itemId)) : false,
+          }));
         } else {
           userListings = userListings.map((listing) => ({ ...listing, isOngoing: false }));
         }
-
-        userListings = userListings.filter((listing: Listing) => listing.type === type && listing.status === status);
-
-        setListings(userListings);
+        setAllListings(userListings);
       } catch (err) {
         console.error("ListingTable load error:", err);
       } finally {
         setLoading(false);
       }
     }
-
     loadData();
-  }, [id, type, status]);
+  }, [id]);
+
+  const listings = useMemo(
+    () => allListings.filter((listing) => listing.type === type && listing.status === status),
+    [allListings, type, status]
+  );
 
   if (loading) return <Spin className="py-10 w-full" />;
 
