@@ -40,7 +40,7 @@ export async function getItemFromFirebase(id: string, type: ItemType): Promise<I
     score: jikan.score,
     status: jikan.status,
     synopsis: jikan.synopsis,
-    title: jikan.title_english,
+    title: jikan.title_english ?? jikan.title,
     totalCount: jikan.episodes ?? jikan.chapters ?? null,
     type,
   };
