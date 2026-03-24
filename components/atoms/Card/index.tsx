@@ -24,7 +24,7 @@ const Card: React.FunctionComponent<CardProps> = ({
           <div className="aspect-[2/3] w-full overflow-hidden rounded-md relative">
             <img
               src={item.images.jpg.image_url}
-              alt={item.title}
+              alt={item.title_english ?? item.title}
               className={`w-full h-full object-cover transition-all duration-300 ${isBlurred ? "blur-xl" : ""}`}
               draggable={false}
             />
@@ -36,7 +36,7 @@ const Card: React.FunctionComponent<CardProps> = ({
           </div>
         }
       >
-        <AntCard.Meta title={item.title} description={`${item.type ?? item.mal_id}${item.score ? " • " + item.score : ""}`} />
+        <AntCard.Meta title={item.title_english ?? item.title} description={`${item.type ?? item.mal_id}${item.score ? " • " + item.score : ""}`} />
       </AntCard>
     </a>
   );
