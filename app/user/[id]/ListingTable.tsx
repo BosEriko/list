@@ -3,7 +3,7 @@ import Molecule from "@molecule";
 import Listing from "@model/Listing";
 import { Empty, Spin } from "antd";
 import { useEffect, useState, useMemo } from "react";
-import useListingFilterStore from "@store/useListingFilterStore";
+import useListingStore from "@store/useListingStore";
 
 type ListingType = "anime" | "manga" | "game" | "movie";
 
@@ -25,7 +25,7 @@ interface Listing {
 }
 
 export default function ListingTable({ id }: ListingTableProps) {
-  const { status, type, reset } = useListingFilterStore();
+  const { status, type, reset } = useListingStore();
   const [allListings, setAllListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 

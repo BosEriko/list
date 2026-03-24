@@ -1,11 +1,11 @@
 "use client";
 import ListingStatusOptions from '@constant/ListingStatusOptions';
-import useListingFilterStore from "@store/useListingFilterStore";
+import useListingStore from "@store/useListingStore";
 
 const typeOptions: Array<"anime" | "manga" | "game" | "movie"> = ["anime", "manga", "game", "movie"];
 
 export default function ListingType() {
-  const { type, setType } = useListingFilterStore();
+  const { type, setType } = useListingStore();
 
   return (
     <div className="flex gap-2 mb-2">

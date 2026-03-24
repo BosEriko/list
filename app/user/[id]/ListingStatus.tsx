@@ -1,9 +1,9 @@
 "use client";
 import ListingStatusOptions from '@constant/ListingStatusOptions';
-import useListingFilterStore from "@store/useListingFilterStore";
+import useListingStore from "@store/useListingStore";
 
 export default function ListingStatus() {
-  const { type, status, setStatus } = useListingFilterStore();
+  const { type, status, setStatus } = useListingStore();
 
   return (
     <div className="flex flex-wrap gap-2 mt-2">

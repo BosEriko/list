@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 type ListingType = 'anime' | 'manga' | 'game' | 'movie';
 
-type ListingFilterState = {
+type ListingState = {
   status: number;
   type: ListingType;
 
@@ -16,7 +16,7 @@ type ListingFilterState = {
 const DEFAULT_STATUS = 1;
 const DEFAULT_TYPE = "anime";
 
-const useListingFilterStore = create<ListingFilterState>((set) => ({
+const useListingStore = create<ListingState>((set) => ({
   status: DEFAULT_STATUS,
   type: DEFAULT_TYPE,
 
@@ -26,4 +26,4 @@ const useListingFilterStore = create<ListingFilterState>((set) => ({
   reset: () => set({ status: DEFAULT_STATUS, type: DEFAULT_TYPE }),
 }));
 
-export default useListingFilterStore;
+export default useListingStore;
