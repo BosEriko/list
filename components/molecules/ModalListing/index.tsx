@@ -7,7 +7,7 @@ import Atom from "@atom";
 
 type ListingType = "anime" | "manga" | "game";
 
-interface ModalEditorProps {
+interface ModalListingProps {
   count: number;
   imageUrl: string;
   itemId: string;
@@ -16,7 +16,7 @@ interface ModalEditorProps {
   type: ListingType;
 }
 
-const ModalEditor: React.FC<ModalEditorProps> = ({
+const ModalListing: React.FC<ModalListingProps> = ({
   itemId,
   type,
   title,
@@ -168,4 +168,4 @@ const ModalEditor: React.FC<ModalEditorProps> = ({
   );
 };
 
-export default ModalEditor;
+export default ModalListing;

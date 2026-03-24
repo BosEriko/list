@@ -84,7 +84,7 @@ export default function ListingTable({ id }: ListingTableProps) {
       <tbody>
         {filteredListings.map((listing) => (
           <tr key={`${listing.type}-${listing.itemId}`}>
-            <Molecule.ListingEditor
+            <Molecule.InlineListing
               itemId={listing.itemId}
               type={listing.type}
               title={listing.title}

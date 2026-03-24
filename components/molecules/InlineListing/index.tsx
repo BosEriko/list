@@ -9,7 +9,7 @@ import Atom from "@atom";
 
 type ListingType = "anime" | "manga" | "game";
 
-interface InlineEditorProps {
+interface InlineListingProps {
   count: number;
   imageUrl: string;
   itemId: string;
@@ -22,7 +22,7 @@ interface InlineEditorProps {
   isOngoing: boolean;
 }
 
-const InlineEditor: React.FC<InlineEditorProps> = ({
+const InlineListing: React.FC<InlineListingProps> = ({
   itemId,
   type,
   title,
@@ -228,4 +228,4 @@ const InlineEditor: React.FC<InlineEditorProps> = ({
   );
 };
 
-export default InlineEditor;
+export default InlineListing;

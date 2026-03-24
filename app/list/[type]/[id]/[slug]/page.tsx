@@ -58,7 +58,7 @@ export default async function ListingPage({ params }: PageProps) {
             />
           </div>
           <div>
-            <Molecule.ListingEditor
+            <Molecule.ModalListing
               itemId={id}
               type={type}
               title={listing.title}
