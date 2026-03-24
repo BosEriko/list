@@ -25,12 +25,13 @@ interface Listing {
 }
 
 export default function ListingTable({ id }: ListingTableProps) {
-  const { status, type } = useListingFilterStore();
+  const { status, type, reset } = useListingFilterStore();
   const [allListings, setAllListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
+      reset();
       setLoading(true);
       try {
         let userListings = await Listing.where({ userId: id });
