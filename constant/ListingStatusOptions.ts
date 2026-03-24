@@ -7,36 +7,36 @@ export type StatusOption = {
 
 const ListingStatusOptions: Record<ListingType, StatusOption[]> = {
   anime: [
-    { value: 0, label: 'Dropped' },
     { value: 1, label: 'Watching' },
     { value: 2, label: 'Plan to watch' },
     { value: 3, label: 'Completed' },
     { value: 4, label: 'Rewatching' },
     { value: 5, label: 'Paused' },
+    { value: 0, label: 'Dropped' },
   ],
   manga: [
-    { value: 0, label: 'Dropped' },
     { value: 1, label: 'Reading' },
     { value: 2, label: 'Plan to read' },
     { value: 3, label: 'Completed' },
     { value: 4, label: 'Rereading' },
     { value: 5, label: 'Paused' },
+    { value: 0, label: 'Dropped' },
   ],
   game: [
-    { value: 0, label: 'Dropped' },
     { value: 1, label: 'Playing' },
     { value: 2, label: 'Wishlist' },
     { value: 3, label: 'Completed' },
     { value: 4, label: 'Replay' },
     { value: 5, label: 'Paused' },
+    { value: 0, label: 'Dropped' },
   ],
   movie: [
-    { value: 0, label: 'Dropped' },
     { value: 1, label: 'Watching' },
     { value: 2, label: 'Plan to watch' },
     { value: 3, label: 'Completed' },
     { value: 4, label: 'Rewatching' },
     { value: 5, label: 'Paused' },
+    { value: 0, label: 'Dropped' },
   ],
 };
 
