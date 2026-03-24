@@ -4,8 +4,8 @@ import { create } from 'zustand';
 type ListingType = 'anime' | 'manga' | 'game' | 'movie';
 
 type ListingFilterState = {
-  status: number | null;
-  type: ListingType | null;
+  status: number;
+  type: ListingType;
 
   setStatus: (status: number | null) => void;
   setType: (type: ListingType | null) => void;
