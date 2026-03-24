@@ -13,15 +13,17 @@ interface ListingTableProps {
 
 interface Listing {
   count: number;
+  createdAt: any;
   imageUrl: string;
+  isOngoing: boolean;
   itemId: string;
   listingUrl: string;
   status: number;
   title: string;
   totalCount: number | null;
   type: ListingType;
+  updatedAt: any;
   userId: string;
-  isOngoing: boolean;
 }
 
 export default function ListingTable({ id }: ListingTableProps) {
