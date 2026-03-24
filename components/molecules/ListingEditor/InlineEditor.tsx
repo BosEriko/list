@@ -146,86 +146,84 @@ const InlineEditor: React.FC<InlineEditorProps> = ({
 
   return (
     <Fragment>
-      <tr>
-        <td className="w-15">
-          <div className="w-12 aspect-square relative">
-            <img
-              src={imageUrl}
-              alt={title}
-              className="w-full h-full object-cover rounded-md"
-            />
-            <Atom.Visibility state={isOngoing}>
-              <div className="absolute bottom-0 right-0 w-3 aspect-square rounded-full bg-green-500 -mr-1 -mb-1 border border-white border-2"></div>
-            </Atom.Visibility>
-          </div>
-        </td>
-
-        <td><a href={listingUrl}>{title}</a></td>
-
-        <td className="whitespace-nowrap">
-          <div className="mr-5">
-            <Atom.Visibility state={user?.uid === userId}>
-              <button
-                onClick={handleDecreaseCount}
-                className="px-2 py-1 bg-gray-200 rounded cursor-pointer hover:bg-gray-100 transition-all"
-              >
-                -
-              </button>
-            </Atom.Visibility>
-
-            <span className="mx-2">
-              <Atom.Visibility state={user?.uid !== userId}>
-                {form.count}
-              </Atom.Visibility>
-              <Atom.Visibility state={user?.uid === userId}>
-                <input
-                  className="mx-2 w-16 text-center border border-gray-400 rounded px-1 py-0.5"
-                  value={form.count}
-                  min={0}
-                  max={totalCount ?? undefined}
-                  onChange={handleManualCount}
-                />
-              </Atom.Visibility>
-              {totalCount != null ? ` / ${totalCount}` : ""}
-            </span>
-
-            <Atom.Visibility state={user?.uid === userId}>
-              <button
-                onClick={handleIncreaseCount}
-                className="px-2 py-1 bg-gray-200 rounded cursor-pointer hover:bg-gray-100 transition-all"
-              >
-                +
-              </button>
-            </Atom.Visibility>
-          </div>
-        </td>
-
-        <td className="whitespace-nowrap">
-          <Atom.Visibility state={user?.uid !== userId}>
-            {ListingStatusOptions[type].find(option => option.value === form.status)?.label}
+      <td className="w-15">
+        <div className="w-12 aspect-square relative">
+          <img
+            src={imageUrl}
+            alt={title}
+            className="w-full h-full object-cover rounded-md"
+          />
+          <Atom.Visibility state={isOngoing}>
+            <div className="absolute bottom-0 right-0 w-3 aspect-square rounded-full bg-green-500 -mr-1 -mb-1 border border-white border-2"></div>
           </Atom.Visibility>
+        </div>
+      </td>
+
+      <td><a href={listingUrl}>{title}</a></td>
+
+      <td className="whitespace-nowrap">
+        <div className="mr-5">
           <Atom.Visibility state={user?.uid === userId}>
-            <select
-              value={form.status}
-              onChange={handleStatusChange}
-              className="border border-gray-400 rounded px-2 py-1"
+            <button
+              onClick={handleDecreaseCount}
+              className="px-2 py-1 bg-gray-200 rounded cursor-pointer hover:bg-gray-100 transition-all"
             >
-              {ListingStatusOptions[type].map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </Atom.Visibility>
-        </td>
-        <td>
-          <Atom.Visibility state={user?.uid === userId}>
-            <button onClick={deleteListing} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition ml-3 cursor-pointer">
-              <FontAwesomeIcon icon={faTrash} />
+              -
             </button>
           </Atom.Visibility>
-        </td>
-      </tr>
+
+          <span className="mx-2">
+            <Atom.Visibility state={user?.uid !== userId}>
+              {form.count}
+            </Atom.Visibility>
+            <Atom.Visibility state={user?.uid === userId}>
+              <input
+                className="mx-2 w-16 text-center border border-gray-400 rounded px-1 py-0.5"
+                value={form.count}
+                min={0}
+                max={totalCount ?? undefined}
+                onChange={handleManualCount}
+              />
+            </Atom.Visibility>
+            {totalCount != null ? ` / ${totalCount}` : ""}
+          </span>
+
+          <Atom.Visibility state={user?.uid === userId}>
+            <button
+              onClick={handleIncreaseCount}
+              className="px-2 py-1 bg-gray-200 rounded cursor-pointer hover:bg-gray-100 transition-all"
+            >
+              +
+            </button>
+          </Atom.Visibility>
+        </div>
+      </td>
+
+      <td className="whitespace-nowrap">
+        <Atom.Visibility state={user?.uid !== userId}>
+          {ListingStatusOptions[type].find(option => option.value === form.status)?.label}
+        </Atom.Visibility>
+        <Atom.Visibility state={user?.uid === userId}>
+          <select
+            value={form.status}
+            onChange={handleStatusChange}
+            className="border border-gray-400 rounded px-2 py-1"
+          >
+            {ListingStatusOptions[type].map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </Atom.Visibility>
+      </td>
+      <td>
+        <Atom.Visibility state={user?.uid === userId}>
+          <button onClick={deleteListing} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition ml-3 cursor-pointer">
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </Atom.Visibility>
+      </td>
     </Fragment>
   );
 };

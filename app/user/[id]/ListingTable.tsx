@@ -82,21 +82,22 @@ export default function ListingTable({ id }: ListingTableProps) {
         </tr>
       </thead>
       <tbody>
-        {filteredListings.map((listing, key) => (
-          <Molecule.ListingEditor
-            itemId={listing.itemId}
-            type={listing.type}
-            title={listing.title}
-            count={listing.count}
-            totalCount={listing.totalCount}
-            imageUrl={listing.imageUrl}
-            userId={listing.userId}
-            listingUrl={listing.listingUrl}
-            status={listing.status}
-            isModal={false}
-            key={key}
-            isOngoing={listing.isOngoing}
-          />
+        {filteredListings.map((listing) => (
+          <tr key={`${listing.type}-${listing.itemId}`}>
+            <Molecule.ListingEditor
+              itemId={listing.itemId}
+              type={listing.type}
+              title={listing.title}
+              count={listing.count}
+              totalCount={listing.totalCount}
+              imageUrl={listing.imageUrl}
+              userId={listing.userId}
+              listingUrl={listing.listingUrl}
+              status={listing.status}
+              isModal={false}
+              isOngoing={listing.isOngoing}
+            />
+          </tr>
         ))}
       </tbody>
     </table>

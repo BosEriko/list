@@ -10,7 +10,6 @@ interface ListingEditorProps {
   isModal?: boolean;
   isOngoing?: boolean;
   itemId: string;
-  key?: number | null
   listingUrl?: string;
   status?: number;
   title: string;
@@ -30,7 +29,6 @@ const ListingEditor: React.FC<ListingEditorProps> = ({
   listingUrl = "",
   status = 1,
   isModal = true,
-  key = null,
   isOngoing = false,
 }) => {
   if (isModal) {
@@ -57,7 +55,6 @@ const ListingEditor: React.FC<ListingEditorProps> = ({
       userId={userId}
       listingUrl={listingUrl}
       status={status}
-      key={key}
       isOngoing={isOngoing}
     />
   );
