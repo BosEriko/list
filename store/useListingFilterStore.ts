@@ -7,8 +7,8 @@ type ListingFilterState = {
   status: number;
   type: ListingType;
 
-  setStatus: (status: number | null) => void;
-  setType: (type: ListingType | null) => void;
+  setStatus: (status: number) => void;
+  setType: (type: ListingType) => void;
 
   reset: () => void;
 };
