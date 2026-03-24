@@ -5,7 +5,7 @@ import { Empty, Spin } from "antd";
 import { useEffect, useState, useMemo } from "react";
 import useListingStore from "@store/useListingStore";
 
-type ListingType = "anime" | "manga" | "game" | "movie";
+type ListingType = "anime" | "manga" | "game";
 
 interface ListingTableProps {
   id: string;

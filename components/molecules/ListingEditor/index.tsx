@@ -2,7 +2,7 @@
 import InlineEditor from "./InlineEditor";
 import ModalEditor from "./ModalEditor";
 
-type ListingType = "anime" | "manga" | "game" | "movie";
+type ListingType = "anime" | "manga" | "game";
 
 interface ListingEditorProps {
   count: number;

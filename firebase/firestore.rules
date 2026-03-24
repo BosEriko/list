@@ -11,7 +11,7 @@ service cloud.firestore {
       return isAuthenticated() && userId == request.auth.uid;
     }
     function isValidType(type) {
-      return type in ["anime", "manga", "game", "movie"];
+      return type in ["anime", "manga", "game"];
     }
     // ========================================================================================== //
     // Listings Collection                                                                        //

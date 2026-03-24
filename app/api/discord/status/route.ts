@@ -9,7 +9,7 @@ function capitalize(str: string) {
 
 function buildDescription(payload: {
   status: number;
-  type: "anime" | "manga" | "game" | "movie";
+  type: "anime" | "manga" | "game";
   count: number;
 }) {
   const { status, type, count } = payload;
@@ -18,7 +18,6 @@ function buildDescription(payload: {
     anime: "episode",
     manga: "chapter",
     game: "progress",
-    movie: "watch",
   };
 
   switch (status) {
@@ -33,7 +32,6 @@ function buildDescription(payload: {
       return `⭐ Planning to ${type === "manga" ? "read" : "watch"}`;
     case 1:
     case 4:
-      if (type === "movie") return "🎬 Watched";
       const action = actionVerbs[type];
       const verb = type === "manga" ? "Read" : type === "game" ? "Played" : "Watched";
       return `▶️ ${capitalize(verb)} ${action} ${count}`;

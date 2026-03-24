@@ -2,7 +2,7 @@ import COLLECTION from "../collection";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
-const ID_PATTERN = /^[0-9]+-(anime|manga|game|movie)-[0-9]+$/;
+const ID_PATTERN = /^[0-9]+-(anime|manga|game)-[0-9]+$/;
 
 const destroy = async (id: string) => {
   if (!id || typeof id !== "string") {

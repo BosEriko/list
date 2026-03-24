@@ -2,7 +2,7 @@ import COLLECTION from "../collection";
 import { collection, query, where as firestoreWhere, getDocs } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
-type ListingType = "anime" | "manga" | "game" | "movie";
+type ListingType = "anime" | "manga" | "game";
 
 interface Listing {
   count: number;

@@ -1,4 +1,4 @@
-export type ListingType = 'anime' | 'manga' | 'game' | 'movie';
+export type ListingType = 'anime' | 'manga' | 'game';
 
 export type StatusOption = {
   value: number;
@@ -27,14 +27,6 @@ const ListingStatusOptions: Record<ListingType, StatusOption[]> = {
     { value: 2, label: 'Wishlist' },
     { value: 3, label: 'Completed' },
     { value: 4, label: 'Replay' },
-    { value: 5, label: 'Paused' },
-    { value: 0, label: 'Dropped' },
-  ],
-  movie: [
-    { value: 1, label: 'Watching' },
-    { value: 2, label: 'Plan to watch' },
-    { value: 3, label: 'Completed' },
-    { value: 4, label: 'Rewatching' },
     { value: 5, label: 'Paused' },
     { value: 0, label: 'Dropped' },
   ],

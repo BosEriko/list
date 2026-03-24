@@ -7,7 +7,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Listing from "@model/Listing";
 import Atom from "@atom";
 
-type ListingType = "anime" | "manga" | "game" | "movie";
+type ListingType = "anime" | "manga" | "game";
 
 interface InlineEditorProps {
   count: number;

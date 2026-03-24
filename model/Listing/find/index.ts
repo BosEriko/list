@@ -2,8 +2,8 @@ import COLLECTION from "../collection";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
-type ListingType = "anime" | "manga" | "game" | "movie";
-const ID_PATTERN = /^[0-9]+-(anime|manga|game|movie)-[0-9]+$/;
+type ListingType = "anime" | "manga" | "game";
+const ID_PATTERN = /^[0-9]+-(anime|manga|game)-[0-9]+$/;
 
 interface Listing {
   count: number;

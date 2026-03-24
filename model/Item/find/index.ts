@@ -1,8 +1,8 @@
 import COLLECTION from "../collection";
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 
-type ItemType = "anime" | "manga" | "game" | "movie";
-const ID_PATTERN = /^(anime|manga|game|movie)-[0-9]+$/;
+type ItemType = "anime" | "manga" | "game";
+const ID_PATTERN = /^(anime|manga|game)-[0-9]+$/;
 
 interface Item {
   itemId: string;

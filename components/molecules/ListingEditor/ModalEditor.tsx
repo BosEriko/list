@@ -5,7 +5,7 @@ import useAuthStore from "@store/useAuthStore";
 import Listing from "@model/Listing";
 import Atom from "@atom";
 
-type ListingType = "anime" | "manga" | "game" | "movie";
+type ListingType = "anime" | "manga" | "game";
 
 interface ModalEditorProps {
   count: number;

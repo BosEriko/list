@@ -1,15 +1,15 @@
 "use client";
 import useListingStore from "@store/useListingStore";
 
-const typeOptions: Array<"anime" | "manga" | "game" | "movie"> = ["anime", "manga", "game", "movie"];
+const typeOptions: Array<"anime" | "manga" | "game"> = ["anime", "manga", "game"];
 
 export default function ListingType() {
   const { type, setType, listings } = useListingStore();
 
   return (
     <div className="flex gap-2 mb-2">
-      {/* TODO: Remove "game" and "movie" filter when they are available */}
-      {typeOptions.filter((t) => t !== "game" && t !== "movie").map((t) => {
+      {/* TODO: Remove "game" filter when it's available */}
+      {typeOptions.filter((t) => t !== "game").map((t) => {
         const count = listings.filter((l) => l.type === t).length;
         return (
           <button

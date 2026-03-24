@@ -4,7 +4,7 @@ interface Payload {
   title: string;
   count: number;
   status: number;
-  type: "anime" | "manga" | "game" | "movie";
+  type: "anime" | "manga" | "game";
   listingUrl: string;
   imageUrl?: string;
 }

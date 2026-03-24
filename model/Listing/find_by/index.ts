@@ -1,6 +1,6 @@
 import where from "../where";
 
-type ListingType = "anime" | "manga" | "game" | "movie";
+type ListingType = "anime" | "manga" | "game";
 
 interface Listing {
   count: number;
