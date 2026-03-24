@@ -25,8 +25,7 @@ interface Listing {
 }
 
 export default function ListingTable({ id }: ListingTableProps) {
-  const { status, type, reset } = useListingStore();
-  const [allListings, setAllListings] = useState<Listing[]>([]);
+  const { status, type, listings, setListings, reset } = useListingStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,7 +45,7 @@ export default function ListingTable({ id }: ListingTableProps) {
         } else {
           userListings = userListings.map((listing) => ({ ...listing, isOngoing: false }));
         }
-        setAllListings(userListings);
+        setListings(userListings);
       } catch (err) {
         console.error("ListingTable load error:", err);
       } finally {
@@ -54,16 +53,16 @@ export default function ListingTable({ id }: ListingTableProps) {
       }
     }
     loadData();
-  }, [id]);
+  }, [id, reset, setListings]);
 
-  const listings = useMemo(
-    () => allListings.filter((listing) => listing.type === type && listing.status === status),
-    [allListings, type, status]
+  const filteredListings = useMemo(
+    () => listings.filter((listing) => listing.type === type && listing.status === status),
+    [listings, type, status]
   );
 
   if (loading) return <Spin className="py-10 w-full" />;
 
-  if (listings.length === 0) {
+  if (filteredListings.length === 0) {
     return (
       <div className="w-full py-10">
         <Empty description={`No ${type} listings found`} />
@@ -83,7 +82,7 @@ export default function ListingTable({ id }: ListingTableProps) {
         </tr>
       </thead>
       <tbody>
-        {listings.map((listing, key) => (
+        {filteredListings.map((listing, key) => (
           <Molecule.ListingEditor
             itemId={listing.itemId}
             type={listing.type}
