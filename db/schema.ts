@@ -26,3 +26,17 @@ export const UserSchema = z.object({
   username: z.string(),
 });
 export type UserType = z.infer<typeof UserSchema>;
+
+// Listing Schema
+export const ListingSchema = z.object({
+  createdAt: FirebaseTimestamp.optional(),
+  updatedAt: FirebaseTimestamp.optional(),
+});
+export type ListingType = z.infer<typeof ListingSchema>;
+
+// Item Schema
+export const ItemSchema = z.object({
+  createdAt: FirebaseTimestamp.optional(),
+  updatedAt: FirebaseTimestamp.optional(),
+});
+export type ItemType = z.infer<typeof ItemSchema>;
