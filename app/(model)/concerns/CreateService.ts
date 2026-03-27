@@ -75,9 +75,9 @@ export function CreateService<TSchema extends ZodTypeAny>(opts: {
 
       if (id) {
         docRef = collection.doc(id);
-        await docRef.set(parsed);
+        await docRef.set(parsed as FirebaseFirestore.DocumentData);
       } else {
-        docRef = await collection.add(parsed);
+        docRef = await collection.add(parsed as FirebaseFirestore.DocumentData);
       }
 
       return {
