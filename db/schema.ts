@@ -1,31 +1,17 @@
 import { z } from "zod";
 
-// Helper Functions
-function firestoreTimestampToDate(val: unknown) {
-  if (
-    val &&
-    typeof val === "object" &&
-    "toDate" in val &&
-    typeof (val as any).toDate === "function"
-  ) {
-    return (val as FirebaseFirestore.Timestamp).toDate();
-  }
-
-  return val;
-}
-
 // Schema
 export const UserActivitySchema = z.object({
-  createdAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
-  lastListingUpdate: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
-  updatedAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
+  createdAt: z.instanceof(Date).optional(),
+  lastListingUpdate: z.instanceof(Date).optional(),
+  updatedAt: z.instanceof(Date).optional(),
 });
 
 export const UserSchema = z.object({
   avatarUrl: z.string(),
-  createdAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
+  createdAt: z.instanceof(Date).optional(),
   email: z.string(),
   uid: z.string(),
-  updatedAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
+  updatedAt: z.instanceof(Date).optional(),
   username: z.string(),
 });

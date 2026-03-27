@@ -43,20 +43,6 @@ const schemaFilePath = path.join("db", "schema.ts");
 const schemaContent = `
 import { z } from "zod";
 
-// Helper Functions
-function firestoreTimestampToDate(val: unknown) {
-  if (
-    val &&
-    typeof val === "object" &&
-    "toDate" in val &&
-    typeof (val as any).toDate === "function"
-  ) {
-    return (val as FirebaseFirestore.Timestamp).toDate();
-  }
-
-  return val;
-}
-
 // Schema`
 if (!fs.existsSync(schemaFilePath)) {
   fs.writeFileSync(
@@ -70,8 +56,8 @@ if (!fs.existsSync(schemaFilePath)) {
 
 const schemaStub = `
 export const ${modelName}Schema = z.object({
-  createdAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
-  updatedAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
+  createdAt: z.instanceof(Date).optional(),
+  updatedAt: z.instanceof(Date).optional(),
 });
 `;
 
