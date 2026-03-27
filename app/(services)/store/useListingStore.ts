@@ -28,7 +28,7 @@ type ListingState = {
 };
 
 const DEFAULT_STATUS = 1;
-const DEFAULT_TYPE: ListingType = 'anime';
+const DEFAULT_TYPE: MediaType = 'anime';
 
 const useListingStore = create<ListingState>((set) => ({
   status: DEFAULT_STATUS,
