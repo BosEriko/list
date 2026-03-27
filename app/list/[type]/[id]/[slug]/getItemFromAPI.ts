@@ -1,8 +1,9 @@
 import MEDIA from "@constant/MEDIA";
+import MediaType from "@type/MediaType";
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getItemFromAPI(type: string, id: string) {
+export async function getItemFromAPI(type: MediaType, id: string) {
   if (!MEDIA.includes(type)) {
     throw new Error("Invalid type");
   }
