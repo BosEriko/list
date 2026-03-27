@@ -41,9 +41,11 @@ export function CreateService<TSchema extends ZodTypeAny>(opts: {
       return null;
     }
 
+    if (!parsed.success || typeof parsed.data !== "object" || parsed.data === null) return null;
+
     return {
       id: doc.id,
-      ...(parsed.data as T),
+      ...parsed.data,
     };
   }
 
