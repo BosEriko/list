@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
-
-import generateDiscordToken from "./generateDiscordToken";
-import fetchUser from "./fetchUser";
-import syncFirebaseUser from "./syncFirebaseUser";
-import generateFirebaseToken from "./generateFirebaseToken";
+import DiscordController from "@controller/Discord";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -13,11 +9,14 @@ export async function GET(req: Request) {
     return new Response("Missing code", { status: 400 });
   }
 
-  const discord_token = await generateDiscordToken(code);
-  const user = await fetchUser(discord_token);
-  await syncFirebaseUser(user);
-  const firebase_token = await generateFirebaseToken(user)
+  try {
+    const { firebaseToken } = await DiscordController.authentication_callback(code);
 
-  const response = NextResponse.redirect(new URL(`/authenticate?token=${firebase_token}`, req.url));
-  return response;
+    const redirectUrl = new URL(`/authenticate?token=${firebaseToken}`, req.url);
+    return NextResponse.redirect(redirectUrl);
+
+  } catch (err) {
+    console.error("Discord authentication error:", err);
+    return new Response("Authentication failed", { status: 500 });
+  }
 }
