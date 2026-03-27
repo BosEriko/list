@@ -8,7 +8,7 @@ const FirebaseTimestamp = z.union([
   z.custom((val) => val === FirebaseAdmin.firestore.FieldValue.serverTimestamp(), { message: "Expected serverTimestamp()" }),
 ]);
 
-// Schema
+// UserActivity Schema
 export const UserActivitySchema = z.object({
   createdAt: FirebaseTimestamp.optional(),
   lastListingUpdate: FirebaseTimestamp.optional(),
@@ -16,6 +16,7 @@ export const UserActivitySchema = z.object({
 });
 export type UserActivityType = z.infer<typeof UserActivitySchema>;
 
+// User Schema
 export const UserSchema = z.object({
   avatarUrl: z.string(),
   createdAt: FirebaseTimestamp.optional(),
