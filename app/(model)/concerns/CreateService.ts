@@ -1,4 +1,5 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
+import { serverTimestamp } from "firebase-admin/firestore";
 import { z, ZodObject, ZodRawShape } from "zod";
 
 type WhereOperator =
@@ -64,7 +65,13 @@ function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
     },
 
     async create(data: T, id?: string): Promise<WithId | null> {
-      const parsed = schema.parse(data) as FirebaseFirestore.DocumentData;
+      const dataWithTimestamp = {
+        ...data,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
+
+      const parsed = schema.parse(dataWithTimestamp) as FirebaseFirestore.DocumentData;
 
       let docRef: FirebaseFirestore.DocumentReference;
 
@@ -94,8 +101,13 @@ function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
     },
 
     async update(id: string, data: Partial<T>): Promise<void> {
+      const dataWithTimestamp = {
+        ...data,
+        updatedAt: serverTimestamp(),
+      };
+
       const partialSchema = schema.partial();
-      const parsed = partialSchema.parse(data);
+      const parsed = partialSchema.parse(dataWithTimestamp);
 
       await collection.doc(id).update(parsed);
     },
