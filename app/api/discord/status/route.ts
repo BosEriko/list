@@ -45,7 +45,7 @@ function buildDescription(payload: {
 async function checkCooldown(uid: string) {
   if (!uid) return { ok: false };
 
-  const userActivity: UserActivityType = await UserActivity.find(uid);
+  const userActivity: UserActivityType | null = await UserActivity.find(uid);
 
   if (!userActivity) {
     await UserActivity.create(
