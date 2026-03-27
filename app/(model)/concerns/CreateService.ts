@@ -1,5 +1,5 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
-import { z, ZodTypeAny } from "zod";
+import { z, ZodType } from "zod";
 
 type WhereOperator =
   | "=="
@@ -19,7 +19,7 @@ type WhereCondition<T> = {
   value: any;
 };
 
-function CreateService<TSchema extends ZodTypeAny>(opts: {
+function CreateService<TSchema extends ZodType>(opts: {
   collection: string;
   schema: TSchema;
 }) {
