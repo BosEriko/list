@@ -10,8 +10,7 @@ export default function ListingType() {
 
   return (
     <div className="flex gap-2 mb-2">
-      {/* TODO: Remove "game" filter when it's available */}
-      {typeOptions.filter((t) => t !== "game").map((t) => {
+      {typeOptions.map((t) => {
         const count = listings.filter((l) => l.type === t).length;
         return (
           <button
