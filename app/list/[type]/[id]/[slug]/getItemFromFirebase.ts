@@ -1,28 +1,24 @@
 import { getItemFromAPI } from "./getItemFromAPI";
-import Item from "@old-model/Item";
+import Item from "@model/Item";
+import { ItemType } from "@schema";
 import MEDIA from "@constant/MEDIA";
+import ITEM_ID_PATTERN from "@constant/ITEM_ID_PATTERN";
 import MediaType from "@type/MediaType";
-
-type Item = {
-  itemId: string;
-  type: MediaType;
-  images: any;
-  title: string;
-  totalCount: number | null;
-  status: string;
-  synopsis: string;
-  score: number;
-  updatedAt: any;
-};
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getItemFromFirebase(id: string, type: MediaType): Promise<Item> {
+export async function getItemFromFirebase(id: string, type: MediaType): Promise<ItemType> {
+  const itemId = `${type}-${id}`;
+
   if (!MEDIA.includes(type)) {
     throw new Error("Invalid type");
   }
 
-  const itemId = `${type}-${id}`
+  if (!ITEM_ID_PATTERN.test(itemId)) {
+    console.error(`Malformed ID: ${itemId}`);
+    return null;
+  }
+
   const jikan = await getItemFromAPI(type, id);
   const item = await Item.find(itemId);
 
@@ -30,7 +26,7 @@ export async function getItemFromFirebase(id: string, type: MediaType): Promise<
     const updatedAt = item?.updatedAt?.toMillis?.() ?? 0;
 
     if (Date.now() - updatedAt < ONE_MONTH) {
-      return item as Item;
+      return item as ItemType;
     }
   }
 
@@ -46,9 +42,9 @@ export async function getItemFromFirebase(id: string, type: MediaType): Promise<
   };
 
   if (!!item) {
-    await Item.update(itemId, dataToSave);
+    await Item.update(dataToSave, itemId);
   } else {
-    await Item.create(itemId, dataToSave);
+    await Item.create(dataToSave, itemId);
   }
 
   return {
