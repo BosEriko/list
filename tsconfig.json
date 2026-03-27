@@ -20,14 +20,20 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@atom": ["./components/atoms"],
-      "@molecule": ["./components/molecules"],
-      "@organism": ["./components/organisms"],
-      "@template": ["./components/templates"],
       "@lib/*": ["./lib/*"],
       "@store/*": ["./store/*"],
       "@old-model/*": ["./model/*"],
       "@constant/*": ["./constant/*"],
+
+      "@model/*": ["./app/(model)/*"],
+      "@view/*": ["./app/(view)/*"],
+      "@controller/*": ["./app/(controller)/*"],
+
+
+      "@atom": ["./app/(view)/atoms"],
+      "@molecule": ["./app/(view)/molecules"],
+      "@organism": ["./app/(view)/organisms"],
+      "@template": ["./app/(view)/templates"],
     },
   },
   "include": [
