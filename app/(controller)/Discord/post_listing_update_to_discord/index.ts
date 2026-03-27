@@ -79,7 +79,7 @@ async function checkCooldown(uid: string) {
     return { ok: false };
   }
 
-  await UserActivity.update(uid, { lastListingUpdate: new Date() });
+  await UserActivity.update({ lastListingUpdate: new Date() }, uid);
 
   return { ok: true };
 }
