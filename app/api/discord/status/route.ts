@@ -1,5 +1,6 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 import UserActivity from "@model/UserActivity";
+import { UserActivityType } from "@schema";
 
 const websiteUrl = "https://list.boseriko.com";
 const COOLDOWN_MS = 5 * 60 * 1000;
@@ -44,7 +45,7 @@ function buildDescription(payload: {
 async function checkCooldown(uid: string) {
   if (!uid) return { ok: false };
 
-  const userActivity = await UserActivity.find(uid);
+  const userActivity: UserActivityType = await UserActivity.find(uid);
 
   if (!userActivity) {
     await UserActivity.create(

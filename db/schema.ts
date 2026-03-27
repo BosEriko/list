@@ -1,7 +1,7 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 import { z } from "zod";
 
-// Helper Function
+// Helper Functions
 const FirebaseTimestamp = z.union([
   z.instanceof(FirebaseAdmin.firestore.Timestamp),
   z.date(),
@@ -14,6 +14,7 @@ export const UserActivitySchema = z.object({
   lastListingUpdate: FirebaseTimestamp.optional(),
   updatedAt: FirebaseTimestamp.optional(),
 });
+export type UserActivityType = z.infer<typeof UserActivitySchema>;
 
 export const UserSchema = z.object({
   avatarUrl: z.string(),
@@ -23,3 +24,4 @@ export const UserSchema = z.object({
   updatedAt: FirebaseTimestamp.optional(),
   username: z.string(),
 });
+export type UserType = z.infer<typeof UserSchema>;

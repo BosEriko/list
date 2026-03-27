@@ -67,6 +67,7 @@ export const ${modelName}Schema = z.object({
   createdAt: FirebaseTimestamp.optional(),
   updatedAt: FirebaseTimestamp.optional(),
 });
+export type ${modelName}Type = z.infer<typeof ${modelName}Schema>;
 `;
 
 fs.appendFileSync(schemaFilePath, schemaStub);
