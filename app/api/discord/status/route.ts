@@ -1,4 +1,4 @@
-import FirebaseAdmin from "@lib/FirebaseAdmin";
+import UserActivity from "@model/UserActivity";
 
 const websiteUrl = "https://list.boseriko.com";
 const COOLDOWN_MS = 5 * 60 * 1000;
@@ -41,29 +41,27 @@ function buildDescription(payload: {
 }
 
 async function checkCooldown(uid: string) {
-  if (!uid) {
-    return { ok: false };
-  }
+  if (!uid) return { ok: false };
 
-  const database = FirebaseAdmin.firestore();
-  const reference = database.collection("userActivities").doc(uid);
-  const userActivity = await reference.get();
+  const userActivity = await UserActivity.find(uid);
 
-  if (!userActivity.exists) {
-    await reference.set({
-      lastListingUpdate: FirebaseAdmin.firestore.Timestamp.now()
-    });
+  if (!userActivity) {
+    await UserActivity.create(
+      { lastListingUpdate: new Date() },
+      uid
+    );
     return { ok: true };
   }
 
-  const lastUpdate = userActivity.data()?.lastListingUpdate?.toMillis() || 0;
+  const lastUpdate = userActivity.lastListingUpdate?.getTime() || 0;
   const now = Date.now();
 
   if (now - lastUpdate < COOLDOWN_MS) {
     return { ok: false };
   }
 
-  await reference.update({ lastListingUpdate: FirebaseAdmin.firestore.Timestamp.now() });
+  await UserActivity.update(uid, { lastListingUpdate: new Date() });
+
   return { ok: true };
 }
 
@@ -86,7 +84,7 @@ export async function POST(req: Request) {
   const { title, count, status, type, listingUrl, imageUrl } = payload;
 
   const embed = {
-    title: title,
+    title,
     url: `${websiteUrl}${listingUrl}`,
     description: buildDescription(payload),
     thumbnail: imageUrl ? { url: imageUrl } : undefined,
