@@ -64,13 +64,17 @@ function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
     },
 
     async create(data: T, id?: string): Promise<WithId | null> {
+      const createSchema = schema.extend({
+        updatedAt: schema.shape.updatedAt.optional(),
+      });
+
       const dataWithTimestamp = {
         ...data,
         createdAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
         updatedAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
       };
 
-      const parsed = schema.parse(dataWithTimestamp) as FirebaseFirestore.DocumentData;
+      const parsed = createSchema.parse(dataWithTimestamp) as FirebaseFirestore.DocumentData;
 
       let docRef: FirebaseFirestore.DocumentReference;
 

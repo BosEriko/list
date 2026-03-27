@@ -16,16 +16,16 @@ function firestoreTimestampToDate(val: unknown) {
 
 // Schema
 export const UserActivitySchema = z.object({
-  createdAt: z.preprocess(firestoreTimestampToDate, z.date()),
-  lastListingUpdate: z.preprocess(firestoreTimestampToDate, z.date()),
+  createdAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
+  lastListingUpdate: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
   updatedAt: z.preprocess(firestoreTimestampToDate, z.date()),
 });
 
 export const UserSchema = z.object({
-  avatarUrl: z.string(),
-  createdAt: z.preprocess(firestoreTimestampToDate, z.date()),
-  email: z.string(),
-  uid: z.string(),
+  avatarUrl: z.string().optional(),
+  createdAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
+  email: z.string().optional(),
+  uid: z.string().optional().optional(),
   updatedAt: z.preprocess(firestoreTimestampToDate, z.date()),
-  username: z.string(),
+  username: z.string().optional(),
 });
