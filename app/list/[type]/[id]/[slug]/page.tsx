@@ -43,11 +43,11 @@ export default async function ListingPage({ params }: PageProps) {
   const listing = await getItemFromFirebase(id, type);
 
   if (!listing) {
-    return {
-    <Template.Default>
-      <div>Listing not found.</div>
-    </Template.Default>
-    };
+    return (
+      <Template.Default>
+        <div>Listing not found.</div>
+      </Template.Default>
+    );
   }
 
   const sidebarContent = [
