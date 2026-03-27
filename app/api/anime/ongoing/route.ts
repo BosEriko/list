@@ -1,18 +1,10 @@
 import { NextResponse } from "next/server";
+import AnimeController from "@controller/Anime";
 
 export async function GET() {
   try {
-    const res = await fetch("https://api.jikan.moe/v4/seasons/now", {
-      next: { revalidate: 3600 }, // cache for 1 hour
-    });
-
-    const data = await res.json();
-
-    const ongoingIds = data.data
-      .filter((anime: any) => anime.status === "Currently Airing")
-      .map((anime: any) => anime.mal_id);
-
-    return NextResponse.json({ ids: ongoingIds });
+    const ids = await AnimeController.get_ongoing_anime_ids();
+    return NextResponse.json({ ids });
   } catch (err) {
     console.error("Anime ongoing API error:", err);
     return NextResponse.json(
