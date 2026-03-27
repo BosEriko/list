@@ -19,9 +19,9 @@ type WhereCondition<T> = {
   value: any;
 };
 
-function CreateService<TSchema extends ZodRawShape>(params: {
+function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
   collection: string;
-  schema: ZodObject<TSchema>;
+  schema: TSchema;
 }) {
   const { collection: collectionName, schema } = opts;
 
@@ -64,17 +64,13 @@ function CreateService<TSchema extends ZodRawShape>(params: {
     },
 
     async create(data: T, id?: string): Promise<WithId | null> {
-      const createSchema = schema.extend({
-        updatedAt: schema.shape.updatedAt.optional(),
-      });
-
       const dataWithTimestamp = {
         ...data,
         createdAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
         updatedAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
       };
 
-      const parsed = createSchema.parse(dataWithTimestamp) as FirebaseFirestore.DocumentData;
+      const parsed = schema.parse(dataWithTimestamp) as FirebaseFirestore.DocumentData;
 
       let docRef: FirebaseFirestore.DocumentReference;
 

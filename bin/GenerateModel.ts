@@ -71,7 +71,7 @@ if (!fs.existsSync(schemaFilePath)) {
 const schemaStub = `
 export const ${modelName}Schema = z.object({
   createdAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
-  updatedAt: z.preprocess(firestoreTimestampToDate, z.date()),
+  updatedAt: z.preprocess(firestoreTimestampToDate, z.date()).optional(),
 });
 `;
 
