@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import ListingStatusOptions from '@constant/ListingStatusOptions';
 import useAuthStore from "@store/useAuthStore";
-import Listing from "@model/Listing";
+import Listing from "@old-model/Listing";
 import Atom from "@atom";
 
 type ListingType = "anime" | "manga" | "game";

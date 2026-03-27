@@ -1,5 +1,5 @@
 import { getItemFromAPI } from "./getItemFromAPI";
-import Item from "@model/Item";
+import Item from "@old-model/Item";
 
 type ItemType = "anime" | "manga" | "game";
 

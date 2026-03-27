@@ -1,5 +1,5 @@
 import Template from "@template";
-import User from "@model/User";
+import User from "@old-model/User";
 import ListingStatus from "./ListingStatus";
 import ListingTable from "./ListingTable";
 import ListingType from "./ListingType";

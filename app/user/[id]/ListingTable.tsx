@@ -1,6 +1,6 @@
 "use client";
 import Molecule from "@molecule";
-import Listing from "@model/Listing";
+import Listing from "@old-model/Listing";
 import { Empty, Spin } from "antd";
 import { useEffect, useState, useMemo } from "react";
 import useListingStore from "@store/useListingStore";

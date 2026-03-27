@@ -1,5 +1,5 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
-import User from "@model/User";
+import User from "@old-model/User";
 
 const syncFirebaseUser = async (user: any) => {
   const avatarUrl = `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`;
