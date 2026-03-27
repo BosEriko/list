@@ -20,10 +20,10 @@
     ],
     "paths": {
       "@/*": ["./*"],
+      "@constant/*": ["./config/initializers/constant/*"],
       "@lib/*": ["./lib/*"],
-      "@store/*": ["./store/*"],
-      "@old-model/*": ["./model/*"],
-      "@constant/*": ["./constant/*"],
+      "@schema": ["./db/schema"],
+      "@store/*": ["./app/(services)/store/*"],
 
       "@model/*": ["./app/(model)/*"],
       "@view/*": ["./app/(view)/*"],
@@ -34,7 +34,8 @@
       "@organism": ["./app/(view)/organisms"],
       "@template": ["./app/(view)/templates"],
 
-      "@schema": ["./db/schema"],
+      // TODO: Remove when not in use anymore
+      "@old-model/*": ["./model/*"],
     },
   },
   "include": [
