@@ -1,6 +1,6 @@
 import COLLECTION from "../collection";
 import LISTING_ID_PATTERN from "@constant/LISTING_ID_PATTERN";
-import DiscordController from "@controller/Discord";
+import update_status from "@controller/Discord/update_status";
 import MediaType from "@type/MediaType";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
@@ -44,7 +44,7 @@ const create = async (id: string, payload: Payload) => {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
-    await DiscordController.update_status(payload);
+    await update_status(payload);
   } catch (err) {
     console.error(`Error creating ${COLLECTION}:`, err);
   }
