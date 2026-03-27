@@ -21,6 +21,7 @@
     "paths": {
       "@/*": ["./*"],
       "@constant/*": ["./config/initializers/constant/*"],
+      "@type/*": ["./config/initializers/type/*"],
       "@lib/*": ["./lib/*"],
       "@schema": ["./db/schema"],
       "@store/*": ["./app/(services)/store/*"],
