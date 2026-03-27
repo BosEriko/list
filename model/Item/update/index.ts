@@ -1,12 +1,12 @@
 import COLLECTION from "../collection";
 import FirebaseAdmin from "@lib/FirebaseAdmin";
+import MediaType from "@type/MediaType";
 
-type ItemType = "anime" | "manga" | "game";
 const ID_PATTERN = /^(anime|manga|game)-[0-9]+$/;
 
 interface Payload {
   itemId: string;
-  type: ItemType;
+  type: MediaType;
   images: any;
   title: string;
   totalCount: number | null;

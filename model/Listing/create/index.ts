@@ -1,9 +1,9 @@
 import COLLECTION from "../collection";
 import UpdateDiscordStatus from "@lib/UpdateDiscordStatus";
+import MediaType from "@type/MediaType";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
-type ListingType = "anime" | "manga" | "game";
 const ID_PATTERN = /^[0-9]+-(anime|manga|game)-[0-9]+$/;
 
 interface Payload {
@@ -14,7 +14,7 @@ interface Payload {
   status: number;
   title: string;
   totalCount: number | null;
-  type: ListingType;
+  type: MediaType;
   userId: string;
 }
 

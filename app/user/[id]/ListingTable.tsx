@@ -4,8 +4,7 @@ import Listing from "@old-model/Listing";
 import { Empty, Spin } from "antd";
 import { useEffect, useState, useMemo } from "react";
 import useListingStore from "@store/useListingStore";
-
-type ListingType = "anime" | "manga" | "game";
+import MediaType from "@type/MediaType";
 
 interface ListingTableProps {
   id: string;
@@ -21,7 +20,7 @@ interface Listing {
   status: number;
   title: string;
   totalCount: number | null;
-  type: ListingType;
+  type: MediaType;
   updatedAt: any;
   userId: string;
 }

@@ -1,11 +1,11 @@
-type ListingType = "anime" | "manga" | "game";
+import MediaType from "@type/MediaType";
 
 type StatusOption = {
   value: number;
   label: string;
 };
 
-const LISTING_STATUS_OPTIONS: Record<ListingType, StatusOption[]> = {
+const LISTING_STATUS_OPTIONS: Record<MediaType, StatusOption[]> = {
   anime: [
     { value: 1, label: 'Watching' },
     { value: 2, label: 'Plan to watch' },

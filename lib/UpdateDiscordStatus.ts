@@ -1,10 +1,11 @@
 import useAuthStore from "@store/useAuthStore";
+import MediaType from "@type/MediaType";
 
 interface Payload {
   title: string;
   count: number;
   status: number;
-  type: "anime" | "manga" | "game";
+  type: MediaType;
   listingUrl: string;
   imageUrl?: string;
 }

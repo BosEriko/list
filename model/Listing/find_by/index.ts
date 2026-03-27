@@ -1,6 +1,5 @@
 import where from "../where";
-
-type ListingType = "anime" | "manga" | "game";
+import MediaType from "@type/MediaType";
 
 interface Listing {
   count: number;
@@ -11,7 +10,7 @@ interface Listing {
   status: number;
   title: string;
   totalCount: number | null;
-  type: ListingType;
+  type: MediaType;
   updatedAt: any;
   userId: string;
 }

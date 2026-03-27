@@ -1,7 +1,6 @@
 'use client';
 import { create } from 'zustand';
-
-type ListingType = "anime" | "manga" | "game";
+import MediaType from "@type/MediaType";
 
 export interface Listing {
   count: number;
@@ -11,18 +10,18 @@ export interface Listing {
   status: number;
   title: string;
   totalCount: number | null;
-  type: ListingType;
+  type: MediaType;
   userId: string;
   isOngoing?: boolean;
 }
 
 type ListingState = {
   status: number;
-  type: ListingType;
+  type: MediaType;
   listings: Listing[];
 
   setStatus: (status: number) => void;
-  setType: (type: ListingType) => void;
+  setType: (type: MediaType) => void;
   setListings: (listings: Listing[]) => void;
 
   reset: () => void;

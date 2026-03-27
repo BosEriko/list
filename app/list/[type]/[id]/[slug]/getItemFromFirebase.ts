@@ -1,12 +1,11 @@
 import { getItemFromAPI } from "./getItemFromAPI";
 import Item from "@old-model/Item";
 import MEDIA from "@constant/MEDIA";
-
-type ItemType = "anime" | "manga" | "game";
+import MediaType from "@type/MediaType";
 
 type Item = {
   itemId: string;
-  type: ItemType;
+  type: MediaType;
   images: any;
   title: string;
   totalCount: number | null;
@@ -18,7 +17,7 @@ type Item = {
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getItemFromFirebase(id: string, type: ItemType): Promise<Item> {
+export async function getItemFromFirebase(id: string, type: MediaType): Promise<Item> {
   if (!MEDIA.includes(type)) {
     throw new Error("Invalid type");
   }

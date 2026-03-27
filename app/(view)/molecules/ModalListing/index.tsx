@@ -4,8 +4,7 @@ import LISTING_STATUS_OPTIONS from '@constant/LISTING_STATUS_OPTIONS';
 import useAuthStore from "@store/useAuthStore";
 import Listing from "@old-model/Listing";
 import Atom from "@atom";
-
-type ListingType = "anime" | "manga" | "game";
+import MediaType from "@type/MediaType";
 
 interface ModalListingProps {
   count: number;
@@ -13,7 +12,7 @@ interface ModalListingProps {
   itemId: string;
   title: string;
   totalCount: number | null;
-  type: ListingType;
+  type: MediaType;
 }
 
 const ModalListing: React.FC<ModalListingProps> = ({

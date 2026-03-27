@@ -1,8 +1,7 @@
 import COLLECTION from "../collection";
+import MediaType from "@type/MediaType";
 import { collection, query, where as firestoreWhere, getDocs } from "firebase/firestore";
 import { db } from "@lib/Firebase";
-
-type ListingType = "anime" | "manga" | "game";
 
 interface Listing {
   count: number;
@@ -13,7 +12,7 @@ interface Listing {
   status: number;
   title: string;
   totalCount: number | null;
-  type: ListingType;
+  type: MediaType;
   updatedAt: any;
   userId: string;
 }

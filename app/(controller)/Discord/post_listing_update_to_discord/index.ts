@@ -1,5 +1,6 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 import UserActivity from "@model/UserActivity";
+import MediaType from "@type/MediaType";
 import { UserActivityType } from "@schema";
 
 const websiteUrl = "https://list.boseriko.com";
@@ -28,7 +29,7 @@ function toMillis(ts?: UserActivityType["lastListingUpdate"]): number {
 
 function buildDescription(payload: {
   status: number;
-  type: "anime" | "manga" | "game";
+  type: MediaType;
   count: number;
 }) {
   const { status, type, count } = payload;
@@ -88,7 +89,7 @@ async function post_listing_update_to_discord(payload: {
   title: string;
   count: number;
   status: number;
-  type: "anime" | "manga" | "game";
+  type: MediaType;
   listingUrl: string;
   imageUrl?: string;
 }, user: { uid: string; username: string; avatar_url?: string }) {

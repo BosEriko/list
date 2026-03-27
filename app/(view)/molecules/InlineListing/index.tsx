@@ -6,8 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Listing from "@old-model/Listing";
 import Atom from "@atom";
-
-type ListingType = "anime" | "manga" | "game";
+import MediaType from "@type/MediaType";
 
 interface InlineListingProps {
   count: number;
@@ -17,7 +16,7 @@ interface InlineListingProps {
   status: number;
   title: string;
   totalCount: number | null;
-  type: ListingType;
+  type: MediaType;
   userId: string;
   isOngoing: boolean;
 }
