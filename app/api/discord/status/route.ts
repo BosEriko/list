@@ -9,9 +9,18 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function isFirestoreTimestamp(ts: unknown): ts is FirebaseAdmin.firestore.Timestamp {
+  return (
+    typeof ts === "object" &&
+    ts !== null &&
+    "toDate" in ts &&
+    typeof (ts as any).toDate === "function"
+  );
+}
+
 function toMillis(ts?: UserActivityType["lastListingUpdate"]): number {
   if (!ts) return 0;
-  if ("toDate" in ts && typeof ts.toDate === "function") {
+  if (isFirestoreTimestamp(ts)) {
     return ts.toDate().getTime();
   }
   if (ts instanceof Date) {
