@@ -59,16 +59,15 @@ function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
     },
 
     async find(id: string): Promise<WithId | null> {
-      const doc = await collection.doc(id).get();
-      if (!doc.exists) return null;
-      return doc.data();
+      const snapshot = await collection.doc(id).get();
+      return parseDoc(snapshot);
     },
 
     async create(data: T, id?: string): Promise<WithId | null> {
       const dataWithTimestamp = {
         ...data,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
       };
 
       const parsed = schema.parse(dataWithTimestamp) as FirebaseFirestore.DocumentData;
@@ -107,7 +106,7 @@ function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
 
       const dataWithTimestamp = {
         ...data,
-        updatedAt: new Date(),
+        updatedAt: FirebaseAdmin.firestore.FieldValue.serverTimestamp(),
       };
 
       const partialSchema = schema.partial();

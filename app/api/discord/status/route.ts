@@ -1,3 +1,4 @@
+import FirebaseAdmin from "@lib/FirebaseAdmin";
 import UserActivity from "@model/UserActivity";
 
 const websiteUrl = "https://list.boseriko.com";
@@ -47,13 +48,13 @@ async function checkCooldown(uid: string) {
 
   if (!userActivity) {
     await UserActivity.create(
-      { lastListingUpdate: new Date() },
+      { lastListingUpdate: FirebaseAdmin.firestore.FieldValue.serverTimestamp() },
       uid
     );
     return { ok: true };
   }
 
-  const lastUpdate = userActivity.lastListingUpdate?.getTime() || 0;
+  const lastUpdate = userActivity.lastListingUpdate?.toDate().getTime() || 0;
   const now = Date.now();
 
   if (now - lastUpdate < COOLDOWN_MS) {
