@@ -43,7 +43,7 @@ export function CreateService<TSchema extends ZodTypeAny>(opts: {
 
     return {
       id: doc.id,
-      ...parsed.data,
+      ...(parsed.data as T),
     };
   }
 
