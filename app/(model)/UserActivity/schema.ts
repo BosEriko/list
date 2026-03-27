@@ -13,8 +13,8 @@ function firestoreTimestampToDate(val: unknown) {
   return val;
 }
 
-const schema = z.object({
+const UserActivitySchema = z.object({
   lastListingUpdate: z.preprocess(firestoreTimestampToDate, z.date()),
 });
 
-export default schema;
+export default UserActivitySchema;
