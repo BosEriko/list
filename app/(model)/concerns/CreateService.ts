@@ -64,23 +64,27 @@ function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
     },
 
     async create(data: T, id?: string): Promise<WithId | null> {
-      const parsed = schema.parse(data);
+      const parsed = schema.parse(data) as FirebaseFirestore.DocumentData;
 
       let docRef: FirebaseFirestore.DocumentReference;
 
       if (id) {
         docRef = collection.doc(id);
-        await docRef.set(parsed as FirebaseFirestore.DocumentData);
+
+        const existingDoc = await docRef.get();
+        if (existingDoc.exists) {
+          throw new Error(`Document with ID ${id} already exists!`);
+        }
+
+        await docRef.set(parsed);
       } else {
-        docRef = await collection.add(parsed as FirebaseFirestore.DocumentData);
+        docRef = await collection.add(parsed);
       }
 
       const docSnap = await docRef.get();
-
       if (!docSnap.exists) return null;
 
       const result = schema.safeParse(docSnap.data());
-
       if (!result.success || typeof result.data !== "object" || result.data === null) return null;
 
       return {
