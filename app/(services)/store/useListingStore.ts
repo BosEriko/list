@@ -1,7 +1,7 @@
 'use client';
 import { create } from 'zustand';
 
-type ListingType = 'anime' | 'manga' | 'game';
+type ListingType = "anime" | "manga" | "game";
 
 export interface Listing {
   count: number;

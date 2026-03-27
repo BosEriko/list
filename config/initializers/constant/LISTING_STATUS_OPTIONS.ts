@@ -1,4 +1,4 @@
-type ListingType = 'anime' | 'manga' | 'game';
+type ListingType = "anime" | "manga" | "game";
 
 type StatusOption = {
   value: number;
