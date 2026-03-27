@@ -13,6 +13,13 @@ export async function generateMetadata({ params }: PageProps) {
   const { type, id } = await params;
   const listing = await getItemFromFirebase(id, type);
 
+  if (!listing) {
+    return {
+      title: "Not Found | Bos Eriko List",
+      description: "Item not found.",
+    };
+  }
+
   return {
     title: `${listing.title} | Bos Eriko List`,
     description: `${listing.synopsis} | Bos Eriko List.`,
@@ -34,6 +41,14 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function ListingPage({ params }: PageProps) {
   const { type, id } = await params;
   const listing = await getItemFromFirebase(id, type);
+
+  if (!listing) {
+    return {
+    <Template.Default>
+      <div>Listing not found.</div>
+    </Template.Default>
+    };
+  }
 
   const sidebarContent = [
     {
