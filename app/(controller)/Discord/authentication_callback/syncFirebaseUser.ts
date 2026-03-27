@@ -1,5 +1,5 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
-import User from "@old-model/User";
+import User from "@model/User";
 
 const syncFirebaseUser = async (user: any) => {
   const avatarUrl = `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`;
@@ -32,9 +32,9 @@ const syncFirebaseUser = async (user: any) => {
   }
 
   if (!!firestoreUser) {
-    await User.update(user?.id, data);
+    await User.update(data, user?.id);
   } else {
-    await User.create(user?.id, data);
+    await User.create(data, user?.id);
   }
 };
 

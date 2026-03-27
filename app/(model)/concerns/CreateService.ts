@@ -99,7 +99,7 @@ function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
       };
     },
 
-    async update(id: string, data: Partial<T>): Promise<void> {
+    async update(data: Partial<T>, id: string): Promise<void> {
       if ("createdAt" in data) {
         throw new Error("Cannot modify createdAt field");
       }

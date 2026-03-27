@@ -1,5 +1,6 @@
 import Template from "@template";
-import User from "@old-model/User";
+import User from "@model/User";
+import { UserType } from "@schema";
 import ListingStatus from "./ListingStatus";
 import ListingTable from "./ListingTable";
 import ListingType from "./ListingType";
@@ -10,22 +11,14 @@ type PageProps = {
   }>;
 };
 
-interface User {
-  uid: string;
-  username: string;
-  avatarUrl: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export async function generateMetadata({ params }: PageProps) {
   const { id } = await params;
 
-  let user: Partial<User> = { username: "Unknown", avatarUrl: "" };
+  let user: Partial<UserType> = { username: "Unknown", avatarUrl: "" };
   try {
     const userDoc = await User.find(id);
     if (!!userDoc) {
-      user = userDoc as User;
+      user = userDoc as UserType;
     }
   } catch (err) {
     console.error("User not found:", err);
