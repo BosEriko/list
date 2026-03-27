@@ -87,7 +87,7 @@ function CreateService<TSchema extends ZodTypeAny>(opts: {
         id: docSnap.id,
         ...result.data,
       };
-    }
+    },
 
     async update(id: string, data: Partial<T>): Promise<void> {
       const partialSchema = schema.partial();
