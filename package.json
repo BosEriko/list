@@ -6,7 +6,8 @@
     "develop": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:model": "ts-node bin/GenerateModel.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
@@ -33,7 +34,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "pluralize": "^8.0.0",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

@@ -19,3 +19,10 @@ To deploy to production, push your latest changes, then promote the most recent 
 ```sh
 cp example.env .env.local
 ```
+
+## Generate New Model
+You can generate a new model using `generateModel`
+```sh
+# Generate a new model called UserActivity
+yarn generate:model UserActivity
+```
