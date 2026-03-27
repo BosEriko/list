@@ -1,4 +1,5 @@
 import { getItemFromAPI } from "./getItemFromAPI";
+import TimestampConverter from "@lib/TimestampConverter";
 import Item from "@model/Item";
 import { ItemType } from "@schema";
 import MEDIA from "@constant/MEDIA";
@@ -23,7 +24,7 @@ export async function getItemFromFirebase(id: string, type: MediaType): Promise<
   const item = await Item.find(itemId);
 
   if (!!item) {
-    const updatedAt = item?.updatedAt?.toMillis?.() ?? 0;
+    const updatedAt = TimestampConverter(item?.updatedAt) ?? 0;
 
     if (Date.now() - updatedAt < ONE_MONTH) {
       return item as ItemType;

@@ -1,4 +1,5 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
+import TimestampConverter from "@lib/TimestampConverter";
 import UserActivity from "@model/UserActivity";
 import MediaType from "@type/MediaType";
 import { UserActivityType } from "@schema";
@@ -8,23 +9,6 @@ const COOLDOWN_MS = 5 * 60 * 1000;
 
 function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function isFirestoreTimestamp(ts: unknown): ts is FirebaseAdmin.firestore.Timestamp {
-  return (
-    typeof ts === "object" &&
-    ts !== null &&
-    "toDate" in ts &&
-    typeof (ts as any).toDate === "function"
-  );
-}
-
-function toMillis(ts?: UserActivityType["lastListingUpdate"]): number {
-  if (!ts) return 0;
-  if (isFirestoreTimestamp(ts)) return ts.toDate().getTime();
-  if (ts instanceof Date) return ts.getTime();
-  if (ts === FirebaseAdmin.firestore.FieldValue.serverTimestamp()) return 0;
-  return 0;
 }
 
 function buildDescription(payload: {
@@ -73,7 +57,7 @@ async function checkCooldown(uid: string) {
     return { ok: true };
   }
 
-  const lastUpdate = toMillis(userActivity.lastListingUpdate);
+  const lastUpdate = TimestampConverter(userActivity.lastListingUpdate);
   const now = Date.now();
 
   if (now - lastUpdate < COOLDOWN_MS) {
