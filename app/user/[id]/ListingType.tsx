@@ -3,7 +3,7 @@ import useListingStore from "@store/useListingStore";
 import MediaType from "@type/MediaType";
 import MEDIA from "@constant/MEDIA"
 
-const typeOptions: Array<MediaType> = MEDIA;
+const typeOptions: MediaType[] = MEDIA;
 
 export default function ListingType() {
   const { type, setType, listings } = useListingStore();
