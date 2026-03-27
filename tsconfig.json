@@ -29,11 +29,12 @@
       "@view/*": ["./app/(view)/*"],
       "@controller/*": ["./app/(controller)/*"],
 
-
       "@atom": ["./app/(view)/atoms"],
       "@molecule": ["./app/(view)/molecules"],
       "@organism": ["./app/(view)/organisms"],
       "@template": ["./app/(view)/templates"],
+
+      "@schema": ["./db/schema"],
     },
   },
   "include": [

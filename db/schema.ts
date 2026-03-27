@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Helper Functions
 function firestoreTimestampToDate(val: unknown) {
   if (
     val &&
@@ -13,8 +14,7 @@ function firestoreTimestampToDate(val: unknown) {
   return val;
 }
 
-const UserActivitySchema = z.object({
+// Sceham
+export const UserActivitySchema = z.object({
   lastListingUpdate: z.preprocess(firestoreTimestampToDate, z.date()),
 });
-
-export default UserActivitySchema;
