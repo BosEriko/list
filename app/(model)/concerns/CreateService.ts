@@ -34,18 +34,13 @@ export function CreateService<TSchema extends ZodTypeAny>(opts: {
   function parseDoc(doc: FirebaseFirestore.DocumentSnapshot): WithId | null {
     if (!doc.exists) return null;
 
-    const parsed = schema.safeParse(doc.data());
+    const result = schema.safeParse(doc.data());
 
-    if (!parsed.success) {
-      console.error("Zod parse error:", parsed.error);
-      return null;
-    }
-
-    if (!parsed.success || typeof parsed.data !== "object" || parsed.data === null) return null;
+    if (!result.success || typeof result.data !== "object" || result.data === null) return null;
 
     return {
       id: doc.id,
-      ...parsed.data,
+      ...result.data,
     };
   }
 
