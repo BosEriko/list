@@ -1,8 +1,7 @@
 import COLLECTION from "../collection";
+import ITEM_ID_PATTERN from "@constant/ITEM_ID_PATTERN";
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 import MediaType from "@type/MediaType";
-
-const ID_PATTERN = /^(anime|manga|game)-[0-9]+$/;
 
 interface Payload {
   itemId: string;
@@ -21,7 +20,7 @@ const create = async (id: string, payload: Payload) => {
     return null;
   }
 
-  if (!ID_PATTERN.test(id)) {
+  if (!ITEM_ID_PATTERN.test(id)) {
     console.error(`Malformed ID: ${id}`);
     return null;
   }

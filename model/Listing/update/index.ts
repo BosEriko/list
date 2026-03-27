@@ -1,10 +1,9 @@
 import COLLECTION from "../collection";
+import LISTING_ID_PATTERN from "@constant/LISTING_ID_PATTERN";
 import MediaType from "@type/MediaType";
 import UpdateDiscordStatus from "@lib/UpdateDiscordStatus";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
-
-const ID_PATTERN = /^[0-9]+-(anime|manga|game)-[0-9]+$/;
 
 interface Payload {
   count: number;
@@ -24,7 +23,7 @@ const update = async (id: string, payload: Payload) => {
     return null;
   }
 
-  if (!ID_PATTERN.test(id)) {
+  if (!LISTING_ID_PATTERN.test(id)) {
     console.error(`Malformed ID: ${id}`);
     return null;
   }
