@@ -16,7 +16,7 @@ interface User {
   photoURL: string;
 }
 
-async function UpdateDiscordStatus(payload: Payload) {
+async function update_status(payload: Payload) {
   const { user } = useAuthStore.getState() as { user: User | null };
   if (!user) return;
 
@@ -32,4 +32,4 @@ async function UpdateDiscordStatus(payload: Payload) {
   });
 }
 
-export default UpdateDiscordStatus;
+export default update_status;
