@@ -9,6 +9,20 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function toMillis(ts?: UserActivityType["lastListingUpdate"]): number {
+  if (!ts) return 0;
+  if ("toDate" in ts && typeof ts.toDate === "function") {
+    return ts.toDate().getTime();
+  }
+  if (ts instanceof Date) {
+    return ts.getTime();
+  }
+  if (ts === FirebaseAdmin.firestore.FieldValue.serverTimestamp()) {
+    return 0;
+  }
+  return 0;
+}
+
 function buildDescription(payload: {
   status: number;
   type: "anime" | "manga" | "game";
@@ -55,7 +69,7 @@ async function checkCooldown(uid: string) {
     return { ok: true };
   }
 
-  const lastUpdate = userActivity.lastListingUpdate?.toDate().getTime() || 0;
+  const lastUpdate = toMillis(userActivity?.lastListingUpdate);
   const now = Date.now();
 
   if (now - lastUpdate < COOLDOWN_MS) {
