@@ -19,9 +19,9 @@ type WhereCondition<T> = {
   value: any;
 };
 
-function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
+function CreateService<TSchema extends ZodRawShape>(params: {
   collection: string;
-  schema: TSchema;
+  schema: ZodObject<TSchema>;
 }) {
   const { collection: collectionName, schema } = opts;
 
