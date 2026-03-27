@@ -80,11 +80,13 @@ export function CreateService<TSchema extends ZodTypeAny>(opts: {
         docRef = await collection.add(parsed as FirebaseFirestore.DocumentData);
       }
 
-      if (!parsed.success || typeof parsed.data !== "object" || parsed.data === null) return null;
+      const result = schema.safeParse(doc.data());
+
+      if (!result.success || typeof result.data !== "object" || result.data === null) return null;
 
       return {
-        id: docRef.id,
-        ...parsed,
+        id: doc.id,
+        ...result.data,
       };
     },
 
