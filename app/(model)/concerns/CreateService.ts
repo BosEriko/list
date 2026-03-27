@@ -60,7 +60,8 @@ function CreateService<TSchema extends ZodObject<ZodRawShape>>(opts: {
 
     async find(id: string): Promise<WithId | null> {
       const doc = await collection.doc(id).get();
-      return parseDoc(doc);
+      if (!doc.exists) return null;
+      return doc.data();
     },
 
     async create(data: T, id?: string): Promise<WithId | null> {
