@@ -63,8 +63,8 @@ function CreateService<TSchema extends ZodTypeAny>(opts: {
       return parseDoc(doc);
     },
 
-    async create(data: T, id?: string): Promise<WithId> {
-      const parsed = schema.parse(data); // throws if invalid
+    async create(data: T, id?: string): Promise<WithId | null> {
+      const parsed = schema.parse(data);
 
       let docRef: FirebaseFirestore.DocumentReference;
 
@@ -75,15 +75,19 @@ function CreateService<TSchema extends ZodTypeAny>(opts: {
         docRef = await collection.add(parsed as FirebaseFirestore.DocumentData);
       }
 
-      const result = schema.safeParse(doc.data());
+      const docSnap = await docRef.get();
+
+      if (!docSnap.exists) return null;
+
+      const result = schema.safeParse(docSnap.data());
 
       if (!result.success || typeof result.data !== "object" || result.data === null) return null;
 
       return {
-        id: doc.id,
+        id: docSnap.id,
         ...result.data,
       };
-    },
+    }
 
     async update(id: string, data: Partial<T>): Promise<void> {
       const partialSchema = schema.partial();
