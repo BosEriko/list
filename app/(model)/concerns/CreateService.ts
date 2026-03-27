@@ -19,7 +19,7 @@ type WhereCondition<T> = {
   value: any;
 };
 
-export function CreateService<TSchema extends ZodTypeAny>(opts: {
+function CreateService<TSchema extends ZodTypeAny>(opts: {
   collection: string;
   schema: TSchema;
 }) {
@@ -134,3 +134,5 @@ export function CreateService<TSchema extends ZodTypeAny>(opts: {
     },
   };
 }
+
+export default CreateService;
