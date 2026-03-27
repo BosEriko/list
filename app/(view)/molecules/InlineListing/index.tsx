@@ -1,7 +1,7 @@
 "use client";
 import { useState, Fragment, useRef, useEffect } from "react";
 import useAuthStore from "@store/useAuthStore";
-import ListingStatusOptions from '@constant/ListingStatusOptions';
+import LISTING_STATUS_OPTIONS from '@constant/LISTING_STATUS_OPTIONS';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Listing from "@old-model/Listing";
@@ -201,7 +201,7 @@ const InlineListing: React.FC<InlineListingProps> = ({
 
       <td className="whitespace-nowrap">
         <Atom.Visibility state={user?.uid !== userId}>
-          {ListingStatusOptions[type].find(option => option.value === form.status)?.label}
+          {LISTING_STATUS_OPTIONS[type].find(option => option.value === form.status)?.label}
         </Atom.Visibility>
         <Atom.Visibility state={user?.uid === userId}>
           <select
@@ -209,7 +209,7 @@ const InlineListing: React.FC<InlineListingProps> = ({
             onChange={handleStatusChange}
             className="border border-gray-400 rounded px-2 py-1"
           >
-            {ListingStatusOptions[type].map((opt) => (
+            {LISTING_STATUS_OPTIONS[type].map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {opt.label}
               </option>

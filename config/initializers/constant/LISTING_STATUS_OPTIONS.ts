@@ -1,11 +1,11 @@
-export type ListingType = 'anime' | 'manga' | 'game';
+type ListingType = 'anime' | 'manga' | 'game';
 
-export type StatusOption = {
+type StatusOption = {
   value: number;
   label: string;
 };
 
-const ListingStatusOptions: Record<ListingType, StatusOption[]> = {
+const LISTING_STATUS_OPTIONS: Record<ListingType, StatusOption[]> = {
   anime: [
     { value: 1, label: 'Watching' },
     { value: 2, label: 'Plan to watch' },
@@ -32,4 +32,4 @@ const ListingStatusOptions: Record<ListingType, StatusOption[]> = {
   ],
 };
 
-export default ListingStatusOptions
+export default LISTING_STATUS_OPTIONS;

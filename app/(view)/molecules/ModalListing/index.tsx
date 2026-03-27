@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import ListingStatusOptions from '@constant/ListingStatusOptions';
+import LISTING_STATUS_OPTIONS from '@constant/LISTING_STATUS_OPTIONS';
 import useAuthStore from "@store/useAuthStore";
 import Listing from "@old-model/Listing";
 import Atom from "@atom";
@@ -140,7 +140,7 @@ const ModalListing: React.FC<ModalListingProps> = ({
                 }
                 className="border border-gray-400 rounded px-2 py-1 w-full"
               >
-                {ListingStatusOptions[type].map((opt) => (
+                {LISTING_STATUS_OPTIONS[type].map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>

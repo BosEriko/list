@@ -1,5 +1,5 @@
 "use client";
-import ListingStatusOptions from '@constant/ListingStatusOptions';
+import LISTING_STATUS_OPTIONS from '@constant/LISTING_STATUS_OPTIONS';
 import useListingStore from "@store/useListingStore";
 
 export default function ListingStatus() {
@@ -7,7 +7,7 @@ export default function ListingStatus() {
 
   return (
     <div className="flex flex-wrap gap-2 mt-2">
-      {ListingStatusOptions[type].map((s) => {
+      {LISTING_STATUS_OPTIONS[type].map((s) => {
         const count = listings.filter((l) => l.type === type && l.status === s.value).length;
 
         return (
