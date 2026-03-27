@@ -14,7 +14,7 @@ function firestoreTimestampToDate(val: unknown) {
   return val;
 }
 
-// Sceham
+// Schema
 export const UserActivitySchema = z.object({
   lastListingUpdate: z.preprocess(firestoreTimestampToDate, z.date()),
 });
