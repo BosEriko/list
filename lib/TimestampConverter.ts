@@ -9,7 +9,7 @@ function isFirestoreTimestamp(ts: unknown): ts is FirebaseAdmin.firestore.Timest
   );
 }
 
-function TimestampConverter(ts?: UserActivityType["lastListingUpdate"]): number {
+function TimestampConverter(ts?: unknown): number {
   if (!ts) return 0;
   if (isFirestoreTimestamp(ts)) return ts.toDate().getTime();
   if (ts instanceof Date) return ts.getTime();
