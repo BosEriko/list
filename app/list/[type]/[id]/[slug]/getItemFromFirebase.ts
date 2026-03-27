@@ -7,7 +7,7 @@ import MediaType from "@type/MediaType";
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
-export async function getItemFromFirebase(id: string, type: MediaType): Promise<ItemType> {
+export async function getItemFromFirebase(id: string, type: MediaType): Promise<ItemType | null> {
   const itemId = `${type}-${id}`;
 
   if (!MEDIA.includes(type)) {
