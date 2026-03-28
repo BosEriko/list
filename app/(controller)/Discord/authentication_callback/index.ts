@@ -1,7 +1,7 @@
 import generateDiscordToken from "./generateDiscordToken";
 import fetchUser from "./fetchUser";
 import syncFirebaseUser from "./syncFirebaseUser";
-import generateFirebaseToken from "./generateFirebaseToken";
+import generateFirebaseToken from "@service/firebase/generateFirebaseToken";
 
 async function authentication_callback(code: string) {
   if (!code) {

@@ -21,10 +21,11 @@
     "paths": {
       "@/*": ["./*"],
       "@constant/*": ["./config/initializers/constant/*"],
-      "@type/*": ["./config/initializers/type/*"],
       "@lib/*": ["./lib/*"],
       "@schema": ["./db/schema"],
+      "@service/*": ["./app/(services)/*"],
       "@store/*": ["./app/(services)/store/*"],
+      "@type/*": ["./config/initializers/type/*"],
 
       "@model/*": ["./app/(model)/*"],
       "@view/*": ["./app/(view)/*"],
