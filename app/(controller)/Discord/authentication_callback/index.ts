@@ -1,6 +1,6 @@
-import generateDiscordToken from "./generateDiscordToken";
-import fetchUser from "./fetchUser";
-import syncFirebaseUser from "./syncFirebaseUser";
+import generateDiscordToken from "@service/discord/generateDiscordToken";
+import fetchDiscordUser from "@service/discord//fetchDiscordUser";
+import syncFirebaseUser from "@service/firebase/syncFirebaseUser";
 import generateFirebaseToken from "@service/firebase/generateFirebaseToken";
 
 async function authentication_callback(code: string) {
@@ -9,7 +9,7 @@ async function authentication_callback(code: string) {
   }
 
   const discordToken = await generateDiscordToken(code);
-  const user = await fetchUser(discordToken);
+  const user = await fetchDiscordUser(discordToken);
   await syncFirebaseUser(user);
   const firebaseToken = await generateFirebaseToken(user);
 
