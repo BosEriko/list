@@ -38,7 +38,9 @@ fs.writeFileSync(filePath, modelContent);
 console.log(`create  ${path.relative(process.cwd(), filePath)}`);
 
 // --- Append schema stub to db/schema.ts ---
-const schemaFilePath = path.join("db", "schema.ts");
+const dbDir = path.join("db");
+fs.mkdirSync(dbDir, { recursive: true });
+const schemaFilePath = path.join(dbDir, "schema.ts");
 
 // Make sure db/schema.ts exists
 const schemaContent = `
@@ -50,7 +52,8 @@ const FirebaseTimestamp = z.union([
   z.instanceof(FirebaseAdmin.firestore.Timestamp),
   z.date(),
   z.custom((val) => val === FirebaseAdmin.firestore.FieldValue.serverTimestamp(), { message: "Expected serverTimestamp()" }),
-]);`
+]);
+`
 if (!fs.existsSync(schemaFilePath)) {
   fs.writeFileSync(
     schemaFilePath,
