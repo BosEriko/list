@@ -50,14 +50,14 @@ console.log(`create  ${path.relative(process.cwd(), path.join(controllerDir, "in
 
 // --- 5️⃣ API route.ts ---
 fs.mkdirSync(apiDir, { recursive: true });
-const apiRouteContent = `import actions from "@controller/${camelName}";
+const apiRouteContent = `import ${camelName}Controller from "@controller/${camelName}";
 
 export async function GET(req: Request) {
-  return actions.index_action(req);
+  return ${camelName}Controller.index_action(req);
 }
 
 export async function POST(req: Request) {
-  return actions.create_action(req);
+  return ${camelName}Controller.create_action(req);
 }
 `;
 
@@ -66,22 +66,22 @@ console.log(`create  ${path.relative(process.cwd(), path.join(apiDir, "route.ts"
 
 // --- 6️⃣ API [id]/route.ts ---
 fs.mkdirSync(apiIdDir, { recursive: true });
-const apiIdRouteContent = `import actions from "@controller/${camelName}";
+const apiIdRouteContent = `import ${camelName}Controller from "@controller/${camelName}";
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
-  return actions.show_action(req, params.id);
+  return ${camelName}Controller.show_action(req, params.id);
 }
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
-  return actions.update_action(req, params.id);
+  return ${camelName}Controller.update_action(req, params.id);
 }
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  return actions.update_action(req, params.id);
+  return ${camelName}Controller.update_action(req, params.id);
 }
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-  return actions.destroy_action(req, params.id);
+  return ${camelName}Controller.destroy_action(req, params.id);
 }
 `;
 
