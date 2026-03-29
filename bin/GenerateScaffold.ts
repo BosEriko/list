@@ -50,7 +50,7 @@ console.log(`create  ${path.relative(process.cwd(), path.join(controllerDir, "in
 
 // --- 5️⃣ API route.ts ---
 fs.mkdirSync(apiDir, { recursive: true });
-const apiRouteContent = `import actions from "@/app/(controller)/${camelName}";
+const apiRouteContent = `import actions from "@controller/${camelName}";
 
 export async function GET(req: Request) {
   return actions.index_action(req);
@@ -66,7 +66,7 @@ console.log(`create  ${path.relative(process.cwd(), path.join(apiDir, "route.ts"
 
 // --- 6️⃣ API [id]/route.ts ---
 fs.mkdirSync(apiIdDir, { recursive: true });
-const apiIdRouteContent = `import actions from "@/app/(controller)/${camelName}";
+const apiIdRouteContent = `import actions from "@controller/${camelName}";
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   return actions.show_action(req, params.id);
