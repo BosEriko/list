@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate:model": "ts-node bin/GenerateModel.ts",
-    "generate:scaffold": "ts-node bin/GenerateScaffold.ts"
+    "generate:model": "ts-node bin/generator/model.ts",
+    "generate:scaffold": "ts-node bin/generator/scaffold.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
