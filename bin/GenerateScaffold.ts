@@ -31,7 +31,6 @@ fs.mkdirSync(controllerDir, { recursive: true });
 actions.forEach((action) => {
   const filePath = path.join(controllerDir, `${action}_action.ts`);
   const content = `export default async function ${action}_action(req: Request, id?: string) {
-  // TODO: implement ${action} action for ${camelName}
   return new Response(JSON.stringify({ message: "${action} ${camelName}" }));
 }
 `;
