@@ -11,12 +11,18 @@ if (!scaffoldName) {
   process.exit(1);
 }
 
-const camelName = scaffoldName.charAt(0).toUpperCase() + scaffoldName.slice(1);
-const pluralName = pluralize(camelName).toLowerCase();
+// --- Helper: convert CamelCase to snake_case and pluralize ---
+function toSnakeCase(name: string) {
+  const snake = name.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase();
+  return pluralize(snake);
+}
+
+const camelName = scaffoldName.charAt(0).toUpperCase() + scaffoldName.slice(1); // for controller names
+const snakePluralName = toSnakeCase(scaffoldName);
 
 // --- 2️⃣ Paths ---
-const controllerDir = path.join("app", "(controller)", camelName);
-const apiDir = path.join("app", "api", pluralName);
+const controllerDir = path.join("app", "controller", camelName);
+const apiDir = path.join("app", "api", snakePluralName);
 const apiIdDir = path.join(apiDir, "[id]");
 
 // --- 3️⃣ Action files ---
@@ -50,7 +56,20 @@ console.log(`create  ${path.relative(process.cwd(), path.join(controllerDir, "in
 
 // --- 5️⃣ API route.ts ---
 fs.mkdirSync(apiDir, { recursive: true });
-const apiRouteContent = `import ${camelName}Controller from "@controller/${camelName}";
+const apiRouteContent = `/**
+ * Standard RESTful Routes
+ *
+ * | HTTP Verb | Controller#Action | Purpose           | Path               |
+ * |-----------|-------------------|-------------------|--------------------|
+ * | GET       | index             | List all          | /${snakePluralName}
+ * | GET       | show              | Get one           | /${snakePluralName}/:id
+ * | POST      | create            | Create            | /${snakePluralName}
+ * | PATCH     | update            | Update (partial)  | /${snakePluralName}/:id
+ * | PUT       | update            | Update (full)     | /${snakePluralName}/:id
+ * | DELETE    | destroy           | Delete            | /${snakePluralName}/:id
+ */
+
+import ${camelName}Controller from "@controller/${camelName}";
 
 export async function GET(req: Request) {
   return ${camelName}Controller.index_action(req);
