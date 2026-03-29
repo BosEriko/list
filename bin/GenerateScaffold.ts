@@ -29,7 +29,7 @@ const actions = ["index", "show", "create", "update", "destroy"];
 
 fs.mkdirSync(controllerDir, { recursive: true });
 actions.forEach((action) => {
-  const filePath = path.join(controllerDir, `${action}_action.ts`);
+  const filePath = path.join(controllerDir, "actions", `${action}_action.ts`);
   const content = `export default async function ${action}_action(req: Request, id?: string) {
   return new Response(JSON.stringify({ message: "${action} ${camelName}" }));
 }
@@ -40,7 +40,7 @@ actions.forEach((action) => {
 
 // --- 4️⃣ index.ts for controller ---
 const indexContent = actions
-  .map((action) => `import ${action}_action from "./${action}_action";`)
+  .map((action) => `import ${action}_action from "./actions/${action}_action";`)
   .join("\n") +
   `
 
