@@ -11,7 +11,6 @@ if (!scaffoldName) {
   process.exit(1);
 }
 
-// --- Helper: convert CamelCase to snake_case and pluralize ---
 function toSnakeCase(name: string) {
   const snake = name.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase();
   return pluralize(snake);
@@ -21,7 +20,7 @@ const camelName = scaffoldName.charAt(0).toUpperCase() + scaffoldName.slice(1); 
 const snakePluralName = toSnakeCase(scaffoldName);
 
 // --- 2️⃣ Paths ---
-const controllerDir = path.join("app", "controller", camelName);
+const controllerDir = path.join("app", "(controller)", camelName);
 const apiDir = path.join("app", "api", snakePluralName);
 const apiIdDir = path.join(apiDir, "[id]");
 
