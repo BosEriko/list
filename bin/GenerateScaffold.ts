@@ -28,8 +28,11 @@ const apiIdDir = path.join(apiDir, "[id]");
 const actions = ["index", "show", "create", "update", "destroy"];
 
 fs.mkdirSync(controllerDir, { recursive: true });
+const actionsDir = path.join(controllerDir, "actions");
+fs.mkdirSync(actionsDir, { recursive: true });
+
 actions.forEach((action) => {
-  const filePath = path.join(controllerDir, "actions", `${action}_action.ts`);
+  const filePath = path.join(actionsDir, `${action}_action.ts`);
   const content = `export default async function ${action}_action(req: Request, id?: string) {
   return new Response(JSON.stringify({ message: "${action} ${camelName}" }));
 }
