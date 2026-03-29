@@ -58,14 +58,14 @@ fs.mkdirSync(apiDir, { recursive: true });
 const apiRouteContent = `/**
  * Standard RESTful Routes
  *
- * | HTTP Verb | Controller#Action | Purpose           | Path               |
- * |-----------|-------------------|-------------------|--------------------|
- * | GET       | index             | List all          | /${snakePluralName}
- * | GET       | show              | Get one           | /${snakePluralName}/:id
- * | POST      | create            | Create            | /${snakePluralName}
- * | PATCH     | update            | Update (partial)  | /${snakePluralName}/:id
- * | PUT       | update            | Update (full)     | /${snakePluralName}/:id
- * | DELETE    | destroy           | Delete            | /${snakePluralName}/:id
+ * | HTTP Verb | Controller#Action | Purpose          | Path |
+ * |-----------|-------------------|------------------|------|
+ * | GET       | index             | List all         | /${snakePluralName}
+ * | GET       | show              | Get one          | /${snakePluralName}/:id
+ * | POST      | create            | Create           | /${snakePluralName}
+ * | PATCH     | update            | Update (partial) | /${snakePluralName}/:id
+ * | PUT       | update            | Update (full)    | /${snakePluralName}/:id
+ * | DELETE    | destroy           | Delete           | /${snakePluralName}/:id
  */
 
 import ${camelName}Controller from "@controller/${camelName}";
