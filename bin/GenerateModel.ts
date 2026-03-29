@@ -8,6 +8,7 @@ const modelName = process.argv[2];
 
 if (!modelName) {
   console.error("Usage: yarn generate:model <ModelName>");
+  console.error("Example: yarn generate:model UserActivity");
   process.exit(1);
 }
 

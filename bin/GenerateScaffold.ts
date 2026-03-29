@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+import fs from "fs";
+import path from "path";
+import pluralize from "pluralize";
+
+// --- 1️⃣ Get scaffold name ---
+const scaffoldName = process.argv[2];
+if (!scaffoldName) {
+  console.error("Usage: yarn generate:scaffold <Name>");
+  console.error("Example: yarn generate:scaffold UserActivity");
+  process.exit(1);
+}
+
+const camelName = scaffoldName.charAt(0).toUpperCase() + scaffoldName.slice(1);
+const pluralName = pluralize(camelName).toLowerCase();
+
+// --- 2️⃣ Paths ---
+const controllerDir = path.join("app", "(controller)", camelName);
+const apiDir = path.join("app", "api", pluralName);
+const apiIdDir = path.join(apiDir, "[id]");
+
+// --- 3️⃣ Action files ---
+const actions = ["index", "show", "create", "update", "destroy"];
+
+fs.mkdirSync(controllerDir, { recursive: true });
+actions.forEach((action) => {
+  const filePath = path.join(controllerDir, `${action}_action.ts`);
+  const content = `export default async function ${action}_action(req: Request, id?: string) {
+  // TODO: implement ${action} action for ${camelName}
+  return new Response(JSON.stringify({ message: "${action} ${camelName}" }));
+}
+`;
+  fs.writeFileSync(filePath, content);
+  console.log(`create  ${path.relative(process.cwd(), filePath)}`);
+});
+
+// --- 4️⃣ index.ts for controller ---
+const indexContent = actions
+  .map((action) => `import ${action}_action from "./${action}_action";`)
+  .join("\n") +
+  `
+
+export default {
+${actions.map((a) => `  ${a}_action,`).join("\n")}
+};
+`;
+
+fs.writeFileSync(path.join(controllerDir, "index.ts"), indexContent);
+console.log(`create  ${path.relative(process.cwd(), path.join(controllerDir, "index.ts"))}`);
+
+// --- 5️⃣ API route.ts ---
+fs.mkdirSync(apiDir, { recursive: true });
+const apiRouteContent = `import actions from "@/app/(controller)/${camelName}";
+
+export async function GET(req: Request) {
+  return actions.index_action(req);
+}
+
+export async function POST(req: Request) {
+  return actions.create_action(req);
+}
+`;
+
+fs.writeFileSync(path.join(apiDir, "route.ts"), apiRouteContent);
+console.log(`create  ${path.relative(process.cwd(), path.join(apiDir, "route.ts"))}`);
+
+// --- 6️⃣ API [id]/route.ts ---
+fs.mkdirSync(apiIdDir, { recursive: true });
+const apiIdRouteContent = `import actions from "@/app/(controller)/${camelName}";
+
+export async function GET(req: Request, { params }: { params: { id: string } }) {
+  return actions.show_action(req, params.id);
+}
+
+export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+  return actions.update_action(req, params.id);
+}
+
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+  return actions.update_action(req, params.id);
+}
+
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+  return actions.destroy_action(req, params.id);
+}
+`;
+
+fs.writeFileSync(path.join(apiIdDir, "route.ts"), apiIdRouteContent);
+console.log(`create  ${path.relative(process.cwd(), path.join(apiIdDir, "route.ts"))}`);
