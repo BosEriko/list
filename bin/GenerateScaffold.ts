@@ -60,8 +60,8 @@ fs.mkdirSync(apiDir, { recursive: true });
 const apiRouteContent = `/**
  * Standard RESTful Routes
  *
- * | HTTP Verb | Controller#Action | Purpose          | Path |
- * |-----------|-------------------|------------------|------|
+ * | HTTP Verb | Controller#Action | Purpose          | Path                                       |
+ * |-----------|-------------------|------------------|--------------------------------------------|
  * | GET       | index             | List all         | /${snakePluralName}
  * | GET       | show              | Get one          | /${snakePluralName}/:id
  * | POST      | create            | Create           | /${snakePluralName}
