@@ -2,6 +2,11 @@
 import fs from "fs";
 import path from "path";
 import pluralize from "pluralize";
+import { execSync } from "child_process";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // --- 1️⃣ Get scaffold name ---
 const scaffoldName = process.argv[2];
@@ -18,6 +23,17 @@ function toSnakeCase(name: string) {
 
 const camelName = scaffoldName.charAt(0).toUpperCase() + scaffoldName.slice(1); // for controller names
 const snakePluralName = toSnakeCase(scaffoldName);
+
+// ---   Generate Model ---
+const modelDir = path.join("app", "(model)", camelName);
+if (!fs.existsSync(modelDir)) {
+  console.log(`Model not found for ${camelName}, generating...`);
+
+  execSync(
+    `ts-node ${path.join(__dirname, "model.ts")} ${scaffoldName}`,
+    { stdio: "inherit" }
+  );
+}
 
 // --- 2️⃣ Paths ---
 const controllerDir = path.join("app", "(controller)", camelName);
