@@ -5,7 +5,7 @@ import { generateModel } from "./model.ts";
 
 export async function generateScaffold(scaffoldName: string) {
   if (!scaffoldName) {
-    console.error("Usage: yarn generate scaffold <Name>");
+    console.error("Usage: yarn generate scaffold <ScaffoldName>");
     console.error("Example: yarn generate scaffold UserActivity");
     process.exit(1);
   }
