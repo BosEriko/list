@@ -24,12 +24,12 @@ cp example.env .env.local
 You can generate a new model using `GenerateModel`
 ```sh
 # Generate a new model called UserActivity
-yarn generate:model UserActivity
+yarn generate model UserActivity
 ```
 
 ## Generate New Scaffold
 You can generate a new scaffold using `GenerateScaffold`
 ```sh
 # Generate a new scaffold called UserActivity
-yarn generate:scaffold UserActivity
+yarn generate scaffold UserActivity
 ```
