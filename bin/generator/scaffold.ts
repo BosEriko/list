@@ -43,7 +43,7 @@ export async function generateScaffold(scaffoldName: string) {
   actions.forEach((action) => {
     const filePath = path.join(actionsDir, `${action}_action.ts`);
 
-    const content = `export default async function ${action}_action(req: Request, id?: string) {
+    const content = `export default async function ${action}_action(req: Request${["index", "create"].includes(action) ? "" : ", id: string"}) {
   return new Response(JSON.stringify({ message: "${action} ${camelName}" }));
 }
 `;
