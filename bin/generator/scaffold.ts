@@ -1,79 +1,84 @@
-#!/usr/bin/env node
 import fs from "fs";
 import path from "path";
 import pluralize from "pluralize";
-import { execSync } from "child_process";
-import { fileURLToPath } from "url";
+import { generateModel } from "./model.ts";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+export async function generateScaffold(scaffoldName: string) {
+  if (!scaffoldName) {
+    console.error("Usage: yarn generate scaffold <Name>");
+    console.error("Example: yarn generate scaffold UserActivity");
+    process.exit(1);
+  }
 
-// --- 1️⃣ Get scaffold name ---
-const scaffoldName = process.argv[2];
-if (!scaffoldName) {
-  console.error("Usage: yarn generate:scaffold <Name>");
-  console.error("Example: yarn generate:scaffold UserActivity");
-  process.exit(1);
-}
+  function toSnakeCase(name: string) {
+    const snake = name.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase();
+    return pluralize(snake);
+  }
 
-function toSnakeCase(name: string) {
-  const snake = name.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase();
-  return pluralize(snake);
-}
+  const camelName =
+    scaffoldName.charAt(0).toUpperCase() + scaffoldName.slice(1);
 
-const camelName = scaffoldName.charAt(0).toUpperCase() + scaffoldName.slice(1); // for controller names
-const snakePluralName = toSnakeCase(scaffoldName);
+  const snakePluralName = toSnakeCase(scaffoldName);
 
-// ---   Generate Model ---
-const modelDir = path.join("app", "(model)", camelName);
-if (!fs.existsSync(modelDir)) {
-  console.log(`Model not found for ${camelName}, generating...`);
+  // --- 1️⃣ Generate Model (if missing) ---
+  const modelDir = path.join("app", "(model)", camelName);
 
-  execSync(
-    `ts-node ${path.join(__dirname, "model.ts")} ${scaffoldName}`,
-    { stdio: "inherit" }
-  );
-}
+  if (!fs.existsSync(modelDir)) {
+    console.log(`Model not found for ${camelName}, generating...`);
+    await generateModel(scaffoldName);
+  }
 
-// --- 2️⃣ Paths ---
-const controllerDir = path.join("app", "(controller)", camelName);
-const apiDir = path.join("app", "api", snakePluralName);
-const apiIdDir = path.join(apiDir, "[id]");
+  // --- 2️⃣ Paths ---
+  const controllerDir = path.join("app", "(controller)", camelName);
+  const apiDir = path.join("app", "api", snakePluralName);
+  const apiIdDir = path.join(apiDir, "[id]");
 
-// --- 3️⃣ Action files ---
-const actions = ["index", "show", "create", "update", "destroy"];
+  // --- 3️⃣ Action files ---
+  const actions = ["index", "show", "create", "update", "destroy"];
 
-fs.mkdirSync(controllerDir, { recursive: true });
-const actionsDir = path.join(controllerDir, "actions");
-fs.mkdirSync(actionsDir, { recursive: true });
+  fs.mkdirSync(controllerDir, { recursive: true });
+  const actionsDir = path.join(controllerDir, "actions");
+  fs.mkdirSync(actionsDir, { recursive: true });
 
-actions.forEach((action) => {
-  const filePath = path.join(actionsDir, `${action}_action.ts`);
-  const content = `export default async function ${action}_action(req: Request, id?: string) {
+  actions.forEach((action) => {
+    const filePath = path.join(actionsDir, `${action}_action.ts`);
+
+    const content = `export default async function ${action}_action(req: Request, id?: string) {
   return new Response(JSON.stringify({ message: "${action} ${camelName}" }));
 }
 `;
-  fs.writeFileSync(filePath, content);
-  console.log(`create  ${path.relative(process.cwd(), filePath)}`);
-});
 
-// --- 4️⃣ index.ts for controller ---
-const indexContent = actions
-  .map((action) => `import ${action}_action from "./actions/${action}_action";`)
-  .join("\n") +
-  `
+    fs.writeFileSync(filePath, content);
+    console.log(`create  ${path.relative(process.cwd(), filePath)}`);
+  });
+
+  // --- 4️⃣ controller index.ts ---
+  const indexContent =
+    actions
+      .map(
+        (action) =>
+          `import ${action}_action from "./actions/${action}_action";`
+      )
+      .join("\n") +
+    `
 
 export default {
 ${actions.map((a) => `  ${a}_action,`).join("\n")}
 };
 `;
 
-fs.writeFileSync(path.join(controllerDir, "index.ts"), indexContent);
-console.log(`create  ${path.relative(process.cwd(), path.join(controllerDir, "index.ts"))}`);
+  const controllerIndexPath = path.join(controllerDir, "index.ts");
+  fs.writeFileSync(controllerIndexPath, indexContent);
+  console.log(
+    `create  ${path.relative(process.cwd(), controllerIndexPath)}`
+  );
 
-// --- 5️⃣ API route.ts ---
-fs.mkdirSync(apiDir, { recursive: true });
-const apiRouteContent = `/**
+  // --- 5️⃣ API route.ts ---
+  fs.mkdirSync(apiDir, { recursive: true });
+
+  const apiRoutePath = path.join(apiDir, "route.ts");
+
+  const apiRouteContent = `/**
  * Standard RESTful Routes
  *
  * | HTTP Verb | Controller#Action | Purpose          | Path                                       |
@@ -97,12 +102,15 @@ export async function POST(req: Request) {
 }
 `;
 
-fs.writeFileSync(path.join(apiDir, "route.ts"), apiRouteContent);
-console.log(`create  ${path.relative(process.cwd(), path.join(apiDir, "route.ts"))}`);
+  fs.writeFileSync(apiRoutePath, apiRouteContent);
+  console.log(`create  ${path.relative(process.cwd(), apiRoutePath)}`);
 
-// --- 6️⃣ API [id]/route.ts ---
-fs.mkdirSync(apiIdDir, { recursive: true });
-const apiIdRouteContent = `import ${camelName}Controller from "@controller/${camelName}";
+  // --- 6️⃣ API [id]/route.ts ---
+  fs.mkdirSync(apiIdDir, { recursive: true });
+
+  const apiIdRoutePath = path.join(apiIdDir, "route.ts");
+
+  const apiIdRouteContent = `import ${camelName}Controller from "@controller/${camelName}";
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   return ${camelName}Controller.show_action(req, params.id);
@@ -121,5 +129,6 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
 }
 `;
 
-fs.writeFileSync(path.join(apiIdDir, "route.ts"), apiIdRouteContent);
-console.log(`create  ${path.relative(process.cwd(), path.join(apiIdDir, "route.ts"))}`);
+  fs.writeFileSync(apiIdRoutePath, apiIdRouteContent);
+  console.log(`create  ${path.relative(process.cwd(), apiIdRoutePath)}`);
+}

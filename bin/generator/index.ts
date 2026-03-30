@@ -1,29 +1,36 @@
 #!/usr/bin/env ts-node
 
-const [, , command, name] = process.argv;
+const [, , command, resourceName] = process.argv;
 
-if (!command || !name) {
+if (!command || !resourceName) {
   console.error("Usage: yarn generate <command> <name>");
   process.exit(1);
 }
 
+const availableCommands = `Available commands:
+  model <name>
+  scaffold <name>
+`;
+
 const run = async () => {
   switch (command) {
     case "model": {
-      const module = await import("./model");
-      await module.default(name);
+      const { generateModel } = await import("./model.ts");
+      await generateModel(resourceName);
       break;
     }
 
     case "scaffold": {
-      const module = await import("./scaffold");
-      await module.default(name);
+      const { generateScaffold } = await import("./scaffold.ts");
+      await generateScaffold(resourceName);
       break;
     }
 
-    default:
+    default: {
       console.error(`Unknown command: ${command}`);
+      console.log(availableCommands);
       process.exit(1);
+    }
   }
 };
 
