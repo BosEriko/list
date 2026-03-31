@@ -33,7 +33,7 @@
     "@types/pluralize": "^0.0.33",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "core-nails": "^1.0.5",
+    "core-nails": "^1.0.9",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "pluralize": "^8.0.0",
