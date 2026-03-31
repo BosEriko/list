@@ -1,6 +1,7 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 import Nails from "core-nails";
 import { z } from "zod";
+import MEDIA from "@constant/MEDIA";
 
 // UserActivity Schema
 export const UserActivitySchema = z.object({
@@ -49,7 +50,16 @@ export type ItemType = z.infer<typeof ItemSchema>;
 
 // Listing Schema
 export const ListingSchema = z.object({
+  count: z.number().int(),
   createdAt: Nails.FirebaseTimestampType(FirebaseAdmin).optional(),
+  imageUrl: z.string(),
+  itemId: z.string(),
+  listingUrl: z.string(),
+  status: z.number().int(),
+  title: z.string(),
+  totalCount: z.number().int(),
+  type: z.enum(MEDIA),
   updatedAt: Nails.FirebaseTimestampType(FirebaseAdmin).optional(),
+  userId: z.string(),
 });
 export type ListingType = z.infer<typeof ListingSchema>;

@@ -33,7 +33,7 @@ const InlineListing: React.FC<InlineListingProps> = ({
   status,
   isOngoing,
 }) => {
-  const { user } = useAuthStore();
+  const { token, user } = useAuthStore();
   const [form, setForm] = useState({ status, count });
   const saveTimeout = useRef<NodeJS.Timeout | null>(null);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -134,7 +134,12 @@ const InlineListing: React.FC<InlineListingProps> = ({
   const deleteListing = async () => {
     if (user?.uid !== userId) return;
     try {
-      await Listing.destroy(`${user?.uid}-${type}-${itemId}`);
+      await fetch(`/api/listings/${user?.uid}-${type}-${itemId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setIsDeleted(true);
     } catch (err) {
       console.error("Error deleting listing:", err);
