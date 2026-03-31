@@ -1,9 +1,11 @@
-import CreateService from "../concerns/CreateService";
+import FirebaseAdmin from "@lib/FirebaseAdmin";
+import Nails from "core-nails";
 import { UserSchema } from "@schema";
 
-const User = CreateService({
+const User = Nails.InitializeModel({
   collection: "users",
   schema: UserSchema,
+  FirebaseAdmin,
 });
 
 export default User;
