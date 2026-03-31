@@ -5,7 +5,7 @@ import { z } from "zod";
 // UserActivity Schema
 export const UserActivitySchema = z.object({
   createdAt: Nails.FirebaseTimestampType(FirebaseAdmin).optional(),
-  lastListingUpdate: FirebaseTimestamp.optional(),
+  lastListingUpdate: Nails.FirebaseTimestampType(FirebaseAdmin).optional(),
   updatedAt: Nails.FirebaseTimestampType(FirebaseAdmin).optional(),
 });
 export type UserActivityType = z.infer<typeof UserActivitySchema>;
