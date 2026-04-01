@@ -37,9 +37,6 @@
       "@molecule": ["./app/(view)/molecules"],
       "@organism": ["./app/(view)/organisms"],
       "@template": ["./app/(view)/templates"],
-
-      // TODO: Remove when not in use anymore
-      "@old-model/*": ["./model/*"],
     },
   },
   "include": [
