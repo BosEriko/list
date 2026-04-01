@@ -1,4 +1,5 @@
 "use client";
+import Api from "@lib/Api";
 import { useState, useEffect } from "react";
 import LISTING_STATUS_OPTIONS from '@constant/LISTING_STATUS_OPTIONS';
 import useAuthStore from "@store/useAuthStore";
@@ -80,7 +81,7 @@ const ModalListing: React.FC<ModalListingProps> = ({
     };
     try {
       if (isUpdate) {
-        await Listing.update(`${userId}-${type}-${itemId}`, payload);
+        await Api("PUT", `/api/listings/${user?.uid}-${type}-${itemId}`, { body: payload });
       } else {
         await Listing.create(`${userId}-${type}-${itemId}`, payload);
       }

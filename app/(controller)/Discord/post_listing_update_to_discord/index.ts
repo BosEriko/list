@@ -76,7 +76,7 @@ async function post_listing_update_to_discord(payload: {
   type: MediaType;
   listingUrl: string;
   imageUrl?: string;
-}, user: { uid: string; username: string; avatar_url?: string }) {
+}, user: { uid: string; name: string; picture?: string }) {
 
   const cooldown = await checkCooldown(user.uid);
   if (!cooldown.ok) return { ok: false, cooldown: true };
@@ -92,8 +92,8 @@ async function post_listing_update_to_discord(payload: {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      username: user.username,
-      avatar_url: user.avatar_url,
+      username: user.name,
+      avatar_url: user.picture,
       embeds: [embed],
     }),
   });

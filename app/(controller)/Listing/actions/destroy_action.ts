@@ -9,7 +9,7 @@ export default async function destroy_action(req: Request, id: string) {
   }
 
   const token = authHeader.replace("Bearer ", "");
-  const verifiedToken = await verifyFirebaseToken(token);
+  const user = await verifyFirebaseToken(token);
 
   const listing = await Listing.find(id);
 
@@ -17,7 +17,7 @@ export default async function destroy_action(req: Request, id: string) {
     return new Response("Not Found", { status: 404 });
   }
 
-  if (listing.userId !== verifiedToken.uid) {
+  if (listing.userId !== user.uid) {
     return new Response("Forbidden", { status: 403 });
   }
 

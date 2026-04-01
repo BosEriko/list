@@ -1,7 +1,6 @@
 import COLLECTION from "../collection";
 import LISTING_ID_PATTERN from "@constant/LISTING_ID_PATTERN";
 import MediaType from "@type/MediaType";
-import update_status from "@controller/Discord/update_status";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@lib/Firebase";
 
@@ -39,7 +38,6 @@ const update = async (id: string, payload: Payload) => {
       ...payload,
       updatedAt: serverTimestamp(),
     }, { merge: true });
-    await update_status(payload);
   } catch (err) {
     console.error(`Error updating ${COLLECTION}:`, err);
   }

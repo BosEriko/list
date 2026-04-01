@@ -71,7 +71,7 @@ const InlineListing: React.FC<InlineListingProps> = ({
     };
 
     try {
-      await Listing.update(`${user?.uid}-${type}-${itemId}`, payload);
+      await Api("PUT", `/api/listings/${user?.uid}-${type}-${itemId}`, { body: payload });
     } catch (err) {
       console.error("Error updating listing:", err);
     }
