@@ -7,13 +7,16 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
 }
 
 export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }): Promise<Response> {
+  const { id } = await context.params;
   return ListingController.update_action(req, id);
 }
 
 export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }): Promise<Response> {
+  const { id } = await context.params;
   return ListingController.update_action(req, id);
 }
 
 export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }): Promise<Response> {
+  const { id } = await context.params;
   return ListingController.destroy_action(req, id);
 }
