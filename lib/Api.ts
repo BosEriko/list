@@ -5,7 +5,7 @@ type ApiOptions = Omit<RequestInit, "method" | "body"> & {
   auth?: boolean;
 };
 
-export async function api<T = any>(
+async function Api<T = any>(
   method: string,
   url: string,
   options: ApiOptions = {}
@@ -41,3 +41,5 @@ export async function api<T = any>(
 
   return res.json();
 }
+
+export default Api;

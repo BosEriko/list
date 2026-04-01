@@ -1,4 +1,5 @@
 "use client";
+import Api from "@lib/Api";
 import { useState, Fragment, useRef, useEffect } from "react";
 import useAuthStore from "@store/useAuthStore";
 import LISTING_STATUS_OPTIONS from '@constant/LISTING_STATUS_OPTIONS';
@@ -134,12 +135,7 @@ const InlineListing: React.FC<InlineListingProps> = ({
   const deleteListing = async () => {
     if (user?.uid !== userId) return;
     try {
-      await fetch(`/api/listings/${user?.uid}-${type}-${itemId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await Api("DELETE", `/api/listings/${user?.uid}-${type}-${itemId}`);
       setIsDeleted(true);
     } catch (err) {
       console.error("Error deleting listing:", err);
