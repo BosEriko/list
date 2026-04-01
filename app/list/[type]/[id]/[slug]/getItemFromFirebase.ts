@@ -34,11 +34,11 @@ export async function getItemFromFirebase(id: string, type: MediaType): Promise<
   const dataToSave = {
     images: jikan.images,
     itemId: id,
-    score: jikan.score,
+    score: jikan.score ?? 0,
     status: jikan.status,
     synopsis: jikan.synopsis,
     title: jikan.title_english ?? jikan.title,
-    totalCount: jikan.episodes ?? jikan.chapters ?? null,
+    totalCount: jikan.episodes ?? jikan.chapters ?? 0,
     type,
   };
 
