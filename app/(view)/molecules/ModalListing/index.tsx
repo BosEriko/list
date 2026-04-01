@@ -83,7 +83,7 @@ const ModalListing: React.FC<ModalListingProps> = ({
       if (isUpdate) {
         await Api("PUT", `/api/listings/${user?.uid}-${type}-${itemId}`, { body: payload });
       } else {
-        await Listing.create(`${userId}-${type}-${itemId}`, payload);
+        await Api("POST", `/api/listings`, { body: payload });
       }
       setSuccess(true);
       setTimeout(() => setIsOpen(false), 1000);
