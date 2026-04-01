@@ -13,6 +13,10 @@ export default async function destroy_action(req: Request, id: string) {
 
   const listing = await Listing.find(id);
 
+  if (!listing) {
+    return new Response("Not Found", { status: 404 });
+  }
+
   if (listing.userId !== verifiedToken.uid) {
     return new Response("Forbidden", { status: 403 });
   }
