@@ -5,7 +5,6 @@ import useAuthStore from "@store/useAuthStore";
 import LISTING_STATUS_OPTIONS from '@constant/LISTING_STATUS_OPTIONS';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import Listing from "@old-model/Listing";
 import Atom from "@atom";
 import MediaType from "@type/MediaType";
 
