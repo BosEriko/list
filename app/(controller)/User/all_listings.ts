@@ -2,6 +2,8 @@ import Listing from "@model/Listing";
 import AnimeController from "@controller/Anime";
 import { ListingType } from "@schema";
 
+type ListingTypeWithOngoing = Omit<ListingType, "id"> & { isOngoing: string };
+
 export default async function all_listings(req: Request, id: string) {
   // TODO: Update query to rails like parameters
   const listings = await Listing.where([
@@ -20,9 +22,9 @@ export default async function all_listings(req: Request, id: string) {
     formattedListings = formattedListings.map((listing) => ({
       ...listing,
       isOngoing: listing.type === "anime" ? ongoingSet.has(Number(listing.itemId)) : false,
-    })) as ListingType[];
+    })) as ListingTypeWithOngoing[];
   } else {
-    formattedListings = formattedListings.map((listing) => ({ ...listing, isOngoing: false }));
+    formattedListings = formattedListings.map((listing) => ({ ...listing, isOngoing: false })) as ListingTypeWithOngoing[];
   }
 
   return new Response(JSON.stringify({ listings: formattedListings }));
