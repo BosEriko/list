@@ -3,7 +3,6 @@ import Api from "@lib/Api";
 import { useState, useEffect } from "react";
 import LISTING_STATUS_OPTIONS from '@constant/LISTING_STATUS_OPTIONS';
 import useAuthStore from "@store/useAuthStore";
-import Listing from "@old-model/Listing";
 import Atom from "@atom";
 import MediaType from "@type/MediaType";
 
@@ -39,7 +38,8 @@ const ModalListing: React.FC<ModalListingProps> = ({
   useEffect(() => {
     if (!isOpen || !userId) return;
     const fetchListing = async () => {
-      const listing = await Listing.find(`${userId}-${type}-${itemId}`);
+      const listingRequest = await Api("GET", `/api/listings/${userId}-${type}-${itemId}`);
+      const listing = listingRequest.listing;
       setForm({
         status: listing?.status ?? 1,
         count: listing?.count ?? count,
