@@ -1,5 +1,6 @@
 import Listing from "@model/Listing";
 import AnimeController from "@controller/Anime";
+import { ListingType } from "@schema";
 
 export default async function all_listings(req: Request, id: string) {
   // TODO: Update query to rails like parameters
@@ -19,7 +20,7 @@ export default async function all_listings(req: Request, id: string) {
     formattedListings = formattedListings.map((listing) => ({
       ...listing,
       isOngoing: listing.type === "anime" ? ongoingSet.has(Number(listing.itemId)) : false,
-    })) as Listing[];
+    })) as ListingType[];
   } else {
     formattedListings = formattedListings.map((listing) => ({ ...listing, isOngoing: false }));
   }
