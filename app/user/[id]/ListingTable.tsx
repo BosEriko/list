@@ -1,6 +1,6 @@
 "use client";
 import Molecule from "@molecule";
-import Listing from "@old-model/Listing";
+import Api from "@lib/Api";
 import { Empty, Spin } from "antd";
 import { useEffect, useState, useMemo } from "react";
 import useListingStore from "@store/useListingStore";
@@ -34,19 +34,8 @@ export default function ListingTable({ id }: ListingTableProps) {
       reset();
       setLoading(true);
       try {
-        let userListings = await Listing.where({ userId: id });
-        if (userListings.some((l) => l.type === "anime")) {
-          const res = await fetch("/api/anime/ongoing");
-          const data = await res.json();
-          const ongoingSet = new Set<number>(data.ids);
-          userListings = userListings.map((listing) => ({
-            ...listing,
-            isOngoing: listing.type === "anime" ? ongoingSet.has(Number(listing.itemId)) : false,
-          })) as Listing[];
-        } else {
-          userListings = userListings.map((listing) => ({ ...listing, isOngoing: false }));
-        }
-        setListings(userListings);
+        const listingsRequest = await Api("GET", `/api/users/${id}/listings`);
+        setListings(listingsRequest.listings);
       } catch (err) {
         console.error("ListingTable load error:", err);
       } finally {
