@@ -1,4 +1,4 @@
-const generateDiscordToken = async (code: string) => {
+const generate_discord_token = async (code: string) => {
   const request = await fetch("https://discord.com/api/oauth2/token", {
     method: "POST",
     headers: {
@@ -21,4 +21,4 @@ const generateDiscordToken = async (code: string) => {
   return result.access_token;
 };
 
-export default generateDiscordToken;
+export default generate_discord_token;

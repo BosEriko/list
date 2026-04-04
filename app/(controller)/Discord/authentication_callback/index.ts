@@ -1,5 +1,5 @@
-import generateDiscordToken from "@service/discord/generateDiscordToken";
-import fetchDiscordUser from "@service/discord//fetchDiscordUser";
+import DiscordController from "@controller/Discord";
+
 import syncFirebaseUser from "@service/firebase/syncFirebaseUser";
 import generateFirebaseToken from "@service/firebase/generateFirebaseToken";
 
@@ -8,8 +8,8 @@ async function authentication_callback(code: string) {
     throw new Error("Missing Discord authorization code");
   }
 
-  const discordToken = await generateDiscordToken(code);
-  const user = await fetchDiscordUser(discordToken);
+  const discordToken = await DiscordController.generate_discord_token(code);
+  const user = await DiscordController.fetch_discord_user(discordToken);
   await syncFirebaseUser(user);
   const firebaseToken = await generateFirebaseToken(user);
 

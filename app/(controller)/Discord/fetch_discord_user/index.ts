@@ -20,7 +20,7 @@ type User = {
   email: string;
 };
 
-const fetchDiscordUser = async (token: string): Promise<User> => {
+const fetch_discord_user = async (token: string): Promise<User> => {
   const response = await fetch('https://discord.com/api/users/@me', {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -35,4 +35,4 @@ const fetchDiscordUser = async (token: string): Promise<User> => {
   return data;
 };
 
-export default fetchDiscordUser;
+export default fetch_discord_user;
