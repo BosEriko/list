@@ -34,7 +34,9 @@ async function Api<T = any>(
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(text || "API Error");
+    const error: any = new Error(text || "API Error");
+    error.status = res.status;
+    throw error;
   }
 
   if (res.status === 204) return null as T;

@@ -38,13 +38,25 @@ const ModalListing: React.FC<ModalListingProps> = ({
   useEffect(() => {
     if (!isOpen || !userId) return;
     const fetchListing = async () => {
-      const listingRequest = await Api("GET", `/api/listings/${userId}-${type}-${itemId}`);
-      const listing = listingRequest.listing;
-      setForm({
-        status: listing?.status ?? 1,
-        count: listing?.count ?? count,
-      });
-      setIsUpdate(!!listing);
+      try {
+        const listingRequest = await Api("GET", `/api/listings/${userId}-${type}-${itemId}`);
+        const listing = listingRequest.listing;
+        setForm({
+          status: listing?.status ?? 1,
+          count: listing?.count ?? count,
+        });
+        setIsUpdate(!!listing);
+      } catch (error: any) {
+        if (error?.status === 404) {
+          setForm({
+            status: 1,
+            count: count,
+          });
+          setIsUpdate(false);
+        } else {
+          console.error(error);
+        }
+      }
     };
     fetchListing();
   }, [isOpen, userId]);
