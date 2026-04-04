@@ -21,7 +21,6 @@ function buildDescription(payload: {
   const actionVerbs: Record<typeof type, string> = {
     anime: "episode",
     manga: "chapter",
-    game: "progress",
   };
 
   switch (status) {
@@ -32,12 +31,11 @@ function buildDescription(payload: {
     case 5:
       return "⏸️ Paused";
     case 2:
-      if (type === "game") return "⭐ Added to wishlist";
       return `⭐ Planning to ${type === "manga" ? "read" : "watch"}`;
     case 1:
     case 4:
       const action = actionVerbs[type];
-      const verb = type === "manga" ? "Read" : type === "game" ? "Played" : "Watched";
+      const verb = type === "manga" ? "Read" : "Watched";
       return `▶️ ${capitalize(verb)} ${action} ${count}`;
     default:
       return "📺 Updated";

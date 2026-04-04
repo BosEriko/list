@@ -1,2 +1,2 @@
-type MediaType = "anime" | "manga" | "game";
+type MediaType = "anime" | "manga";
 export default MediaType;

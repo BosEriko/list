@@ -22,14 +22,6 @@ const LISTING_STATUS_OPTIONS: Record<MediaType, StatusOption[]> = {
     { value: 5, label: 'Paused' },
     { value: 0, label: 'Dropped' },
   ],
-  game: [
-    { value: 1, label: 'Playing' },
-    { value: 2, label: 'Wishlist' },
-    { value: 3, label: 'Completed' },
-    { value: 4, label: 'Replay' },
-    { value: 5, label: 'Paused' },
-    { value: 0, label: 'Dropped' },
-  ],
 };
 
 export default LISTING_STATUS_OPTIONS;
