@@ -1,7 +1,5 @@
 import DiscordController from "@controller/Discord";
-
-import syncFirebaseUser from "@service/firebase/syncFirebaseUser";
-import generateFirebaseToken from "@service/firebase/generateFirebaseToken";
+import FirebaseController from "@controller/Firebase";
 
 async function authentication_callback(code: string) {
   if (!code) {
@@ -10,8 +8,8 @@ async function authentication_callback(code: string) {
 
   const discordToken = await DiscordController.generate_discord_token(code);
   const user = await DiscordController.fetch_discord_user(discordToken);
-  await syncFirebaseUser(user);
-  const firebaseToken = await generateFirebaseToken(user);
+  await FirebaseController.sync_firebase_user(user);
+  const firebaseToken = await FirebaseController.generate_firebase_token(user);
 
   return {
     discordUser: user,

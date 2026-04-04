@@ -1,7 +1,7 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 import User from "@model/User";
 
-const syncFirebaseUser = async (user: any) => {
+const sync_firebase_user = async (user: any) => {
   const avatarUrl = `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png`;
 
   try {
@@ -38,4 +38,4 @@ const syncFirebaseUser = async (user: any) => {
   }
 };
 
-export default syncFirebaseUser;
+export default sync_firebase_user;
