@@ -1,4 +1,4 @@
-import verifyFirebaseToken from "@service/firebase/verifyFirebaseToken";
+import FirebaseController from "@controller/Firebase";
 import Listing from "@model/Listing";
 
 export default async function destroy_action(req: Request, id: string) {
@@ -9,7 +9,7 @@ export default async function destroy_action(req: Request, id: string) {
   }
 
   const token = authHeader.replace("Bearer ", "");
-  const user = await verifyFirebaseToken(token);
+  const user = await FirebaseController.verify_firebase_token(token);
 
   const listing = await Listing.find(id);
 

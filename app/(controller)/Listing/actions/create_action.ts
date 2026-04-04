@@ -1,4 +1,4 @@
-import verifyFirebaseToken from "@service/firebase/verifyFirebaseToken";
+import FirebaseController from "@controller/Firebase";
 import DiscordController from "@controller/Discord";
 import Listing from "@model/Listing";
 
@@ -12,7 +12,7 @@ export default async function create_action(req: Request) {
   }
 
   const token = authHeader.replace("Bearer ", "");
-  const user = await verifyFirebaseToken(token);
+  const user = await FirebaseController.verify_firebase_token(token);
 
   if (id.split("-")[0] !== user.uid && payload.userId !== user.uid) {
     return new Response("Forbidden", { status: 403 });
