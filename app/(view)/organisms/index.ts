@@ -1,4 +1,9 @@
-import Header from "./Header";
+import Feed from "./Feed";
 import Footer from "./Footer";
+import Header from "./Header";
 
-export default { Header, Footer };
+export default {
+  Feed,
+  Header,
+  Footer
+};
