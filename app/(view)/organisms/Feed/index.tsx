@@ -6,7 +6,8 @@ import useAuthStore from "@store/useAuthStore";
 
 type Post = {
   id: string;
-  user: string;
+  displayName: string;
+  uid: string;
   content: string;
   createdAt: number;
 };
