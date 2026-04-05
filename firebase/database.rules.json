@@ -13,6 +13,10 @@
           ".validate": "newData.val() === auth.token.name"
         },
 
+        "photoURL": {
+          ".validate": "newData.val() === auth.token.picture"
+        },
+
         "content": {
           ".validate": "newData.isString() && newData.val().length > 0"
         },

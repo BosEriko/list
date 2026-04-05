@@ -5,11 +5,12 @@ import { ref, push, onValue, serverTimestamp } from "firebase/database";
 import useAuthStore from "@store/useAuthStore";
 
 type Post = {
-  id: string;
-  displayName: string;
-  uid: string;
   content: string;
   createdAt: number;
+  displayName: string;
+  id: string;
+  photoURL: string;
+  uid: string;
 };
 
 const Feed = () => {
@@ -43,10 +44,11 @@ const Feed = () => {
     const postsRef = ref(rtdb, "posts");
 
     await push(postsRef, {
-      displayName: user.displayName,
-      uid: user.uid,
       content,
       createdAt: Date.now(),
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      uid: user.uid,
     });
 
     setContent("");
@@ -72,11 +74,16 @@ const Feed = () => {
       <div className="space-y-4">
         {posts.map((post) => (
           <div key={post.id} className="border p-4 rounded shadow">
-            <p className="font-semibold">{post.displayName}</p>
-            <p className="mt-2">{post.content}</p>
-            <p className="text-xs text-gray-500 mt-2">
-              {new Date(post.createdAt).toLocaleString()}
-            </p>
+            <div>
+              <img src={post.photoURL} />
+            </div>
+            <div>
+              <p className="font-semibold">{post.displayName}</p>
+              <p className="mt-2">{post.content}</p>
+              <p className="text-xs text-gray-500 mt-2">
+                {new Date(post.createdAt).toLocaleString()}
+              </p>
+            </div>
           </div>
         ))}
       </div>
