@@ -37,11 +37,12 @@ const Recommend = () => {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {recommendations.map((item, index) => (
-              <Atom.Card
-                type="Anime"
-                item={item}
-                index={index}
-              />
+              <div key={index}>
+                <Atom.Card
+                  type="Anime"
+                  item={item}
+                />
+              </div>
             ))}
           </div>
         )}

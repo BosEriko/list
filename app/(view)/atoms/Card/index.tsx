@@ -6,7 +6,6 @@ import { Card as AntCard } from 'antd';
 interface CardProps {
   type: string;
   item: any;
-  index: number;
 }
 
 const Card: React.FunctionComponent<CardProps> = ({
@@ -15,7 +14,7 @@ const Card: React.FunctionComponent<CardProps> = ({
   index,
 }) => {
   return (
-    <a href={`/list/${item.url.replace("https://myanimelist.net/", "")}`} key={index}>
+    <a href={`/list/${item.url.replace("https://myanimelist.net/", "")}`}>
       <AntCard
         hoverable
         cover={
