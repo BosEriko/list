@@ -1,5 +1,5 @@
-import DiscordController from "@controller/Discord";
 import FirebaseController from "@controller/Firebase";
+import DiscordController from "@controller/Discord";
 import Listing from "@model/Listing";
 
 export default async function update_action(req: Request, id: string) {

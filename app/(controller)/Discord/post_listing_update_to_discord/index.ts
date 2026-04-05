@@ -48,10 +48,7 @@ async function checkCooldown(uid: string) {
   const userActivity: UserActivityType | null = await UserActivity.find(uid);
 
   if (!userActivity) {
-    await UserActivity.create(
-      { lastListingUpdate: FirebaseAdmin.firestore.FieldValue.serverTimestamp() },
-      uid
-    );
+    await UserActivity.create({ lastListingUpdate: FirebaseAdmin.firestore.FieldValue.serverTimestamp() }, uid);
     return { ok: true };
   }
 
