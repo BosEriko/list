@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { rtdb } from "@lib/Firebase";
 import { ref, push, onValue, serverTimestamp } from "firebase/database";
+import useAuthStore from "@store/useAuthStore";
 
 type Post = {
   id: string;
@@ -11,6 +12,7 @@ type Post = {
 };
 
 const Feed = () => {
+  const { user } = useAuthStore();
   const [posts, setPosts] = useState<Post[]>([]);
   const [content, setContent] = useState("");
 
@@ -40,7 +42,8 @@ const Feed = () => {
     const postsRef = ref(rtdb, "posts");
 
     await push(postsRef, {
-      user: "Bos Eriko",
+      displayName: user.displayName,
+      uid: user.uid,
       content,
       createdAt: Date.now(),
     });
@@ -68,7 +71,7 @@ const Feed = () => {
       <div className="space-y-4">
         {posts.map((post) => (
           <div key={post.id} className="border p-4 rounded shadow">
-            <p className="font-semibold">{post.user}</p>
+            <p className="font-semibold">{post.displayName}</p>
             <p className="mt-2">{post.content}</p>
             <p className="text-xs text-gray-500 mt-2">
               {new Date(post.createdAt).toLocaleString()}
