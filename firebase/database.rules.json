@@ -1,6 +1,7 @@
 {
   "rules": {
     "posts": {
+      ".read": "auth != null",
       "$postId": {
         ".read": "auth != null",
         ".write": "auth != null",
