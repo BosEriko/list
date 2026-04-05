@@ -1,0 +1,29 @@
+name: Deploy RTDB Rules
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "firebase/database.rules.json"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy to Development
+        run: firebase deploy --only database --project list-boseriko-dev --token ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Deploy to Production
+        run: firebase deploy --only database --project list-boseriko-com --token ${{ secrets.FIREBASE_TOKEN }}

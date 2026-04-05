@@ -1,0 +1,26 @@
+{
+  "rules": {
+    "posts": {
+      "$postId": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+
+        "uid": {
+          ".validate": "newData.val() === auth.uid"
+        },
+
+        "displayName": {
+          ".validate": "newData.val() === auth.token.name"
+        },
+
+        "content": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+
+        "createdAt": {
+          ".validate": "newData.isNumber()"
+        }
+      }
+    }
+  }
+}
