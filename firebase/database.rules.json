@@ -14,7 +14,7 @@
         },
 
         "photoURL": {
-          ".validate": "newData.isString()"
+          ".validate": "newData.val() === auth.token.picture"
         },
 
         "content": {
