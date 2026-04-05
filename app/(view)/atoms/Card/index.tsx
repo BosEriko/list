@@ -11,7 +11,6 @@ interface CardProps {
 const Card: React.FunctionComponent<CardProps> = ({
   type,
   item,
-  index,
 }) => {
   return (
     <a href={`/list/${item.url.replace("https://myanimelist.net/", "")}`}>
