@@ -6,7 +6,7 @@ import { Card as AntCard } from 'antd';
 interface CardProps {
   type: string;
   item: any;
-  key: number;
+  index: number;
 }
 
 const Card: React.FunctionComponent<CardProps> = ({
