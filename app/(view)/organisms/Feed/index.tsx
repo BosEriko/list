@@ -37,7 +37,7 @@ const Feed = () => {
   }, []);
 
   const handlePost = async () => {
-    if (!content.trim() && !user) return;
+    if (!content.trim() || !user) return;
 
     const postsRef = ref(rtdb, "posts");
 
