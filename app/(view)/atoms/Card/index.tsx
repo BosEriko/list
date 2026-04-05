@@ -12,10 +12,10 @@ interface CardProps {
 const Card: React.FunctionComponent<CardProps> = ({
   type,
   item,
-  key,
+  index,
 }) => {
   return (
-    <a href={`/list/${item.url.replace("https://myanimelist.net/", "")}`} key={key}>
+    <a href={`/list/${item.url.replace("https://myanimelist.net/", "")}`} key={index}>
       <AntCard
         hoverable
         cover={

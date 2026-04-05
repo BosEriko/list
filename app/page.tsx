@@ -1,5 +1,6 @@
 import Template from "@template";
 import Organism from "@organism";
+import Homepage from "./homepage";
 
 export async function generateMetadata() {
   return {
@@ -21,7 +22,7 @@ export async function generateMetadata() {
 export default async function Home() {
   return (
     <Template.Default>
-      <Organism.Feed />
+      <Homepage />
     </Template.Default>
   );
 }
