@@ -2,10 +2,7 @@ import Listing from "@model/Listing";
 import AnimeController from "@controller/Anime";
 
 export default async function all_listings(req: Request, id: string) {
-  // TODO: Update query to rails like parameters
-  const listings = await Listing.where([
-    { field: "userId", operator: "==", value: id },
-  ]);
+  const listings = await Listing.where({ userId: id });
 
   if (!listings) {
     return new Response(JSON.stringify({ listings: [] }));
