@@ -40,7 +40,7 @@ const Recommend = () => {
               <Atom.Card
                 type="Anime"
                 item={item}
-                key={index}
+                index={index}
               />
             ))}
           </div>
