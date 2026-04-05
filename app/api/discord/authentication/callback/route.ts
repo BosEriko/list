@@ -11,10 +11,8 @@ export async function GET(req: Request) {
 
   try {
     const { firebaseToken } = await DiscordController.authentication_callback(code);
-
     const redirectUrl = new URL(`/authenticate?token=${firebaseToken}`, req.url);
     return NextResponse.redirect(redirectUrl);
-
   } catch (err) {
     console.error("Discord authentication error:", err);
     return new Response("Authentication failed", { status: 500 });
