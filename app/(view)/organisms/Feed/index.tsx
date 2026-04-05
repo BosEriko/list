@@ -56,9 +56,9 @@ const Feed = () => {
 
   return (
     <div className="max-w-xl mx-auto p-4">
-      <div className="mb-6">
+      <div className="mb-6 bg-white p-3 rounded border border-gray-200">
         <textarea
-          className="w-full border p-2 rounded"
+          className="w-full border border-gray-200 p-2 rounded"
           placeholder="What's on your mind?"
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -73,9 +73,9 @@ const Feed = () => {
 
       <div className="space-y-4">
         {posts.map((post) => (
-          <div key={post.id} className="border p-4 rounded shadow">
+          <div key={post.id} className="border p-4 rounded flex gap-3 bg-white border-gray-200">
             <div>
-              <img src={post.photoURL} />
+              <img src={post.photoURL} className="w-15 aspect-square rounded-full" />
             </div>
             <div>
               <p className="font-semibold">{post.displayName}</p>
