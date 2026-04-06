@@ -4,7 +4,6 @@ import UserActivity from "@model/UserActivity";
 import MediaType from "@type/MediaType";
 import { UserActivityType } from "@schema";
 
-const websiteUrl = "https://list.boseriko.com";
 const COOLDOWN_MS = 5 * 60 * 1000;
 
 function capitalize(str: string) {
@@ -78,7 +77,7 @@ async function post_listing_update_to_discord(payload: {
 
   const embed = {
     title: payload.title,
-    url: `${websiteUrl}${payload.listingUrl}`,
+    url: `${process.env.NEXT_PUBLIC_WEBSITE_URL}${payload.listingUrl}`,
     description: buildDescription(payload),
     thumbnail: payload.imageUrl ? { url: payload.imageUrl } : undefined,
   };
