@@ -38,7 +38,7 @@ const Footer = () => {
     const fetchLinks = async () => {
       try {
         const res = await fetch(
-          "https://raw.githubusercontent.com/BosEriko/boseriko.com/master/data/links.json"
+          "https://raw.githubusercontent.com/BosEriko/gh-data/master/links.json"
         );
         const data: SocialLink[] = await res.json();
 
