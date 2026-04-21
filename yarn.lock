@@ -2454,10 +2454,10 @@ convert-source-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-2.0.0.tgz#4b560f649fc4e918dd0ab75cf4961e8bc882d82a"
   integrity sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==
 
-core-nails@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/core-nails/-/core-nails-1.0.13.tgz#6d3a543b2e84f427e6a97137328c56c8bc1fa0ed"
-  integrity sha512-HsJ8zsGfxeOMQTKUjBTI5FC5E8amJyqc2RXNGnqZVi/Zj7Ab4mfvWOePwBa2lK6t0QPAaSSLUHoXrkVAlRWX7w==
+core-nails@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/core-nails/-/core-nails-1.0.14.tgz#7bec43db9150af0a330982031c03f401c73f5c45"
+  integrity sha512-wsMflNnSBWrhxIOHNraYdGvO77OpOAzzTUvmX1z4lk9FL/QtedoVNde1LJL12VetRN+924WemCWey0D48La7dg==
   dependencies:
     pluralize "^8.0.0"
     zod "^4.3.6"
