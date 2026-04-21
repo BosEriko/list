@@ -1,6 +1,6 @@
 import FirebaseAdmin from "@lib/FirebaseAdmin";
 
-const verify_firebase_token = async (token: string) => {
+const verify_token = async (token: string) => {
   try {
     const decoded = await FirebaseAdmin.auth().verifyIdToken(token);
 
@@ -16,4 +16,4 @@ const verify_firebase_token = async (token: string) => {
   }
 };
 
-export default verify_firebase_token;
+export default verify_token;

@@ -8,8 +8,8 @@ async function authentication_callback(code: string) {
 
   const discordToken = await DiscordController.generate_discord_token(code);
   const user = await DiscordController.fetch_discord_user(discordToken);
-  await FirebaseController.sync_firebase_user(user);
-  const firebaseToken = await FirebaseController.generate_firebase_token(user);
+  await FirebaseController.sync_user(user);
+  const firebaseToken = await FirebaseController.generate_token(user);
 
   return {
     discordUser: user,

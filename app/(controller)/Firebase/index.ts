@@ -1,9 +1,9 @@
-import generate_firebase_token from "./generate_firebase_token";
-import sync_firebase_user from "./sync_firebase_user";
-import verify_firebase_token from "./verify_firebase_token";
+import generate_token from "./generate_token";
+import sync_user from "./sync_user";
+import verify_token from "./verify_token";
 
 export default {
-  generate_firebase_token,
-  sync_firebase_user,
-  verify_firebase_token,
+  generate_token,
+  sync_user,
+  verify_token,
 };

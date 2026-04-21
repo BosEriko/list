@@ -11,7 +11,7 @@ export default async function update_action(req: Request, id: string) {
   }
 
   const token = authHeader.replace("Bearer ", "");
-  const user = await FirebaseController.verify_firebase_token(token);
+  const user = await FirebaseController.verify_token(token);
 
   if (id.split("-")[0] !== user.uid && payload.userId !== user.uid) {
     return new Response("Forbidden", { status: 403 });
